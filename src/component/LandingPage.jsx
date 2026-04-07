@@ -1,73 +1,117 @@
-import { FaUserGraduate, FaChalkboardTeacher, FaChartLine, FaBell, FaDollarSign, FaCalendarAlt, FaFileAlt } from "react-icons/fa";
-import ohim from "../assets/ohim.png"
-
+import dashboard from "../assets/dashboard.jpg"
+import { CurrencyDollarIcon, ShieldCheckIcon, ChartBarIcon,} from "@heroicons/react/24/solid";
 function LandingPage() {
+  const scrollToTentang = () => {
+    document.getElementById("tentang").scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
   return (
-    <div className="font-sans">
-      
-      {/* NAVBAR */}
-      <div className="flex justify-between items-center px-12 py-4 bg-white shadow-sm">
-        <h1 className="text-2xl font-bold text-indigo-600">EduSys</h1>
-
-        <ul className="flex gap-8 text-gray-600 font-medium">
-          <li className="hover:text-indigo-600 cursor-pointer">Beranda</li>
-          <li className="hover:text-indigo-600 cursor-pointer">Tentang</li>
-          <li className="hover:text-indigo-600 cursor-pointer">Modul</li>
-          <li className="hover:text-indigo-600 cursor-pointer">Harga</li>
-        </ul>
-
-        <button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white px-5 py-2 rounded-xl shadow hover:scale-105 transition">
-          Get Demo
-        </button>
-      </div>
-
-      {/* HERO */}
-      <div className="flex flex-col md:flex-row items-center justify-between px-12 py-20 bg-gradient-to-br from-indigo-50 to-cyan-100">
+    <>
+      <div className="font-sans">
         
-        <div className="max-w-xl">
-          <span className="text-sm text-indigo-500 font-semibold">
-            Trusted School System
-          </span>
+        {/* NAVBAR */}
+       <div className="flex justify-between items-center px-12 py-4 bg-white shadow-sm fixed top-0 left-0 w-full z-50">
+          <h1 className="text-2xl font-bold text-indigo-600">EduSys</h1>
+          <ul className="flex gap-8 text-gray-600 font-medium">
+             <li
+  onClick={scrollToTop}
+  className="relative cursor-pointer group"
+>
+  <span className="hover:text-indigo-600">
+    Beranda
+  </span>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold text-indigo-700 leading-tight mt-3 mb-6">
-            Digitalisasi Sekolah Jadi Lebih Mudah
-          </h1>
+  <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+</li>
 
-          <p className="text-gray-600 text-lg mb-8">
-            Kelola administrasi, siswa, dan keuangan dalam satu platform modern.
-          </p>
+          <li
+  onClick={scrollToTentang}
+  className="relative cursor-pointer group"
+>
+  <span className="hover:text-indigo-600">
+    Tentang
+  </span>
 
-          <div className="flex gap-4">
-            <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl shadow hover:bg-indigo-700 transition">
-              Mulai Sekarang
-            </button>
+  <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+</li>
 
-            <button className="border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-xl hover:bg-indigo-600 hover:text-white transition">
-              Lihat Demo
-            </button>
+           <li className="relative cursor-pointer group">
+  <span className="hover:text-indigo-600">
+    Modul
+  </span>
+
+  <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+</li>
+            <li className="relative cursor-pointer group">
+  <span className="hover:text-indigo-600">
+    Harga
+  </span>
+
+  <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+</li>
+          </ul>
+
+          <button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white px-5 py-2 rounded-xl shadow hover:scale-105 transition">
+            Get Demo
+          </button>
+        </div>
+
+        {/* HERO */}
+        <div className="flex flex-col md:flex-row items-center justify-between px-12 py-20 bg-gradient-to-br from-indigo-50 to-cyan-100">
+          
+          <div className="max-w-xl">
+            <span className="text-sm text-indigo-500 font-semibold">
+              Trusted School System
+            </span>
+
+            <h1 className="text-4xl md:text-6xl font-extrabold text-indigo-700 leading-tight mt-3 mb-6">
+              Digitalisasi Sekolah Jadi Lebih Mudah
+            </h1>
+
+            <p className="text-gray-600 text-lg mb-8">
+              Kelola administrasi, siswa, dan keuangan dalam satu platform modern.
+            </p>
+
+            <div className="flex gap-4">
+              <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl shadow hover:bg-indigo-700 transition">
+                Mulai Sekarang
+              </button>
+
+              <button className="border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-xl hover:bg-indigo-600 hover:text-white transition">
+                Lihat Demo
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-10 md:mt-0 bg-white p-4 rounded-2xl shadow-xl">
+            <img src={dashboard} alt="dashboard" className="w-150 rounded-xl"/>
           </div>
         </div>
 
-        <div className="mt-10 md:mt-0 bg-white p-4 rounded-2xl shadow-xl">
-<img src={ohim} alt="ohim" className="w-150 rounded-xl"/>
-        </div>
-      </div>
+        {/* STATS */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center py-12 bg-white">
+          <div>
+            <h2 className="text-4xl font-bold text-indigo-600">1000+</h2>
+            <p className="text-gray-500 mt-2">Pengguna Aktif</p>
+          </div>
 
-      {/* STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center py-12 bg-white">
-        <div>
-          <h2 className="text-4xl font-bold text-indigo-600">1000+</h2>
-          <p className="text-gray-500 mt-2">Pengguna Aktif</p>
-        </div>
+          <div>
+            <h2 className="text-4xl font-bold text-indigo-600">500+</h2>
+            <p className="text-gray-500 mt-2">Sekolah Terdaftar</p>
+          </div>
 
-        <div>
-          <h2 className="text-4xl font-bold text-indigo-600">500+</h2>
-          <p className="text-gray-500 mt-2">Sekolah Terdaftar</p>
-        </div>
-
-        <div>
-          <h2 className="text-4xl font-bold text-indigo-600">24/7</h2>
-          <p className="text-gray-500 mt-2">Support System</p>
+          <div>
+            <h2 className="text-4xl font-bold text-indigo-600">24/7</h2>
+            <p className="text-gray-500 mt-2">Support System</p>
+          </div>
         </div>
 </div>
       <div className="my-10 px-12">
@@ -124,7 +168,58 @@ function LandingPage() {
       </div>
       
 
+      
+    {/* TENTANG */}
+<div id="tentang" className="py-20 px-12 bg-white text-center">
+  <h2 className="text-3xl font-bold text-indigo-600 mb-10">
+    Tentang Kami
+  </h2>
+
+  <p className="text-gray-600 mt-4 max-w-2xl mx-auto mb-12">
+    EduSys adalah platform digital untuk membantu sekolah mengelola data siswa,
+    keuangan, dan administrasi secara modern dan efisien.
+  </p>
+
+  {/* CARD */}
+  <div className="grid md:grid-cols-3 gap-8">
+    
+    <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-300">
+
+  <CurrencyDollarIcon className="w-12 ml-40 h-12 text-indigo-600 mb-4" />
+
+  <h3 className="text-xl font-bold text-gray-800 mb-2">
+    Biaya Terjangkau
+  </h3>
+
+  <p className="text-gray-600">
+     Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis magnam nihil perferendis voluptates. Vero suscipit odit similique animi libero deleniti. Recusandae voluptatum tempore distinctio animi ex quisquam tenetur libero nam.
+  </p>
+
+</div>
+
+    <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-300 ease-in-out cursor-pointer">
+       <ShieldCheckIcon className="w-12 ml-40 h-12 text-indigo-600 mb-4" />
+      <h3 className="text-xl font-bold text-indigo-600 mb-2">
+        Keamanan Data
+      </h3>
+      <p className="text-gray-600">
+  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet tempore ipsa alias hic aspernatur ipsum quis nobis aperiam facilis commodi. Asperiores explicabo voluptatem dolor nesciunt earum sequi, ex eum sint.
+      </p>
     </div>
+
+    <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-300 ease-in-out cursor-pointer">
+       <ChartBarIcon className="w-12 ml-40 h-12 text-indigo-600 mb-4" />
+      <h3 className="text-xl font-bold text-indigo-600 mb-2">
+        Analytics Real-time
+      </h3>
+      <p className="text-gray-600">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe atque veritatis ut blanditiis fugiat amet cumque labore accusamus omnis minus quaerat animi tempore similique harum assumenda necessitatibus, ratione aut sunt.
+      </p>
+    </div>
+
+  </div>
+</div>
+</>
   );
 }
 
