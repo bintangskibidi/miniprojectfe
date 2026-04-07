@@ -20,7 +20,6 @@ function LandingPage() {
         {/* NAVBAR */}
        <div className="flex justify-between items-center px-12 py-4 bg-white shadow-sm fixed top-0 left-0 w-full z-50">
           <h1 className="text-2xl font-bold text-indigo-600">EduSys</h1>
-
           <ul className="flex gap-8 text-gray-600 font-medium">
              <li
   onClick={scrollToTop}
@@ -114,7 +113,60 @@ function LandingPage() {
             <p className="text-gray-500 mt-2">Support System</p>
           </div>
         </div>
+</div>
+      <div className="my-10 px-12">
+        <h1 className="text-4xl font-bold text-center text-transparent bg-clip-text py-2 bg-gradient-to-r from-indigo-600 to-cyan-300 mb-12">
+          Fitur Unggulan
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="max-w-md bg-white rounded-2xl border-2 hover:border-blue-500 border-indigo-500 p-6 shadow-lg transform transition-transform duration-300 hover:scale-105">
+                  <FaUserGraduate className="text-indigo-600 text-4xl mb-4 mx-auto" />
+          <h2 className="text-2xl font-bold text-indigo-700 mb-4 mx-auto">Manajemen Siswa</h2>
+          <p className="text-gray-600">
+            Memudahkan pencatatan data siswa, absensi, dan nilai dalam satu platform
+            yang terintegrasi.
+          </p>
+        </div>
+                <div className="max-w-md bg-white rounded-2xl border-2 hover:border-blue-500 border-indigo-500 p-6 shadow-lg transform transition-transform duration-300 hover:scale-105">
+                  <FaBell className="text-indigo-600 text-4xl mb-4 mx-auto" />
+          <h2 className="text-2xl font-bold text-indigo-700 mb-4">Pengumuman dan Notifikasi</h2>
+          <p className="text-gray-600">
+            Memudahkan guru dan siswa menerima info penting secara real-time.
+          </p>
+        </div>
+                <div className="max-w-md bg-white rounded-2xl border-2 hover:border-blue-500 border-indigo-500 p-6 shadow-lg transform transition-transform duration-300 hover:scale-105">
+                  <FaChartLine className="text-indigo-600 text-4xl mb-4 mx-auto" />
+          <h2 className="text-2xl font-bold text-indigo-700 mb-4">Analitik & Laporan Sekolah</h2>
+          <p className="text-gray-600">
+            Bisa menampilkan statistik kehadiran, performa siswa, atau laporan keuangan secara visual.
+          </p>
+        </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-3">
+                <div className="max-w-md bg-white rounded-2xl border-2 hover:border-blue-500 border-indigo-500 p-6 shadow-lg transform transition-transform duration-300 hover:scale-105">
+                  <FaDollarSign className="text-indigo-600 text-4xl mb-4 mx-auto" />
+          <h2 className="text-2xl font-bold text-indigo-700 mb-4 mx-auto text-nowrap">Manajemen Keuangan</h2>
+          <p className="text-gray-600">
+            Memudahkan pencatatan pemasukan dan pengeluaran sekolah, pembuatan laporan keuangan secara otomatis, serta pemantauan anggaran dan keuangan secara realtime.
+          </p>
+        </div>
+                <div className="max-w-md bg-white rounded-2xl border-2 hover:border-blue-500 border-indigo-500 p-6 shadow-lg transform transition-transform duration-300 hover:scale-105">
+                  <FaCalendarAlt className="text-indigo-600 text-4xl mb-4 mx-auto" />
+          <h2 className="text-2xl font-bold text-indigo-700 mb-4 mx-auto">Jadwal & Kalender Sekolah</h2>
+          <p className="text-gray-600">
+            Memudahkan guru dan siswa melihat jadwal pelajaran, ujian, dan kegiatan sekolah secara realtime.
+          </p>
+        </div>
+                <div className="max-w-md bg-white rounded-2xl border-2 hover:border-blue-500 border-indigo-500 p-6 shadow-lg transform transition-transform duration-300 hover:scale-105">
+                  <FaFileAlt className="text-indigo-600 text-4xl mb-4 mx-auto" />
+          <h2 className="text-2xl font-bold text-indigo-700 mb-4 mx-auto">Evaluasi & Raport</h2>
+          <p className="text-gray-600">
+            Membuat dan memantau nilai siswa, rapor, dan evaluasi belajar secara digital.
+          </p>
+        </div>
+        </div>
       </div>
+      
 
       
     {/* TENTANG */}
