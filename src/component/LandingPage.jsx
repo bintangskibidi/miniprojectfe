@@ -242,38 +242,240 @@ function LandingPage() {
         </div>
       </div>
 
+      {/*HARGA*/}
+      <div id="Harga" className="py-20 px-12 bg-blue-50">
+        <h4 className="text-xl text-blue-700 text-center font-semibold mb-2">
+          PAKET HARGA
+        </h4>
 
-      <div id="Dokumentasi" className="py-20 px-12 bg-white">
-        <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
-          Dokumentasi
+        <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-4">
+          Investasi Terjangkau untuk Sekolah
         </h1>
 
-        <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
-          Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi sekolah, mulai dari manajemen siswa, keuangan, hingga laporan secara real-time.
+        <p className="text-center text-gray-500 mb-12">
+          Instalasi Rp 1.000.000 + Maintenance Rp 300.000/bulan
         </p>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { title: "Manajemen Siswa", desc: "Kelola data siswa dengan mudah.", img: EduSys },
-            { title: "Keuangan", desc: "Pantau pembayaran dan laporan keuangan.", img: EduSys },
-            { title: "Jadwal", desc: "Atur jadwal kelas dan kegiatan sekolah.", img: EduSys },
-            { title: "Raport", desc: "Lihat dan cetak raport siswa.", img: EduSys },
-            { title: "Notifikasi", desc: "Terima pengingat dan update penting.", img: EduSys },
-            { title: "Analitik", desc: "Pantau performa sekolah secara real-time.", img: EduSys },
-          ].map((item, i) => (
-            <div key={i} className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300">
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
-                <h3 className="font-bold text-xl mb-2">{item.title}</h3>
-                <p className="text-sm text-center">{item.desc}</p>
-              </div>
+          {/* STANDAR */}
+          <div
+            className="bg-gradient-to-b from-blue-600 to-purple-600 text-white p-8 rounded-2xl shadow-xl border border-orange-300 
+    hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
+          >
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Paket Standar
+            </h3>
+
+            <h1 className="text-4xl font-bold text-center mb-2">
+              Rp 1.000.000.000.000
+            </h1>
+
+            <p className="text-sm text-center mb-6">Instalasi (sekali bayar)</p>
+
+            <div className="bg-white text-blue-900 rounded-lg py-2 text-center mb-6 font-semibold">
+              Rp 300.000 / bulan
             </div>
-          ))}
-        </div>
+
+            <ul className="space-y-3 text-sm mb-6">
+              <li>✔️ Modul Utama A-COUNT</li>
+              <li>✔️ Manajemen Siswa</li>
+              <li>✔️ Payment Gateway</li>
+              <li>✔️ Maintenance</li>
+              <li>✔️ Backup Otomatis</li>
+              <li>✔️ Laporan Sekolah</li>
+            </ul>
+
+            <button
+              className="w-full bg-white text-blue-700 py-2 rounded-lg font-semibold 
+      hover:bg-gray-200 active:scale-95 transition"
+            >
+              Pilih Paket Ini
+            </button>
+          </div>
+
+          {/* ABSENSI */}
+          <div
+            className="bg-white p-8 rounded-2xl shadow border border-orange-300 
+    hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
+          >
+            <h3 className="text-lg font-semibold mb-4 text-center text-blue-900">
+              Paket Absensi
+            </h3>
+
+            <h1 className="text-4xl font-bold text-center mb-2 text-blue-900">
+              Rp 1.000.000
+            </h1>
+
+            <p className="text-sm text-center mb-4 text-gray-500">Instalasi</p>
+
+            <div className="bg-green-100 text-green-700 rounded-lg py-2 text-center mb-6 font-semibold">
+              Rp 50.000 / bulan
+            </div>
+
+            <ul className="space-y-3 text-sm mb-6 text-gray-600">
+              <li>✔️ Absensi RFID</li>
+              <li>✔️ Integrasi A-COUNT</li>
+              <li>✔️ Laporan Real-time</li>
+              <li>✔️ Notifikasi Orang Tua</li>
+            </ul>
+
+            <button
+              className="w-full bg-blue-600 text-white py-2 rounded-lg 
+      hover:bg-blue-700 active:scale-95 transition"
+            >
+              Info Lengkap
+            </button>
+          </div>
+
+          {/* ADDON */}
+          <div
+            className="bg-white p-8 rounded-2xl shadow border border-orange-300 
+    hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
+          >
+            <h3 className="text-lg font-semibold mb-4 text-center text-blue-900">
+              Add-on RFID
+            </h3>
+
+            <h1 className="text-3xl font-bold text-center text-blue-900 mb-2">
+              Rp 20.000
+            </h1>
+
+            <p className="text-sm text-center mb-6 text-gray-500">per kartu</p>
+
+            <ul className="space-y-3 text-sm mb-6 text-gray-600">
+              <li>✔️ Desain ID Card</li>
+              <li>✔️ Integrasi Sistem</li>
+              <li>✔️ Cetak Kartu</li>
+            </ul>
+
+            <button
+              className="w-full bg-blue-600 text-white py-2 rounded-lg 
+      hover:bg-blue-700 active:scale-95 transition"
+            >
+              Pilih Add-on
+            </button>
+          </div>
+          </div>
+     
+          {/* KERJASAMA */}
+          <div id="kerjasama" className="py-20 px-12 bg-white">
+            <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
+              Alur Kerjasama
+            </h2>
+
+            <p className="text-center text-gray-500 mb-12">
+              Proses mudah dan transparan untuk memulai digitalisasi sekolah
+            </p>
+
+            <div className="max-w-3xl mx-auto relative">
+              <div className="absolute left-5 top-0 w-[2px] h-full bg-orange-300"></div>
+
+              {[
+                {
+                  title: "Konsultasi & Analisis Kebutuhan",
+                  desc: "Diskusi kebutuhan sekolah dan solusi terbaik.",
+                },
+                {
+                  title: "Instalasi Sistem",
+                  desc: "Setup sistem sesuai kebutuhan sekolah.",
+                  highlight: "Biaya: Rp 1.000.000",
+                },
+                {
+                  title: "Maintenance Bulanan",
+                  desc: "Support dan maintenance rutin.",
+                  highlight: "Rp 300.000 / bulan",
+                },
+                {
+                  title: "Training & Implementasi",
+                  desc: "Pelatihan penggunaan sistem.",
+                },
+                {
+                  title: "Support & Maintenance",
+                  desc: "Dukungan teknis berkelanjutan.",
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-6 mb-10 relative">
+                  <div className="w-10 h-10 flex items-center justify-center bg-orange-500 text-white rounded-full z-10">
+                    {i + 1}
+                  </div>
+
+                  <div className="bg-gray-50 p-5 rounded-xl shadow w-full hover:shadow-lg transition">
+                    <h3 className="font-bold text-blue-900">{item.title}</h3>
+                    <p className="text-gray-600 text-sm mt-1">{item.desc}</p>
+
+                    {item.highlight && (
+                      <span className="inline-block mt-2 text-green-600 text-sm bg-green-100 px-3 py-1 rounded-lg">
+                        {item.highlight}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div id="Dokumentasi" className="py-20 px-12 bg-white">
+            <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
+              Dokumentasi
+            </h1>
+
+            <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
+              Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi
+              sekolah, mulai dari manajemen siswa, keuangan, hingga laporan
+              secara real-time.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Manajemen Siswa",
+                  desc: "Kelola data siswa dengan mudah.",
+                  img: EduSys,
+                },
+                {
+                  title: "Keuangan",
+                  desc: "Pantau pembayaran dan laporan keuangan.",
+                  img: EduSys,
+                },
+                {
+                  title: "Jadwal",
+                  desc: "Atur jadwal kelas dan kegiatan sekolah.",
+                  img: EduSys,
+                },
+                {
+                  title: "Raport",
+                  desc: "Lihat dan cetak raport siswa.",
+                  img: EduSys,
+                },
+                {
+                  title: "Notifikasi",
+                  desc: "Terima pengingat dan update penting.",
+                  img: EduSys,
+                },
+                {
+                  title: "Analitik",
+                  desc: "Pantau performa sekolah secara real-time.",
+                  img: EduSys,
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300"
+                >
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
+                    <h3 className="font-bold text-xl mb-2">{item.title}</h3>
+                    <p className="text-sm text-center">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        
       </div>
     </div>
   );
