@@ -26,7 +26,7 @@ function LandingPage() {
     });
   };
   const scrollToHarga = () => {
-    document.getElementById("Modul")?.scrollIntoView({
+    document.getElementById("Harga")?.scrollIntoView({
       behavior: "smooth",
     });
   };
@@ -104,8 +104,6 @@ function LandingPage() {
           >
             Kontak
           </li>
-
-          
         </ul>
 
         <button className="bg-gradient-to-r from-orange-500 to-blue-800 text-white px-5 py-2 rounded-xl shadow hover:scale-105 transition">
