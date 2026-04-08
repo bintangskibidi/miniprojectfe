@@ -26,7 +26,7 @@ function LandingPage() {
     });
   };
   const scrollToHarga = () => {
-    document.getElementById("Modul")?.scrollIntoView({
+    document.getElementById("Harga")?.scrollIntoView({
       behavior: "smooth",
     });
   };
@@ -104,8 +104,6 @@ function LandingPage() {
           >
             Kontak
           </li>
-
-          
         </ul>
 
         <button className="bg-gradient-to-r from-orange-500 to-blue-800 text-white px-5 py-2 rounded-xl shadow hover:scale-105 transition">
@@ -240,6 +238,121 @@ function LandingPage() {
               </p>
             </div>
           ))}
+        </div>
+      </div>
+      {/*HARGA*/}
+      <div id="Harga" className="py-20 px-12 bg-blue-50">
+        <h4 className="text-xl text-blue-700 text-center font-semibold mb-2">
+          PAKET HARGA
+        </h4>
+
+        <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-4">
+          Investasi Terjangkau untuk Sekolah
+        </h1>
+
+        <p className="text-center text-gray-500 mb-12">
+          Instalasi Rp 1.000.000 + Maintenance Rp 300.000/bulan
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* STANDAR */}
+          <div
+            className="bg-gradient-to-b from-blue-600 to-purple-600 text-white p-8 rounded-2xl shadow-xl border border-orange-300 
+    hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
+          >
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Paket Standar
+            </h3>
+
+            <h1 className="text-4xl font-bold text-center mb-2">
+              Rp 1.000.000.000.000
+            </h1>
+
+            <p className="text-sm text-center mb-6">Instalasi (sekali bayar)</p>
+
+            <div className="bg-white text-blue-900 rounded-lg py-2 text-center mb-6 font-semibold">
+              Rp 300.000 / bulan
+            </div>
+
+            <ul className="space-y-3 text-sm mb-6">
+              <li>✔ Modul Utama A-COUNT</li>
+              <li>✔ Manajemen Siswa</li>
+              <li>✔ Payment Gateway</li>
+              <li>✔ Maintenance</li>
+              <li>✔ Backup Otomatis</li>
+              <li>✔ Laporan Sekolah</li>
+            </ul>
+
+            <button
+              className="w-full bg-white text-blue-700 py-2 rounded-lg font-semibold 
+      hover:bg-gray-200 active:scale-95 transition"
+            >
+              Pilih Paket Ini
+            </button>
+          </div>
+
+          {/* ABSENSI */}
+          <div
+            className="bg-white p-8 rounded-2xl shadow border border-orange-300 
+    hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
+          >
+            <h3 className="text-lg font-semibold mb-4 text-center text-blue-900">
+              Paket Absensi
+            </h3>
+
+            <h1 className="text-4xl font-bold text-center mb-2 text-blue-900">
+              Rp 1.000.000
+            </h1>
+
+            <p className="text-sm text-center mb-4 text-gray-500">Instalasi</p>
+
+            <div className="bg-green-100 text-green-700 rounded-lg py-2 text-center mb-6 font-semibold">
+              Rp 50.000 / bulan
+            </div>
+
+            <ul className="space-y-3 text-sm mb-6 text-gray-600">
+              <li>✔ Absensi RFID</li>
+              <li>✔ Integrasi A-COUNT</li>
+              <li>✔ Laporan Real-time</li>
+              <li>✔ Notifikasi Orang Tua</li>
+            </ul>
+
+            <button
+              className="w-full bg-blue-600 text-white py-2 rounded-lg 
+      hover:bg-blue-700 active:scale-95 transition"
+            >
+              Info Lengkap
+            </button>
+          </div>
+
+          {/* ADDON */}
+          <div
+            className="bg-white p-8 rounded-2xl shadow border border-orange-300 
+    hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
+          >
+            <h3 className="text-lg font-semibold mb-4 text-center text-blue-900">
+              Add-on RFID
+            </h3>
+
+            <h1 className="text-3xl font-bold text-center text-blue-900 mb-2">
+              Rp 20.000
+            </h1>
+
+            <p className="text-sm text-center mb-6 text-gray-500">per kartu</p>
+
+            <ul className="space-y-3 text-sm mb-6 text-gray-600">
+              <li>✔ Desain ID Card</li>
+              <li>✔ Integrasi Sistem</li>
+              <li>✔ Cetak Kartu</li>
+            </ul>
+
+            <button
+              className="w-full bg-blue-600 text-white py-2 rounded-lg 
+      hover:bg-blue-700 active:scale-95 transition"
+            >
+              Pilih Add-on
+            </button>
+          </div>
         </div>
       </div>
     </div>
