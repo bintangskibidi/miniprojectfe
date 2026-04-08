@@ -1,4 +1,5 @@
 import EduSys from "../assets/EduSys.png";
+
 import {
   CurrencyDollarIcon,
   ShieldCheckIcon,
@@ -26,7 +27,7 @@ function LandingPage() {
     });
   };
   const scrollToHarga = () => {
-    document.getElementById("Harga")?.scrollIntoView({
+    document.getElementById("Modul")?.scrollIntoView({
       behavior: "smooth",
     });
   };
@@ -36,7 +37,7 @@ function LandingPage() {
     });
   };
   const scrollToDokumentasi = () => {
-    document.getElementById("Modul")?.scrollIntoView({
+    document.getElementById("Dokumentasi")?.scrollIntoView({
       behavior: "smooth",
     });
   };
@@ -207,12 +208,12 @@ function LandingPage() {
       </div>
 
       {/* MODUL */}
-      <div id="Modul" className="py-20 px-12 bg-blue-50">
-        <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-12">
+      <div id="Modul" className="px-12 py-12 bg-blue-50">
+        <h1 className="text-4xl py-20 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-12">
           Fitur Unggulan
         </h1>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 -my-10 gap-8">
           {[
             { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
             { icon: <FaBell />, title: "Notifikasi" },
@@ -241,64 +242,40 @@ function LandingPage() {
         </div>
       </div>
 
-      {/* KERJASAMA */}
-<div id="kerjasama" className="py-20 px-12 bg-white">
-  <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
-    Alur Kerjasama
-  </h2>
 
-  <p className="text-center text-gray-500 mb-12">
-    Proses mudah dan transparan untuk memulai digitalisasi sekolah
-  </p>
+      <div id="Dokumentasi" className="py-20 px-12 bg-white">
+        <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
+          Dokumentasi
+        </h1>
 
-  <div className="max-w-3xl mx-auto relative">
-    <div className="absolute left-5 top-0 w-[2px] h-full bg-orange-300"></div>
+        <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
+          Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi sekolah, mulai dari manajemen siswa, keuangan, hingga laporan secara real-time.
+        </p>
 
-    {[
-      {
-        title: "Konsultasi & Analisis Kebutuhan",
-        desc: "Diskusi kebutuhan sekolah dan solusi terbaik.",
-      },
-      {
-        title: "Instalasi Sistem",
-        desc: "Setup sistem sesuai kebutuhan sekolah.",
-        highlight: "Biaya: Rp 1.000.000",
-      },
-      {
-        title: "Maintenance Bulanan",
-        desc: "Support dan maintenance rutin.",
-        highlight: "Rp 300.000 / bulan",
-      },
-      {
-        title: "Training & Implementasi",
-        desc: "Pelatihan penggunaan sistem.",
-      },
-      {
-        title: "Support & Maintenance",
-        desc: "Dukungan teknis berkelanjutan.",
-      },
-    ].map((item, i) => (
-      <div key={i} className="flex items-start gap-6 mb-10 relative">
-        <div className="w-10 h-10 flex items-center justify-center bg-orange-500 text-white rounded-full z-10">
-          {i + 1}
-        </div>
-
-        <div className="bg-gray-50 p-5 rounded-xl shadow w-full hover:shadow-lg transition">
-          <h3 className="font-bold text-blue-900">{item.title}</h3>
-          <p className="text-gray-600 text-sm mt-1">{item.desc}</p>
-
-          {item.highlight && (
-            <span className="inline-block mt-2 text-green-600 text-sm bg-green-100 px-3 py-1 rounded-lg">
-              {item.highlight}
-            </span>
-          )}
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { title: "Manajemen Siswa", desc: "Kelola data siswa dengan mudah.", img: EduSys },
+            { title: "Keuangan", desc: "Pantau pembayaran dan laporan keuangan.", img: EduSys },
+            { title: "Jadwal", desc: "Atur jadwal kelas dan kegiatan sekolah.", img: EduSys },
+            { title: "Raport", desc: "Lihat dan cetak raport siswa.", img: EduSys },
+            { title: "Notifikasi", desc: "Terima pengingat dan update penting.", img: EduSys },
+            { title: "Analitik", desc: "Pantau performa sekolah secara real-time.", img: EduSys },
+          ].map((item, i) => (
+            <div key={i} className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300">
+              <img
+                src={item.img}
+                alt={item.title}
+                className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
+                <h3 className="font-bold text-xl mb-2">{item.title}</h3>
+                <p className="text-sm text-center">{item.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
-  </div>
-</div>
     </div>
-    
   );
 }
 
