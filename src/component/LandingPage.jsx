@@ -242,7 +242,65 @@ function LandingPage() {
           ))}
         </div>
       </div>
+
+      {/* KERJASAMA */}
+<div id="kerjasama" className="py-20 px-12 bg-white">
+  <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
+    Alur Kerjasama
+  </h2>
+
+  <p className="text-center text-gray-500 mb-12">
+    Proses mudah dan transparan untuk memulai digitalisasi sekolah
+  </p>
+
+  <div className="max-w-3xl mx-auto relative">
+    <div className="absolute left-5 top-0 w-[2px] h-full bg-orange-300"></div>
+
+    {[
+      {
+        title: "Konsultasi & Analisis Kebutuhan",
+        desc: "Diskusi kebutuhan sekolah dan solusi terbaik.",
+      },
+      {
+        title: "Instalasi Sistem",
+        desc: "Setup sistem sesuai kebutuhan sekolah.",
+        highlight: "Biaya: Rp 1.000.000",
+      },
+      {
+        title: "Maintenance Bulanan",
+        desc: "Support dan maintenance rutin.",
+        highlight: "Rp 300.000 / bulan",
+      },
+      {
+        title: "Training & Implementasi",
+        desc: "Pelatihan penggunaan sistem.",
+      },
+      {
+        title: "Support & Maintenance",
+        desc: "Dukungan teknis berkelanjutan.",
+      },
+    ].map((item, i) => (
+      <div key={i} className="flex items-start gap-6 mb-10 relative">
+        <div className="w-10 h-10 flex items-center justify-center bg-orange-500 text-white rounded-full z-10">
+          {i + 1}
+        </div>
+
+        <div className="bg-gray-50 p-5 rounded-xl shadow w-full hover:shadow-lg transition">
+          <h3 className="font-bold text-blue-900">{item.title}</h3>
+          <p className="text-gray-600 text-sm mt-1">{item.desc}</p>
+
+          {item.highlight && (
+            <span className="inline-block mt-2 text-green-600 text-sm bg-green-100 px-3 py-1 rounded-lg">
+              {item.highlight}
+            </span>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
     </div>
+    
   );
 }
 
