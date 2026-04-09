@@ -135,7 +135,7 @@ function LandingPage() {
             </button>
 
             <button className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition">
-              Lihat Demo
+              <a href="/login">Lihat Demo</a>
             </button>
           </div>
         </div>
@@ -211,9 +211,12 @@ function LandingPage() {
 
       {/* MODUL */}
       <div id="Modul" className="px-12 py-12 bg-blue-50">
-        <h1 className="text-4xl py-20 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-12">
+        <h1 className="text-4xl py-2 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-5">
           Fitur Unggulan
         </h1>
+        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12 ">
+  EduSys menghadirkan berbagai fitur unggulan untuk membantu sekolah dalam mengelola administrasi, akademik, dan keuangan secara terintegrasi, efisien, dan modern dalam satu platform.
+</p>
 
         <div className="grid md:grid-cols-3 -my-10 gap-8">
           {[
@@ -416,6 +419,9 @@ function LandingPage() {
             </div>
           </div>
 
+
+        
+
           <div id="Dokumentasi" className="py-20 px-12 bg-white">
             <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
               Dokumentasi
@@ -499,6 +505,7 @@ function LandingPage() {
     </button>
   </div>
 </div>
+
       </div>
     </div>
   );
