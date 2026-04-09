@@ -1104,6 +1104,11 @@ react@*, react@^19.2.4, "react@>= 16 || ^19.0.0-rc", react@>=18, react@>=18.2.0:
   resolved "https://registry.npmjs.org/react/-/react-19.2.4.tgz"
   integrity sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==
 
+remixicon@^4.9.1:
+  version "4.9.1"
+  resolved "https://registry.npmjs.org/remixicon/-/remixicon-4.9.1.tgz"
+  integrity sha512-36gLSoujkabnCFZFDyP17VNh9piuBA/rsXUb4auSJWLGsHVXtmxLj/EM5FjaEAGnk8oIAj1Azob/DZ2N+90lAQ==
+
 resolve-from@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz"
