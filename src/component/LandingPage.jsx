@@ -27,12 +27,12 @@ function LandingPage() {
     });
   };
   const scrollToHarga = () => {
-    document.getElementById("Modul")?.scrollIntoView({
+    document.getElementById("Harga")?.scrollIntoView({
       behavior: "smooth",
     });
   };
   const scrollToKerjasama = () => {
-    document.getElementById("Modul")?.scrollIntoView({
+    document.getElementById("Kerjasama")?.scrollIntoView({
       behavior: "smooth",
     });
   };
@@ -58,8 +58,10 @@ function LandingPage() {
     <div className="font-sans">
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-12 py-4 bg-white shadow-sm fixed top-0 left-0 w-full z-50">
-        <h1 className="text-2xl font-bold text-blue-900">EduSys</h1>
-
+        <div className="flex items-center gap-2 text-2xl font-bold text-blue-800">
+        <img src={EduSys} alt="logo" className="h-10 w-auto" />
+        <span>Aduca</span>
+      </div>
         <ul className="flex gap-8 text-gray-600 font-medium">
           <li
             onClick={scrollToTop}
@@ -108,7 +110,7 @@ function LandingPage() {
         </ul>
 
         <button className="bg-gradient-to-r from-orange-500 to-blue-800 text-white px-5 py-2 rounded-xl shadow hover:scale-105 transition">
-          Login
+          Ajukan Demo
         </button>
       </div>
 
@@ -170,7 +172,7 @@ function LandingPage() {
         <h2 className="text-3xl font-bold text-blue-900 mb-10">Tentang Kami</h2>
 
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto mb-12">
-          EduSys adalah platform digital untuk membantu sekolah mengelola data
+          Aduca adalah platform digital untuk membantu sekolah mengelola data
           siswa, keuangan, dan administrasi secara modern dan efisien.
         </p>
 
@@ -246,10 +248,10 @@ function LandingPage() {
       </div>
 
       {/*HARGA*/}
-      <div id="Harga" className="py-20 px-12 bg-blue-50">
-        <h4 className="text-xl text-blue-700 text-center font-semibold mb-2">
+      <div id="Harga" className="py-20 px-12 bg-white">
+        <h1 className="text-xl text-blue-700 text-center font-bold mb-2">
           PAKET HARGA
-        </h4>
+        </h1>
 
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-4">
           Investasi Terjangkau untuk Sekolah
@@ -361,9 +363,9 @@ function LandingPage() {
           </div>
      
           {/* KERJASAMA */}
-          <div id="kerjasama" className="py-20 px-12 bg-white">
+          <div id="Kerjasama" className="py-20 px-12 bg-blue-50">
             <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
-              Alur Kerjasama
+              Alur Kerjasama Aduca
             </h2>
 
             <p className="text-center text-gray-500 mb-12">
@@ -417,65 +419,93 @@ function LandingPage() {
             </div>
           </div>
 
-  <div id="Dokumentasi" className="py-20 px-12 bg-white">
-  <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
-    Dokumentasi
+
+        
+
+          <div id="Dokumentasi" className="py-20 px-12 bg-white">
+            <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
+              Dokumentasi
+            </h1>
+
+            <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
+              Berikut adalah tampilan sistem Aduca dalam mendukung digitalisasi
+              sekolah, mulai dari manajemen siswa, keuangan, hingga laporan
+              secara real-time.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Manajemen Siswa",
+                  desc: "Kelola data siswa dengan mudah.",
+                  img: EduSys,
+                },
+                {
+                  title: "Keuangan",
+                  desc: "Pantau pembayaran dan laporan keuangan.",
+                  img: EduSys,
+                },
+                {
+                  title: "Jadwal",
+                  desc: "Atur jadwal kelas dan kegiatan sekolah.",
+                  img: EduSys,
+                },
+                {
+                  title: "Raport",
+                  desc: "Lihat dan cetak raport siswa.",
+                  img: EduSys,
+                },
+                {
+                  title: "Notifikasi",
+                  desc: "Terima pengingat dan update penting.",
+                  img: EduSys,
+                },
+                {
+                  title: "Analitik",
+                  desc: "Pantau performa sekolah secara real-time.",
+                  img: EduSys,
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300"
+                >
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
+                    <h3 className="font-bold text-xl mb-2">{item.title}</h3>
+                    <p className="text-sm text-center">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        {/* CTA SECTION */}
+<div className="py-20 w-full bg-gradient-to-r from-blue-900 to-blue-950 text-center text-white">
+  <h1 className="text-4xl md:text-5xl font-bold mb-6">
+    Siap Transformasi Sekolah Anda?
   </h1>
 
-  <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
-    Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi
-    sekolah, mulai dari manajemen siswa, keuangan, hingga laporan
-    secara real-time.
+  <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10">
+    Instalasi Rp 1.000.000 + Maintenance Rp 300.000/bulan. <br />
+    Bergabunglah dengan ratusan sekolah yang telah mempercayakan
+    manajemen mereka kepada <span className="text-orange-400 font-semibold">Aduca</span>
   </p>
 
-  <div className="grid md:grid-cols-4 gap-8">
-    {[
-      {
-        title: "Manajemen Siswa",
-        desc: "Kelola data siswa dengan mudah dan terstruktur.",
-        img: EduSys,
-      },
-      {
-        title: "Keuangan Sekolah",
-        desc: "Pantau pembayaran dan laporan keuangan secara real-time.",
-        img: EduSys,
-      },
-      {
-        title: "Jadwal Kegiatan",
-        desc: "Atur jadwal kelas dan kegiatan sekolah dengan rapi.",
-        img: EduSys,
-      },
-      {
-        title: "Laporan & Raport",
-        desc: "Lihat, unduh, dan cetak raport siswa dengan cepat.",
-        img: EduSys,
-      },
-    ].map((item, i) => (
-      <div
-        key={i}
-        className="bg-white rounded-xl shadow-md border border-orange-300 overflow-hidden hover:shadow-xl hover:-translate-y-2 transition"
-      >
-        {/* IMAGE */}
-        <img
-          src={item.img}
-          alt={item.title}
-          className="w-full h-56 object-cover"
-        />
+  <div className="flex justify-center gap-4 flex-wrap">
+    <button className="bg-gradient-to-r from-orange-500 to-blue-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transition">
+      Mulai Sekarang
+    </button>
 
-        {/* TEXT CONTENT */}
-        <div className="p-4 text-center">
-          <h3 className="font-bold text-lg text-blue-900 mb-2">
-            {item.title}
-          </h3>
-          <p className="text-gray-600 text-sm">
-            {item.desc}
-          </p>
-        </div>
-      </div>
-    ))}
+    <button className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-900 transition">
+      Lihat Demo
+    </button>
   </div>
 </div>
-        
+
       </div>
     </div>
   );
