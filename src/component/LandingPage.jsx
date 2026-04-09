@@ -133,7 +133,7 @@ function LandingPage() {
             </button>
 
             <button className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition">
-              Lihat Demo
+              <a href="/login">Lihat Demo</a>
             </button>
           </div>
         </div>
@@ -209,9 +209,12 @@ function LandingPage() {
 
       {/* MODUL */}
       <div id="Modul" className="px-12 py-12 bg-blue-50">
-        <h1 className="text-4xl py-20 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-12">
+        <h1 className="text-4xl py-2 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-5">
           Fitur Unggulan
         </h1>
+        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12 ">
+  EduSys menghadirkan berbagai fitur unggulan untuk membantu sekolah dalam mengelola administrasi, akademik, dan keuangan secara terintegrasi, efisien, dan modern dalam satu platform.
+</p>
 
         <div className="grid md:grid-cols-3 -my-10 gap-8">
           {[
@@ -414,67 +417,64 @@ function LandingPage() {
             </div>
           </div>
 
-          <div id="Dokumentasi" className="py-20 px-12 bg-white">
-            <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
-              Dokumentasi
-            </h1>
+  <div id="Dokumentasi" className="py-20 px-12 bg-white">
+  <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
+    Dokumentasi
+  </h1>
 
-            <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
-              Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi
-              sekolah, mulai dari manajemen siswa, keuangan, hingga laporan
-              secara real-time.
-            </p>
+  <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
+    Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi
+    sekolah, mulai dari manajemen siswa, keuangan, hingga laporan
+    secara real-time.
+  </p>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Manajemen Siswa",
-                  desc: "Kelola data siswa dengan mudah.",
-                  img: EduSys,
-                },
-                {
-                  title: "Keuangan",
-                  desc: "Pantau pembayaran dan laporan keuangan.",
-                  img: EduSys,
-                },
-                {
-                  title: "Jadwal",
-                  desc: "Atur jadwal kelas dan kegiatan sekolah.",
-                  img: EduSys,
-                },
-                {
-                  title: "Raport",
-                  desc: "Lihat dan cetak raport siswa.",
-                  img: EduSys,
-                },
-                {
-                  title: "Notifikasi",
-                  desc: "Terima pengingat dan update penting.",
-                  img: EduSys,
-                },
-                {
-                  title: "Analitik",
-                  desc: "Pantau performa sekolah secara real-time.",
-                  img: EduSys,
-                },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300"
-                >
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
-                    <h3 className="font-bold text-xl mb-2">{item.title}</h3>
-                    <p className="text-sm text-center">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+  <div className="grid md:grid-cols-4 gap-8">
+    {[
+      {
+        title: "Manajemen Siswa",
+        desc: "Kelola data siswa dengan mudah dan terstruktur.",
+        img: EduSys,
+      },
+      {
+        title: "Keuangan Sekolah",
+        desc: "Pantau pembayaran dan laporan keuangan secara real-time.",
+        img: EduSys,
+      },
+      {
+        title: "Jadwal Kegiatan",
+        desc: "Atur jadwal kelas dan kegiatan sekolah dengan rapi.",
+        img: EduSys,
+      },
+      {
+        title: "Laporan & Raport",
+        desc: "Lihat, unduh, dan cetak raport siswa dengan cepat.",
+        img: EduSys,
+      },
+    ].map((item, i) => (
+      <div
+        key={i}
+        className="bg-white rounded-xl shadow-md border border-orange-300 overflow-hidden hover:shadow-xl hover:-translate-y-2 transition"
+      >
+        {/* IMAGE */}
+        <img
+          src={item.img}
+          alt={item.title}
+          className="w-full h-56 object-cover"
+        />
+
+        {/* TEXT CONTENT */}
+        <div className="p-4 text-center">
+          <h3 className="font-bold text-lg text-blue-900 mb-2">
+            {item.title}
+          </h3>
+          <p className="text-gray-600 text-sm">
+            {item.desc}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
         
       </div>
     </div>
