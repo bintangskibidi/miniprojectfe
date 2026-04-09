@@ -25,10 +25,10 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen">
 
-      <div className="flex flex-col justify-center items-center bg-gradient-to-r from-blue-500 to-orange-800 text-white w-1/2 p-10 py-12">
-        <img src={logo} alt="Logo" className="w-40 mb-6" />
+      <div className="flex flex-col justify-center items-center bg-gradient-to-r from-blue-800 to-orange-500 text-white w-1/2 p-10 py-12">
+        <img src={logo} alt="Logo" className="w-40 mb-6 animate-float" />
         <h1 className="text-3xl font-bold mb-2 text-center">
-          EduSys || Sistem Manajemen Sekolah
+          Aduca || Sistem Manajemen Sekolah
         </h1>
         <p className="text-sm opacity-80 font-semibold text-center text-xl">
           Cepat dan Tanggap
