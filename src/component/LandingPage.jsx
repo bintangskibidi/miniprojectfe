@@ -1,4 +1,5 @@
 import EduSys from "../assets/EduSys.png";
+import "remixicon/fonts/remixicon.css";
 
 import {
   CurrencyDollarIcon,
@@ -42,7 +43,7 @@ function LandingPage() {
     });
   };
   const scrollToKontak = () => {
-    document.getElementById("Modul")?.scrollIntoView({
+    document.getElementById("Kontak")?.scrollIntoView({
       behavior: "smooth",
     });
   };
@@ -59,9 +60,9 @@ function LandingPage() {
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-12 py-4 bg-white shadow-sm fixed top-0 left-0 w-full z-50">
         <div className="flex items-center gap-2 text-2xl font-bold text-blue-800">
-        <img src={EduSys} alt="logo" className="h-10 w-auto" />
-        <span>Aduca</span>
-      </div>
+          <img src={EduSys} alt="logo" className="h-10 w-auto" />
+          <span>Aduca</span>
+        </div>
         <ul className="flex gap-8 text-gray-600 font-medium">
           <li
             onClick={scrollToTop}
@@ -264,7 +265,7 @@ function LandingPage() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* STANDAR */}
           <div
-            className="bg-gradient-to-b from-blue-600 to-purple-600 text-white p-8 rounded-2xl shadow-xl border border-orange-300 
+            className="bg-gradient-to-b from-purple-600 to-orange-600 text-white p-8 rounded-2xl shadow-xl border border-orange-500
     hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95"
           >
             <h3 className="text-lg font-semibold mb-4 text-center">
@@ -360,65 +361,168 @@ function LandingPage() {
               Pilih Add-on
             </button>
           </div>
+        </div>
+
+        {/* KERJASAMA */}
+        <div id="Kerjasama" className="py-20 px-12 bg-blue-50">
+          <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
+            Alur Kerjasama Aduca
+          </h2>
+
+          <p className="text-center text-gray-500 mb-12">
+            Proses mudah dan transparan untuk memulai digitalisasi sekolah
+          </p>
+
+          <div className="max-w-3xl mx-auto relative">
+            <div className="absolute left-5 top-0 w-[2px] h-full bg-orange-300"></div>
+
+            {[
+              {
+                title: "Konsultasi & Analisis Kebutuhan",
+                desc: "Diskusi kebutuhan sekolah dan solusi terbaik.",
+              },
+              {
+                title: "Instalasi Sistem",
+                desc: "Setup sistem sesuai kebutuhan sekolah.",
+                highlight: "Biaya: Rp 1.000.000",
+              },
+              {
+                title: "Maintenance Bulanan",
+                desc: "Support dan maintenance rutin.",
+                highlight: "Rp 300.000 / bulan",
+              },
+              {
+                title: "Training & Implementasi",
+                desc: "Pelatihan penggunaan sistem.",
+              },
+              {
+                title: "Support & Maintenance",
+                desc: "Dukungan teknis berkelanjutan.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-6 mb-10 relative">
+                <div className="w-10 h-10 flex items-center justify-center bg-orange-500 text-white rounded-full z-10">
+                  {i + 1}
+                </div>
+
+                <div className="bg-gray-50 p-5 rounded-xl shadow w-full hover:shadow-lg transition">
+                  <h3 className="font-bold text-blue-900">{item.title}</h3>
+                  <p className="text-gray-600 text-sm mt-1">{item.desc}</p>
+
+                  {item.highlight && (
+                    <span className="inline-block mt-2 text-green-600 text-sm bg-green-100 px-3 py-1 rounded-lg">
+                      {item.highlight}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-     
-          {/* KERJASAMA */}
-          <div id="Kerjasama" className="py-20 px-12 bg-blue-50">
-            <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
-              Alur Kerjasama Aduca
+        </div>
+
+        <div id="Dokumentasi" className="py-20 px-12 bg-white">
+          <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
+            Dokumentasi
+          </h1>
+
+          <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
+            Berikut adalah tampilan sistem Aduca dalam mendukung digitalisasi
+            sekolah, mulai dari manajemen siswa, keuangan, hingga laporan secara
+            real-time.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Manajemen Siswa",
+                desc: "Kelola data siswa dengan mudah.",
+                img: EduSys,
+              },
+              {
+                title: "Keuangan",
+                desc: "Pantau pembayaran dan laporan keuangan.",
+                img: EduSys,
+              },
+              {
+                title: "Jadwal",
+                desc: "Atur jadwal kelas dan kegiatan sekolah.",
+                img: EduSys,
+              },
+              {
+                title: "Raport",
+                desc: "Lihat dan cetak raport siswa.",
+                img: EduSys,
+              },
+              {
+                title: "Notifikasi",
+                desc: "Terima pengingat dan update penting.",
+                img: EduSys,
+              },
+              {
+                title: "Analitik",
+                desc: "Pantau performa sekolah secara real-time.",
+                img: EduSys,
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
+                  <h3 className="font-bold text-xl mb-2">{item.title}</h3>
+                  <p className="text-sm text-center">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* CTA SECTION */}
+        <div className="py-20 w-full bg-gradient-to-r from-blue-900 to-blue-950 text-center text-white">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Siap Transformasi Sekolah Anda?
+          </h1>
+
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10">
+            Instalasi Rp 1.000.000 + Maintenance Rp 300.000/bulan. <br />
+            Bergabunglah dengan ratusan sekolah yang telah mempercayakan
+            manajemen mereka kepada{" "}
+            <span className="text-orange-400 font-semibold">Aduca</span>
+          </p>
+
+          <div className="flex justify-center gap-4 flex-wrap">
+            <button className="bg-gradient-to-r from-orange-500 to-blue-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transition">
+              Mulai Sekarang
+            </button>
+
+            <button className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-900 transition">
+              Lihat Demo
+            </button>
+          </div>
+        </div>
+
+        <div id="Kontak" className="py-24 bg-white">
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            {/* Badge */}
+            <h4 className="inline-block bg-gray-100 text-blue-500 px-6 py-2 rounded-full font-semibold tracking-wider">
+              KONTAK KAMI
+            </h4>
+
+            {/* Title */}
+            <h2 className="mt-6 text-3xl font-bold text-blue-600">
+              Diskusikan Kebutuhan Sekolah Anda
             </h2>
 
-            <p className="text-center text-gray-500 mb-12">
-              Proses mudah dan transparan untuk memulai digitalisasi sekolah
+            <p className="mt-2 text-gray-500">
+              Tim kami siap membantu Anda menemukan solusi terbaik
             </p>
-
-            <div className="max-w-3xl mx-auto relative">
-              <div className="absolute left-5 top-0 w-[2px] h-full bg-orange-300"></div>
-
-              {[
-                {
-                  title: "Konsultasi & Analisis Kebutuhan",
-                  desc: "Diskusi kebutuhan sekolah dan solusi terbaik.",
-                },
-                {
-                  title: "Instalasi Sistem",
-                  desc: "Setup sistem sesuai kebutuhan sekolah.",
-                  highlight: "Biaya: Rp 1.000.000",
-                },
-                {
-                  title: "Maintenance Bulanan",
-                  desc: "Support dan maintenance rutin.",
-                  highlight: "Rp 300.000 / bulan",
-                },
-                {
-                  title: "Training & Implementasi",
-                  desc: "Pelatihan penggunaan sistem.",
-                },
-                {
-                  title: "Support & Maintenance",
-                  desc: "Dukungan teknis berkelanjutan.",
-                },
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-6 mb-10 relative">
-                  <div className="w-10 h-10 flex items-center justify-center bg-orange-500 text-white rounded-full z-10">
-                    {i + 1}
-                  </div>
-
-                  <div className="bg-gray-50 p-5 rounded-xl shadow w-full hover:shadow-lg transition">
-                    <h3 className="font-bold text-blue-900">{item.title}</h3>
-                    <p className="text-gray-600 text-sm mt-1">{item.desc}</p>
-
-                    {item.highlight && (
-                      <span className="inline-block mt-2 text-green-600 text-sm bg-green-100 px-3 py-1 rounded-lg">
-                        {item.highlight}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
+<<<<<<< Updated upstream
 
         
 
@@ -426,63 +530,130 @@ function LandingPage() {
             <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
               Dokumentasi
             </h1>
+=======
+          {/* CONTENT */}
+          <div className="max-w-6xl mx-auto px-6 mt-12 grid md:grid-cols-2 gap-8 items-start">
+            {/* LEFT FORM */}
+            <div className="bg-white rounded-2xl shadow-md p-6 space-y-4">
+              <div>
+                <label className="text-sm text-gray-600">Nama Lengkap</label>
+                <input
+                  type="text"
+                  className="w-full mt-1 border rounded-lg px-3 py-2"
+                />
+              </div>
+>>>>>>> Stashed changes
 
-            <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
-              Berikut adalah tampilan sistem Aduca dalam mendukung digitalisasi
-              sekolah, mulai dari manajemen siswa, keuangan, hingga laporan
-              secara real-time.
-            </p>
+              <div>
+                <label className="text-sm text-gray-600">Email</label>
+                <input
+                  type="email"
+                  className="w-full mt-1 border rounded-lg px-3 py-2"
+                />
+              </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Manajemen Siswa",
-                  desc: "Kelola data siswa dengan mudah.",
-                  img: EduSys,
-                },
-                {
-                  title: "Keuangan",
-                  desc: "Pantau pembayaran dan laporan keuangan.",
-                  img: EduSys,
-                },
-                {
-                  title: "Jadwal",
-                  desc: "Atur jadwal kelas dan kegiatan sekolah.",
-                  img: EduSys,
-                },
-                {
-                  title: "Raport",
-                  desc: "Lihat dan cetak raport siswa.",
-                  img: EduSys,
-                },
-                {
-                  title: "Notifikasi",
-                  desc: "Terima pengingat dan update penting.",
-                  img: EduSys,
-                },
-                {
-                  title: "Analitik",
-                  desc: "Pantau performa sekolah secara real-time.",
-                  img: EduSys,
-                },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="relative group overflow-hidden rounded-xl shadow-lg border border-orange-300"
-                >
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-orange-500 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-4">
-                    <h3 className="font-bold text-xl mb-2">{item.title}</h3>
-                    <p className="text-sm text-center">{item.desc}</p>
+              <div>
+                <label className="text-sm text-gray-600">
+                  Nama Sekolah / Instansi
+                </label>
+                <input
+                  type="text"
+                  className="w-full mt-1 border rounded-lg px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-600">Alamat Sekolah</label>
+                <textarea className="w-full mt-1 border rounded-lg px-3 py-2"></textarea>
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-600">Jabatan</label>
+                <input
+                  type="text"
+                  className="w-full mt-1 border rounded-lg px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-600">
+                  Nomor Telepon / WhatsApp
+                </label>
+                <input
+                  type="text"
+                  className="w-full mt-1 border rounded-lg px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-600">
+                  Paket yang Diminati
+                </label>
+                <select className="w-full mt-1 border rounded-lg px-3 py-2">
+                  <option>Pilih Paket</option
+                    Paket Standar Rp 1.000.000.000.000 Instalasi (sekali bayar)
+                  </option>
+                  <option>Paket Absensi Rp 1.000.000 Instalasi</option>
+                  <option>Add-on RFID Rp 20.000 per kartu</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-600">Pesan</label>
+                <textarea
+                  rows="3"
+                  className="w-full mt-1 border rounded-lg px-3 py-2"
+                ></textarea>
+              </div>
+
+              <button className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+                Kirim Pesan
+              </button>
+            </div>
+
+            <div className="rounded-[20px] p-7 text-white bg-gradient-to-b from-blue-600 to-orange-300 shadow-xl min-h-[855px] flex-col justify-between">
+              <h3 className="font-semibold mb-6 text-lg">Informasi Kontak</h3>
+
+              <div className="space-y-6 text-mn">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 font-semibold">
+                    <i className="ri-mail-line text-xl"></i>
+                    <span>Email</span>
                   </div>
+                  <span className="text-sm text-white/80">
+                    sekolah@gmail.com
+                  </span>
                 </div>
-              ))}
+
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 font-semibold">
+                    <i className="ri-phone-line text-xl"></i>
+                    <span>Telepon</span>
+                  </div>
+                  <span className="text- text-white/80">0938-7729-0876</span>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 font-semibold">
+                    <i className="ri-map-pin-line text-xl"></i>
+                    <span>Alamat</span>
+                  </div>
+                  <span className="text-sm text-white/80">
+                    JL ngawi kecamatan amba
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 font-semibold">
+                    <i className="ri-building-line text-xl"></i>
+                    <span>Instansi</span>
+                  </div>
+                  <span className="text-sm text-white/80">NGAWI BRIM 🙄🙄</span>
+                </div>
+              </div>
             </div>
           </div>
+<<<<<<< Updated upstream
         {/* CTA SECTION */}
 <div className="py-20 w-full bg-gradient-to-r from-blue-900 to-blue-950 text-center text-white">
   <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -506,6 +677,9 @@ function LandingPage() {
   </div>
 </div>
 
+=======
+        </div>
+>>>>>>> Stashed changes
       </div>
     </div>
   );
