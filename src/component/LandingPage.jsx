@@ -12,6 +12,10 @@ import {
   FaDollarSign,
   FaCalendarAlt,
   FaFileAlt,
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+  FaLinkedinIn,
 } from "react-icons/fa";
 
 function LandingPage() {
@@ -477,7 +481,7 @@ function LandingPage() {
               ))}
             </div>
           </div>
-        {/* CTA SECTION */}
+        
 <div className="py-20 w-full bg-gradient-to-r from-blue-900 to-blue-950 text-center text-white">
   <h1 className="text-4xl md:text-5xl font-bold mb-6">
     Siap Transformasi Sekolah Anda?
@@ -500,6 +504,76 @@ function LandingPage() {
   </div>
 </div>
       </div>
+       <footer className="bg-gradient-to-r from-blue-950 to-blue-900 text-white py-16">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-10">
+
+         
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Aduca</h2>
+          <p className="text-gray-300 mb-6">
+            Sistem Manajemen Sekolah terintegrasi untuk transformasi
+            digital pendidikan Indonesia.
+          </p>
+
+          
+          <div className="flex gap-4">
+            <div className="bg-white/10 p-3 rounded-full hover:bg-white hover:text-blue-900 transition cursor-pointer">
+              <FaFacebookF />
+            </div>
+            <div className="bg-white/10 p-3 rounded-full hover:bg-white hover:text-blue-900 transition cursor-pointer">
+              <FaInstagram />
+            </div>
+            <div className="bg-white/10 p-3 rounded-full hover:bg-white hover:text-blue-900 transition cursor-pointer">
+              <FaYoutube />
+            </div>
+            <div className="bg-white/10 p-3 rounded-full hover:bg-white hover:text-blue-900 transition cursor-pointer">
+              <FaLinkedinIn />
+            </div>
+          </div>
+        </div>
+
+          
+        <div>
+          <h3 className="font-semibold mb-4">Menu</h3>
+          <ul className="space-y-2 text-gray-300">
+            <li>Beranda</li>
+            <li>Tentang</li>
+            <li>Modul</li>
+            <li>Harga</li>
+            <li>Dokumentasi</li>
+          </ul>
+        </div>
+
+       
+        <div>
+          <h3 className="font-semibold mb-4">Paket Harga</h3>
+          <ul className="space-y-2 text-gray-300">
+            <li>Paket Standar</li>
+            <li>Paket Absensi</li>
+            <li>Add-on RFID</li>
+            <li>Konsultasi Gratis</li>
+          </ul>
+        </div>
+
+        
+        <div>
+          <h3 className="font-semibold mb-4">Legal</h3>
+          <ul className="space-y-2 text-gray-300">
+            <li>Kebijakan Privasi</li>
+            <li>Syarat & Ketentuan</li>
+            <li>FAQ</li>
+            <li>Support</li>
+          </ul>
+        </div>
+      </div>
+
+       
+      <div className="border-t border-white/10 mt-10 pt-6 text-center text-gray-400 text-sm">
+        © 2026 Aduca. All Rights Reserved. <br />
+        Kerjasama dengan: AmbaMidtrans & NgawiBRIAPI
+      </div>
+    </footer>
+  
     </div>
   );
 }
