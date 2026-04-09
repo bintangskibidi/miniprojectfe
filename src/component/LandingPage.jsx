@@ -772,11 +772,50 @@ function LandingPage() {
         <div>
           <h3 className="font-semibold mb-4">Menu</h3>
           <ul className="space-y-2 text-gray-300">
-            <li>Beranda</li>
-            <li>Tentang</li>
-            <li>Modul</li>
-            <li>Harga</li>
-            <li>Dokumentasi</li>
+            <li
+            onClick={scrollToTop}
+            className="cursor-pointer"
+          >
+            Beranda
+          </li>
+
+          <li
+            onClick={scrollToTentang}
+            className="cursor-pointer"
+          >
+            Tentang
+          </li>
+
+          <li
+            onClick={scrollToModul}
+            className="cursor-pointer"
+          >
+            Modul
+          </li>
+          <li
+            onClick={scrollToHarga}
+            className="cursor-pointer"
+          >
+            Harga
+          </li>
+          <li
+            onClick={scrollToKerjasama}
+            className="cursor-pointer"
+          >
+            Kerjasama
+          </li>
+          <li
+            onClick={scrollToDokumentasi}
+            className="cursor-pointer"
+          >
+            Dokumentasi
+          </li>
+          <li
+            onClick={scrollToKontak}
+            className="cursor-pointer"
+          >
+            Kontak
+          </li>
           </ul>
         </div>
 
@@ -784,10 +823,14 @@ function LandingPage() {
         <div>
           <h3 className="font-semibold mb-4">Paket Harga</h3>
           <ul className="space-y-2 text-gray-300">
-            <li>Paket Standar</li>
-            <li>Paket Absensi</li>
-            <li>Add-on RFID</li>
-            <li>Konsultasi Gratis</li>
+            <li onClick={scrollToHarga}
+            className="cursor-pointer">Paket Standar</li>
+            <li onClick={scrollToHarga}
+            className="cursor-pointer">Paket Absensi</li>
+            <li onClick={scrollToHarga}
+            className="cursor-pointer">Add-on RFID</li>
+            <li onClick={scrollToHarga}
+            className="cursor-pointer">Konsultasi Gratis</li>
           </ul>
         </div>
 
