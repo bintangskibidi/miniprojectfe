@@ -8,16 +8,19 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/solid";
 import {
-  FaUserGraduate,
-  FaBell,
-  FaChartLine,
-  FaDollarSign,
-  FaCalendarAlt,
-  FaFileAlt,
+    FaUserGraduate,
+  FaChalkboardTeacher,
+  FaMoneyBillWave,
+  FaBookOpen,
+  FaFingerprint,
+  FaCogs,
+  FaSchool,
   FaFacebookF,
   FaInstagram,
   FaYoutube,
   FaLinkedinIn,
+  FaClipboardList,
+
 } from "react-icons/fa";
 
 function LandingPage() {
@@ -138,17 +141,19 @@ function LandingPage() {
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12 ">
           EduSys menghadirkan berbagai fitur unggulan untuk membantu sekolah dalam mengelola administrasi, akademik, dan keuangan secara terintegrasi, efisien, dan modern dalam satu platform.
         </p>
-        <div className="grid md:grid-cols-3 -my-10 gap-8">
+        <div className="grid md:grid-cols-4 -my-10 gap-8">
           {[
             { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
-            { icon: <FaBell />, title: "Notifikasi" },
-            { icon: <FaChartLine />, title: "Analitik" },
-            { icon: <FaDollarSign />, title: "Keuangan" },
-            { icon: <FaCalendarAlt />, title: "Jadwal" },
-            { icon: <FaFileAlt />, title: "Raport" },
+            { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
+            { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
+            { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
+            { icon: <FaFingerprint />, title: "Absensi RFID" },
+            { icon: <FaCogs />, title: "Manajemen Aplikasi" },
+            { icon: <FaSchool />, title: "manajemen sekolah" },
+            { icon: <FaClipboardList />, title: "PPDB online" },
           ].map((item, i) => (
             <div key={i} className="bg-white p-6 rounded-2xl shadow hover:shadow-xl hover:-translate-y-2 transition border border-orange-300">
-              <div className="text-orange-500 text-4xl mb-4 text-center">{item.icon}</div>
+              <div className="text-orange-500 text-4xl mb-4 text-center mx-25">{item.icon}</div>
               <h2 className="text-xl font-bold text-blue-900 text-center mb-2">{item.title}</h2>
               <p className="text-gray-600 text-center">Sistem modern untuk mendukung aktivitas sekolah lebih efisien.</p>
             </div>
