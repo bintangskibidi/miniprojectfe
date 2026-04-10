@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/ambabord" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
