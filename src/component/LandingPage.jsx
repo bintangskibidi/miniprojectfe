@@ -215,6 +215,7 @@ function LandingPage() {
       </div>
 
       {/* MODUL */}
+ 
       <div id="Modul" className="px-12 py-12 bg-blue-50">
         <h1 className="text-4xl py-2 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-5">
           Fitur Unggulan
@@ -257,6 +258,28 @@ function LandingPage() {
 ))}
             </div>
       </div>
+ 
+      <div className="grid md:grid-cols-4 -my-10 gap-8">
+  {[
+    { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
+    { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
+    { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
+    { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
+    { icon: <FaFingerprint />, title: "Absensi RFID" },
+    { icon: <FaCogs />, title: "Manajemen Aplikasi" },
+    { icon: <FaSchool />, title: "Manajemen Sekolah" },
+    { icon: <FaClipboardList />, title: "PPDB Online" },
+  ].map((item, i) => (
+    <div
+      key={i}
+      className="bg-white p-6 rounded-xl shadow-md text-center"
+    >
+      <div className="text-3xl mb-3">{item.icon}</div>
+      <h3 className="font-semibold">{item.title}</h3>
+    </div>
+  ))}
+</div>
+ 
 
       {/* HARGA */}
       <div id="Harga" className="py-20 px-12 bg-white">
