@@ -13,7 +13,7 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/solid";
 import {
-    FaUserGraduate,
+  FaUserGraduate,
   FaChalkboardTeacher,
   FaMoneyBillWave,
   FaBookOpen,
@@ -25,7 +25,6 @@ import {
   FaYoutube,
   FaLinkedinIn,
   FaClipboardList,
-
 } from "react-icons/fa";
 
 function LandingPage() {
@@ -56,19 +55,19 @@ function LandingPage() {
   };
 
   const handleSubmit = () => {
-  Swal.fire({
-    title: "Yakin ingin mengirim pesan?",
-    text: "Pastikan data anda sudah benar",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Kirim",
-    cancelButtonText: "Batal",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire("Berhasil!", "Pesan anda telah dikirim", "success");
-    }
-  });
-};
+    Swal.fire({
+      title: "Yakin ingin mengirim pesan?",
+      text: "Pastikan data anda sudah benar",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Kirim",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Berhasil!", "Pesan anda telah dikirim", "success");
+      }
+    });
+  };
 
   return (
     <div className="font-sans">
@@ -132,21 +131,27 @@ function LandingPage() {
 
       {/* HERO */}
       <div className="flex flex-col md:flex-row items-center justify-between px-12 py-24 bg-gradient-to-br from-blue-50 to-orange-50">
-        <div className="max-w-xl">
-          <span className="text-sm text-blue-700 font-semibold">
+        <div className="max-w-xl ml-15">
+          <span className="text-lg text-blue-700 font-semibold">
             Trusted School System
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-blue-900 leading-tight mt-3 mb-6">
             Digitalisasi Sekolah Jadi Lebih Mudah
           </h1>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-gray-600 text-xl mb-6">
             Kelola administrasi, siswa, dan keuangan dalam satu platform modern.
           </p>
           <div className="flex gap-4">
-            <button className="bg-orange-500 text-white px-6 py-3 rounded-xl shadow hover:bg-orange-600 transition" onClick={scrollToHarga}>
+            <button
+              className="bg-orange-500 text-white px-6 py-3 rounded-xl shadow hover:bg-orange-600 transition"
+              onClick={scrollToHarga}
+            >
               Lihat Paket
             </button>
-            <button className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition" onClick={scrollToKontak}>
+            <button
+              className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition"
+              onClick={scrollToKontak}
+            >
               Konsultasi Gratis
             </button>
           </div>
@@ -225,37 +230,37 @@ function LandingPage() {
           terintegrasi, efisien, dan modern dalam satu platform.
         </p>
         <div className="grid md:grid-cols-4 -my-10 gap-8">
-         {[
-  { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
-  { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
-  { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
-  { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
-  { icon: <FaFingerprint />, title: "Absensi RFID" },
-  { icon: <FaCogs />, title: "Manajemen Aplikasi" },
-  { icon: <FaSchool />, title: "Manajemen Sekolah" },
-  { icon: <FaClipboardList />, title: "PPDB Online" },
-].map((item, i) => (
-  <div
-    key={i}
-    className="bg-white p-6 rounded-2xl shadow-md border border-orange-300 
+          {[
+            { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
+            { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
+            { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
+            { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
+            { icon: <FaFingerprint />, title: "Absensi RFID" },
+            { icon: <FaCogs />, title: "Manajemen Aplikasi" },
+            { icon: <FaSchool />, title: "Manajemen Sekolah" },
+            { icon: <FaClipboardList />, title: "PPDB Online" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white p-6 rounded-2xl shadow-md border border-orange-300 
                hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 text-center"
-  >
-    <div className="w-14 h-14 mx-auto flex items-center justify-center 
+            >
+              <div
+                className="w-14 h-14 mx-auto flex items-center justify-center 
                     bg-gradient-to-r from-blue-800 to-orange-500 
-                    text-white rounded-full text-2xl mb-4 shadow-md">
-      {item.icon}
-    </div>
+                    text-white rounded-full text-2xl mb-4 shadow-md"
+              >
+                {item.icon}
+              </div>
 
-    <h3 className="text-lg font-bold text-blue-900">
-      {item.title}
-    </h3>
+              <h3 className="text-lg font-bold text-blue-900">{item.title}</h3>
 
-    <p className="text-gray-500 text-sm mt-2">
-      Fitur untuk membantu pengelolaan sekolah secara efisien.
-    </p>
-  </div>
-))}
+              <p className="text-gray-500 text-sm mt-2">
+                Fitur untuk membantu pengelolaan sekolah secara efisien.
+              </p>
             </div>
+          ))}
+        </div>
       </div>
 
       {/* HARGA */}
@@ -562,8 +567,9 @@ function LandingPage() {
               ></textarea>
             </div>
             <button
-            onClick={handleSubmit} 
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+              onClick={handleSubmit}
+              className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+            >
               Kirim Pesan
             </button>
           </div>
