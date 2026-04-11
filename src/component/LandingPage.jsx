@@ -1,5 +1,9 @@
 import React from "react";
-import EduSys from "../assets/EduSys.png";
+import Aduca from "../assets/Aduca.png";
+import ManajemenSiswa from "../assets/ManajemenSiswa.png";
+import KeuanganSekolah from "../assets/KeuanganSekolah.png";
+import Jadwal from "../assets/Jadwal.png";
+import Laporan from "../assets/Laporan.png";
 import "remixicon/fonts/remixicon.css";
 import Swal from "sweetalert2";
 
@@ -71,7 +75,7 @@ function LandingPage() {
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-12 py-4 bg-white shadow-sm fixed top-0 left-0 w-full z-50">
         <div className="flex items-center gap-2 text-2xl font-bold text-blue-800">
-          <img src={EduSys} alt="logo" className="h-10 w-auto" />
+          <img src={Aduca} alt="logo" className="h-10 w-auto" />
           <span>Aduca</span>
         </div>
         <ul className="flex gap-8 text-gray-600 font-medium">
@@ -139,18 +143,18 @@ function LandingPage() {
             Kelola administrasi, siswa, dan keuangan dalam satu platform modern.
           </p>
           <div className="flex gap-4">
-            <button className="bg-orange-500 text-white px-6 py-3 rounded-xl shadow hover:bg-orange-600 transition">
-              Mulai Sekarang
+            <button className="bg-orange-500 text-white px-6 py-3 rounded-xl shadow hover:bg-orange-600 transition" onClick={scrollToHarga}>
+              Lihat Paket
             </button>
-            <button className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition">
-              <a href="/login">Lihat Demo</a>
+            <button className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition" onClick={scrollToKontak}>
+              Konsultasi Gratis
             </button>
           </div>
         </div>
         <div className="mt-10 md:mt-0 p-4">
           <img
-            src={EduSys}
-            alt="EduSys"
+            src={Aduca}
+            alt="Aduca"
             className="w-[400px] rounded-xl mix-blend-multiply"
           />
         </div>
@@ -216,24 +220,42 @@ function LandingPage() {
           Fitur Unggulan
         </h1>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12 ">
-          EduSys menghadirkan berbagai fitur unggulan untuk membantu sekolah
+          Aduca menghadirkan berbagai fitur unggulan untuk membantu sekolah
           dalam mengelola administrasi, akademik, dan keuangan secara
           terintegrasi, efisien, dan modern dalam satu platform.
         </p>
         <div className="grid md:grid-cols-4 -my-10 gap-8">
-          {[
-            { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
-            { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
-            { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
-            { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
-            { icon: <FaFingerprint />, title: "Absensi RFID" },
-            { icon: <FaCogs />, title: "Manajemen Aplikasi" },
-            { icon: <FaSchool />, title: "manajemen sekolah" },
-            { icon: <FaClipboardList />, title: "PPDB online" },
-          ].map((item, i) => (
+         {[
+  { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
+  { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
+  { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
+  { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
+  { icon: <FaFingerprint />, title: "Absensi RFID" },
+  { icon: <FaCogs />, title: "Manajemen Aplikasi" },
+  { icon: <FaSchool />, title: "Manajemen Sekolah" },
+  { icon: <FaClipboardList />, title: "PPDB Online" },
+].map((item, i) => (
+  <div
+    key={i}
+    className="bg-white p-6 rounded-2xl shadow-md border border-orange-300 
+               hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 text-center"
+  >
+    <div className="w-14 h-14 mx-auto flex items-center justify-center 
+                    bg-gradient-to-r from-blue-800 to-orange-500 
+                    text-white rounded-full text-2xl mb-4 shadow-md">
+      {item.icon}
+    </div>
+
+    <h3 className="text-lg font-bold text-blue-900">
+      {item.title}
+    </h3>
+
+    <p className="text-gray-500 text-sm mt-2">
+      Fitur untuk membantu pengelolaan sekolah secara efisien.
+    </p>
+  </div>
+))}
             </div>
-          ))}
-        </div>
       </div>
 
       {/* HARGA */}
@@ -377,7 +399,7 @@ function LandingPage() {
         </h1>
 
         <p className="text-gray-600 max-w-2xl mx-auto text-center mb-16">
-          Berikut adalah tampilan sistem EduSys dalam mendukung digitalisasi
+          Berikut adalah tampilan sistem Aduca dalam mendukung digitalisasi
           sekolah, mulai dari manajemen siswa, keuangan, hingga laporan secara
           real-time.
         </p>
@@ -387,22 +409,22 @@ function LandingPage() {
             {
               title: "Manajemen Siswa",
               desc: "Kelola data siswa dengan mudah dan terstruktur.",
-              img: EduSys,
+              img: ManajemenSiswa,
             },
             {
               title: "Keuangan Sekolah",
               desc: "Pantau pembayaran dan laporan keuangan secara real-time.",
-              img: EduSys,
+              img: KeuanganSekolah,
             },
             {
               title: "Jadwal Kegiatan",
               desc: "Atur jadwal kelas dan kegiatan sekolah dengan rapi.",
-              img: EduSys,
+              img: Jadwal,
             },
             {
               title: "Laporan & Raport",
               desc: "Lihat, unduh, dan cetak raport siswa dengan cepat.",
-              img: EduSys,
+              img: Laporan,
             },
           ].map((item, i) => (
             <div

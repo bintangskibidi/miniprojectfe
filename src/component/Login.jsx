@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Tambahkan ini untuk navigasi
-import logo from "../assets/EduSys.png"; 
+import logo from "../assets/Aduca.png"; 
 import { RiEyeLine, RiEyeOffLine, RiLoginBoxLine } from "@remixicon/react";
 import Swal from 'sweetalert2';
 
@@ -16,7 +16,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     // Validasi data spesifik sesuai permintaan Anda
-    if (formData.email !== "nabil@gmail.com" || formData.password !== "password123") {
+    if (formData.email !== "admin@gmail.com" || formData.password !== "123456") {
       Swal.fire({
         icon: "error",
         title: "Login Gagal",
@@ -44,7 +44,7 @@ export default function LoginPage() {
           position: "center",
           icon: "success",
           title: "Berhasil Login",
-          text: "Selamat datang kembali di EduSys!",
+          text: "Selamat datang kembali di Aduca!",
           showConfirmButton: false,
           timer: 1500,
           customClass: {
@@ -54,7 +54,7 @@ export default function LoginPage() {
 
        
         setTimeout(() => {
-          navigate("/Dashboard");
+          navigate("/dashboard");
         }, 1500);
 
       } else {
@@ -79,7 +79,7 @@ export default function LoginPage() {
         <div className="relative z-10 text-center">
           <img src={logo} alt="Logo" className="w-30 mx-auto mb-8 drop-shadow-2xl animate-float" />
           <h1 className="text-4xl font-extrabold mb-4 tracking-tight">
-            Aduca <span className="text-orange-300">||</span> EduSys
+            Aduca <span className="text-orange-300">||</span> Aduca
           </h1>
           <div className="h-1 w-20 bg-orange-400 mx-auto mb-6 rounded-full"></div>
           <p className="text-xl font-light italic opacity-90">
@@ -166,7 +166,7 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-8 text-center text-xs text-gray-400 uppercase tracking-widest">
-            © 2026 EduSys Management
+            © 2026 Aduca Management
           </p>
         </div>
       </div>

@@ -8,7 +8,7 @@ import {
   FaCalendarAlt,
   FaFileAlt,
 } from "react-icons/fa";
-import EduSys from "../assets/EduSys.png";
+import Aduca from "../assets/Aduca.png";
 
 const Dashboard = () => {
   const menu = [
@@ -30,13 +30,13 @@ const Dashboard = () => {
         
         <div className="flex items-center gap-3 text-white">
           <img
-            src={EduSys}
+            src={Aduca}
             alt="logo"
             className="h-12 w-12 bg-white p-1 rounded-xl"
           />
           <div>
-            <h1 className="text-xl font-bold">SMP Ngawi</h1>
-            <p className="text-sm opacity-80">Sistem Manajemen Jomok</p>
+            <h1 className="text-xl font-bold">Aduca</h1>
+            <p className="text-sm opacity-80">Sistem Manajemen Digital</p>
           </div>
         </div>
 
