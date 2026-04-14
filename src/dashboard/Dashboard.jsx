@@ -70,7 +70,7 @@ const Dashboard = () => {
     {
       icon: <FaSchool />,
       title: "Manajemen Sekolah",
-      path: "/manajemen-sekolah",
+      path: "/dashboard/profilesekolah",
     },
     { icon: <FaClipboardList />, title: "PPDB Online", path: "/ppdb" },
   ];
