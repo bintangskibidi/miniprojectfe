@@ -8,6 +8,7 @@ import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
 import ManajemenKeuangan from "./dashboard/manajemenKeuangan/ManajemenKeuangan";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan"
+import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran"
 import Layout from "./component/sideBar/Layout";
 import "./App.css";
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/mapel" element={<MataPelajaran />} />
 
 <Route path="/dashboard" element={<Layout />}>
   <Route path="siswa" element={<ManajemenSiswa />} />
