@@ -77,7 +77,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col font-sans">
       {/* HEADER */}
-      <div className="flex justify-between items-center px-6 py-6 bg-gradient-to-r from-orange-700 to-indigo-600 shadow-md fixed top-0 left-0 w-full z-50">
+      <div className="flex justify-between items-center px-6 py-2 bg-gradient-to-r from-orange-700 to-indigo-600 shadow-md fixed top-0 left-0 w-full z-50">
         <div className="flex items-center gap-3 text-white">
           <img
             src={Aduca}
@@ -93,7 +93,7 @@ const Dashboard = () => {
 
       {/* CONTENT */}
       <main
-        className="flex-1 pt-28 pb-10"
+        className="flex-1 pt-28 pb-10 my-10"
         style={{
           backgroundColor: "#f8fafc",
           backgroundImage:
