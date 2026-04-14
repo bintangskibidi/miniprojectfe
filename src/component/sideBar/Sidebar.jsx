@@ -29,6 +29,13 @@ const Sidebar = () => {
         items: [{ title: "Data Perpustakaan", path: "/dashboard/perpustakaan" }],
       },
     ],
+    sekolah: [
+      {
+        group: "Manajemen Sekolah",
+        items: [{ title: "Profil Sekolah", path: "/dashboard/profilesekolah" }],
+      },
+    ],
+
     default: [
       {
         group: "Menu Utama",
@@ -38,6 +45,7 @@ const Sidebar = () => {
           { title: "Guru", path: "/dashboard/guru" },
           { title: "Keuangan", path: "/dashboard/keuangan" },
           { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
+          { title: "Perpustakaan", path: "/dashboard/profilesekolah" },
         ],
       },
     ],
@@ -53,6 +61,8 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
     menu = menuConfig.perpustakaan;
+  } else if (location.pathname.startsWith("/dashboard/profilesekolah")) {
+    menu = menuConfig.sekolah
   }
 
   return (

@@ -70,7 +70,7 @@ const Dashboard = () => {
     {
       icon: <FaSchool />,
       title: "Manajemen Sekolah",
-      path: "/manajemen-sekolah",
+      path: "/dashboard/profilesekolah",
     },
     { icon: <FaClipboardList />, title: "PPDB Online", path: "/ppdb" },
   ];
@@ -130,7 +130,7 @@ const Dashboard = () => {
 
       {/* FOOTER */}
       <footer className="mt-auto bg-blue-900 text-gray-200 text-sm py-3 px-6 flex justify-between items-center">
-        <p>© 2024 A-Count. All rights reserved.</p>
+        <p>© 2026 A-Count. All rights reserved.</p>
 
         <button
           onClick={handleLogout}
