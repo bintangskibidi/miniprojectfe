@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./component/landingPage/LandingPage";
+import LandingPage from "./pages/landingPage/LandingPage";
 import Login from "./pages/login/Login";
 import Dashboard from "./dashboard/Dashboard";
 import ProfileSekolah from "./dashboard/manajemenSekolah/ProfileSekolah";
@@ -15,28 +15,23 @@ import "./App.css";
 
 function App() {
   return (
- 
-   <BrowserRouter>
-  <Routes>
-    <Route path="/" element={<LandingPage />} />
-    <Route path="/login" element={<Login />} />
- 
+
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/mapel" element={<MataPelajaran />} />
  
 
     {/* ✅ Layout jadi parent */}
     <Route path="/dashboard" element={<Layout />}>
       {/* halaman utama dashboard */}
-      <Route index element={<Dashboard />} />
+      {/* <Route index element={<Dashboard />} /> */}
 
       <Route path="walikelas" element={<DataWaliKelas />} />
       <Route path="siswa" element={<ManajemenSiswa />} />
       <Route path="guru" element={<ManajemenGuru />} />
+      <Route path="/dashboard/mapel" element={<MataPelajaran />} />
       <Route path="keuangan" element={<ManajemenKeuangan />} />
       <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
       <Route path="profilSekolah" element={<ProfileSekolah />} />

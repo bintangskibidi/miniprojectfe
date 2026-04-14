@@ -1,33 +1,45 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import Aduca from "../../assets/Aduca.png";
+import { useState } from "react";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(null);
 
   const menuConfig = {
     siswa: [
       {
         group: "Manajemen Siswa",
-        items: [{ title: "Data Siswa", path: "/dashboard/siswa" }],
-      },
-      {
-        group: "Manajemen Siswa",
-        items: [{ title: "Wali Kelas", path: "/dashboard/WaliKelas"}]
+        items: [
+          {
+            title: "Dashboard",
+            path: "/dashboard/siswa",
+          },
+          {
+            title: "Kesiswaan",
+            children: [{ title: "Wali Kelas", path: "/dashboard/walikelas" }],
+          },
+        ],
       },
     ],
-  
+
     guru: [
       {
         group: "Manajemen Guru",
-        items: [{ title: "Data Guru", path: "/dashboard/guru" }],
+        items: [
+          {
+            title: "Data Guru",
+            path: "/dashboard/guru",
+          },
+          {
+            title: "Mata Pelajaran", 
+            path: "/dashboard/mapel",
+          },
+        ],
       },
     ],
-    mapel: [
-      {
-        group: "Mata Pelajaran",
-        items: [{ title: "Data mapel", path: "/dashboard/mapel" }],
-      },
-    ],
+    
     keuangan: [
       {
         group: "Manajemen Keuangan",
@@ -37,7 +49,9 @@ const Sidebar = () => {
     perpustakaan: [
       {
         group: "Perpustakaan",
-        items: [{ title: "Data Perpustakaan", path: "/dashboard/perpustakaan" }],
+        items: [
+          { title: "Data Perpustakaan", path: "/dashboard/perpustakaan" },
+        ],
       },
     ],
     sekolah: [
@@ -61,88 +75,138 @@ const Sidebar = () => {
         ],
       },
     ],
- 
   };
 
   let menu = menuConfig.default;
 
-  if (location.pathname.startsWith("/dashboard/siswa")) {
+  if (
+    location.pathname.startsWith("/dashboard/siswa") ||
+    location.pathname.startsWith("/dashboard/walikelas")
+  ) {
     menu = menuConfig.siswa;
-  } else if (location.pathname.startsWith("/dashboard/guru")) {
+  } if (
+    location.pathname.startsWith("/dashboard/guru") ||
+    location.pathname.startsWith("/dashboard/mapel")
+  ) {
     menu = menuConfig.guru;
   } else if (location.pathname.startsWith("/dashboard/keuangan")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
     menu = menuConfig.perpustakaan;
   } else if (location.pathname.startsWith("/dashboard/profilesekolah")) {
-    menu = menuConfig.sekolah
+    menu = menuConfig.sekolah;
   }
-   else if (location.pathname.startsWith("/dashboard/walikelas")) {
-  menu = menuConfig.walikelas;
-}
 
-  return (
-    <div className="w-64 min-h-screen bg-white border-r shadow-sm flex flex-col">
-      
-      {/* LOGO */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b">
-        <div className="w-10 h-10 bg-gradient-to-r from-blue-700 to-orange-500 rounded-xl flex items-center justify-center text-white font-bold">
-          A
-        </div>
-        <div>
-          <h1 className="text-lg font-bold text-blue-900">Aduca</h1>
-          <p className="text-xs text-gray-400">Smart School System</p>
-        </div>
-      </div>
+  const toggleMenu = (title) => {
+    setOpenMenu(openMenu === title ? null : title);
+  };
 
-      {/* MENU */}
-      <div className="flex-1 px-4 py-4">
-        {menu.map((group, i) => (
-          <div key={i} className="mb-6">
-            
-            {/* GROUP TITLE */}
-            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
-              {group.group}
-            </p>
-
-            {/* ITEMS */}
-            {group.items.map((item, j) => {
-              const active = location.pathname === item.path;
-
-              return (
-                <div
-                  key={j}
-                  onClick={() => navigate(item.path)}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition-all duration-200
-                    ${
-                      active
-                        ? "bg-gradient-to-r from-blue-600 to-orange-500 text-white shadow-md"
-                        : "text-gray-600 hover:bg-blue-50 hover:text-blue-700"
-                    }`}
-                >
-                  {/* BULLET / INDICATOR */}
-                  <div
-                    className={`w-2 h-2 rounded-full ${
-                      active ? "bg-white" : "bg-gray-300"
-                    }`}
-                  ></div>
-
-                  <span className="text-sm font-medium">
-                    {item.title}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-
-      {/* FOOTER */}
-      <div className="px-4 py-3 border-t text-xs text-gray-400">
-        © 2026 Aduca
+ return (
+  <div className="w-64 min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col shadow-2xl">
+    
+    {/* LOGO */}
+    <div className="px-6 py-5 border-b border-blue-800 flex items-center gap-3">
+      <img
+        src={Aduca}
+        alt="Aduca Logo"
+        className="w-11 h-11 object-contain bg-white rounded-xl p-1 shadow-md"
+      />
+      <div>
+        <h1 className="text-lg font-bold tracking-wide">Aduca</h1>
+        <p className="text-[10px] text-blue-300">Smart School System</p>
       </div>
     </div>
-  );
-};
+
+    {/* MENU */}
+    <div className="flex-1 px-3 py-4 overflow-y-auto">
+      {menu.map((group, i) => (
+        <div key={i} className="mb-6">
+          
+          {/* GROUP TITLE */}
+          <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider mb-2 px-2">
+            {group.group}
+          </p>
+
+          {group.items.map((item, j) => {
+            const isActive = location.pathname === item.path;
+            const isOpen = openMenu === item.title;
+
+            return (
+              <div key={j} className="mb-1">
+                
+                {/* PARENT */}
+                <div
+                  onClick={() => {
+                    if (item.children) {
+                      toggleMenu(item.title);
+                    } else {
+                      navigate(item.path);
+                    }
+                  }}
+                  className={`flex justify-between items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-300
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg scale-[1.02]"
+                      : "hover:bg-blue-800/70 hover:scale-[1.01]"
+                  }`}
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    {item.title}
+                  </span>
+
+                  {item.children && (
+                    <span
+                      className={`text-xs transition-transform duration-300 ${
+                        isOpen ? "rotate-90" : ""
+                      }`}
+                    >
+                      ▶
+                    </span>
+                  )}
+                </div>
+
+                {/* CHILD */}
+                {item.children && isOpen && (
+                  <div className="ml-3 mt-2 space-y-1 border-l border-blue-700 pl-3">
+                    {item.children.map((child, k) => {
+                      const activeChild =
+                        location.pathname === child.path;
+
+                      return (
+                        <div
+                          key={k}
+                          onClick={() => navigate(child.path)}
+                          className={`px-2 py-1.5 rounded-lg cursor-pointer text-sm transition-all duration-200
+                          ${
+                            activeChild
+                              ? "bg-blue-00 text-blue-900 font-semibold shadow"
+                              : "text-blue-200 hover:bg-blue-800/60 hover:text-white"
+                          }`}
+                        >
+                          {child.title}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+
+    {/* FOOTER */}
+    <div className="px-4 py-4 border-t border-blue-800">
+      <div className="bg-blue-800/60 rounded-xl p-3 text-center text-xs text-blue-200 shadow-inner">
+        © 2026 Aduca <br />
+        <span className="text-[10px] opacity-70">
+          Built with questionable sanity 💀
+        </span>
+      </div>
+    </div>
+  </div>
+);
+}
 
 export default Sidebar;
