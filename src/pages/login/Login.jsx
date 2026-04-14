@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Tambahkan ini untuk navigasi
-import logo from "../assets/Aduca.png"; 
+import logo from "../../assets/Aduca.png"; 
 import { RiEyeLine, RiEyeOffLine, RiLoginBoxLine } from "@remixicon/react";
 import Swal from 'sweetalert2';
 

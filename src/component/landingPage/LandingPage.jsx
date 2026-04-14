@@ -1,9 +1,9 @@
 import React from "react";
-import Aduca from "../assets/Aduca.png";
-import ManajemenSiswa from "../assets/ManajemenSiswa.png";
-import KeuanganSekolah from "../assets/KeuanganSekolah.png";
-import Jadwal from "../assets/Jadwal.png";
-import Laporan from "../assets/Laporan.png";
+import Aduca from "../../assets/Aduca.png";
+import ManajemenSiswa from "../../assets/ManajemenSiswa.png";
+import KeuanganSekolah from "../../assets/KeuanganSekolah.png";
+import Jadwal from "../../assets/Jadwal.png";
+import Laporan from "../../assets/Laporan.png";
 import "remixicon/fonts/remixicon.css";
 import Swal from "sweetalert2";
 

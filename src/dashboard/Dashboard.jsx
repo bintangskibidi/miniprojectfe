@@ -45,17 +45,25 @@ const Dashboard = () => {
     });
   };
   const menu = [
-    { icon: <FaUserGraduate />, title: "Manajemen Siswa", path: "/siswa" },
-    { icon: <FaChalkboardTeacher />, title: "Manajemen Guru", path: "/guru" },
+    {
+      icon: <FaUserGraduate />,
+      title: "Manajemen Siswa",
+      path: "/dashboard/siswa",
+    },
+    {
+      icon: <FaChalkboardTeacher />,
+      title: "Manajemen Guru",
+      path: "/dashboard/guru",
+    },
     {
       icon: <FaMoneyBillWave />,
       title: "Manajemen Keuangan",
-      path: "/keuangan",
+      path: "/dashboard/keuangan",
     },
     {
       icon: <FaBookOpen />,
       title: "Perpustakaan Digital",
-      path: "/perpustakaan",
+      path: "/dashboard/perpustakaan",
     },
     { icon: <FaFingerprint />, title: "Absensi RFID", path: "/absensi" },
     { icon: <FaCogs />, title: "Manajemen Aplikasi", path: "/aplikasi" },
@@ -99,7 +107,7 @@ const Dashboard = () => {
               {menu.map((item, i) => (
                 <div
                   key={i}
-                  onClick={() => navigate(item.path)} 
+                  onClick={() => navigate(item.path)}
                   className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition duration-300 cursor-pointer border border-gray-100"
                 >
                   {/* ICON */}
