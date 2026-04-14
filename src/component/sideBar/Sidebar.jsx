@@ -10,7 +10,12 @@ const Sidebar = () => {
         group: "Manajemen Siswa",
         items: [{ title: "Data Siswa", path: "/dashboard/siswa" }],
       },
+      {
+        group: "Manajemen Siswa",
+        items: [{ title: "Wali Kelas", path: "/dashboard/WaliKelas"}]
+      },
     ],
+  
     guru: [
       {
         group: "Manajemen Guru",
@@ -29,18 +34,7 @@ const Sidebar = () => {
         items: [{ title: "Data Perpustakaan", path: "/dashboard/perpustakaan" }],
       },
     ],
-    default: [
-      {
-        group: "Menu Utama",
-        items: [
-          { title: "Dashboard", path: "/dashboard" },
-          { title: "Siswa", path: "/dashboard/siswa" },
-          { title: "Guru", path: "/dashboard/guru" },
-          { title: "Keuangan", path: "/dashboard/keuangan" },
-          { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
-        ],
-      },
-    ],
+     
   };
 
   let menu = menuConfig.default;
@@ -54,6 +48,9 @@ const Sidebar = () => {
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
     menu = menuConfig.perpustakaan;
   }
+   else if (location.pathname.startsWith("/dashboard/walikelas")) {
+  menu = menuConfig.walikelas;
+}
 
   return (
     <div className="w-64 min-h-screen bg-white border-r shadow-sm flex flex-col">
