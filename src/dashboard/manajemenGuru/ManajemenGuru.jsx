@@ -103,7 +103,60 @@ const ManajemenGuru = () => {
 
         <Bar data={data} options={options} />
       </div>
+      <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
+        <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
+        <h2 className="font-semibold text-gray-700 mb-4">
+          📅 Jadwal Mingguan
+        </h2>
+        <div className="card-body p-0">
+          <div className="table-responsive ">
+            <table className="table table-bordered mb-0 table-hover">
+              <thead className="table-light">
+                <tr className="bg-blue-200">
+                  <th>Hari</th>
+                  <th>Jam</th>
+                  <th>Mapel</th>
+                  <th>Guru</th>
+                  <th>Kelas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Senin</td>
+                  <td>06:00-10:00</td>
+                  <td>Bahasa Indonesia</td>
+                  <td>Sakti Wicaksono</td>
+                  <td>X TKJ</td>
+                </tr>
+                <tr>
+                  <td>Senin</td>
+                  <td>06:00-10:00</td>
+                  <td>Bahasa Indonesia</td>
+                  <td>Sakti Wicaksono</td>
+                  <td>X TKJ</td>
+                </tr>
+                <tr>
+                  <td>Senin</td>
+                  <td>06:00-10:00</td>
+                  <td>Bahasa Indonesia</td>
+                  <td>Sakti Wicaksono</td>
+                  <td>X TKJ</td>
+                </tr>
+                <tr>
+                  <td>Senin</td>
+                  <td>06:00-10:00</td>
+                  <td>Bahasa Indonesia</td>
+                  <td>Sakti Wicaksono</td>
+                  <td>X TKJ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
     </div>
+    
   );
 };
 
