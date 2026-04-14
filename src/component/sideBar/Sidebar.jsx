@@ -22,6 +22,12 @@ const Sidebar = () => {
         items: [{ title: "Data Guru", path: "/dashboard/guru" }],
       },
     ],
+    mapel: [
+      {
+        group: "Mata Pelajaran",
+        items: [{ title: "Data mapel", path: "/dashboard/mapel" }],
+      },
+    ],
     keuangan: [
       {
         group: "Manajemen Keuangan",
@@ -34,7 +40,21 @@ const Sidebar = () => {
         items: [{ title: "Data Perpustakaan", path: "/dashboard/perpustakaan" }],
       },
     ],
-     
+ 
+    default: [
+      {
+        group: "Menu Utama",
+        items: [
+          { title: "Dashboard", path: "/dashboard" },
+          { title: "Siswa", path: "/dashboard/siswa" },
+          { title: "Guru", path: "/dashboard/guru" },
+          { title: "Mapel", path: "/dashboard/mapel" },
+          { title: "Keuangan", path: "/dashboard/keuangan" },
+          { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
+        ],
+      },
+    ],
+ 
   };
 
   let menu = menuConfig.default;
