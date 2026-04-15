@@ -120,7 +120,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col shadow-2xl">
+    <div
+      className="w-64 h-screen fixed top-0 left-0 z-50 
+bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 
+text-white flex flex-col shadow-2xl"
+    >
       {/* LOGO */}
       <div className="px-6 py-5 border-b border-blue-800 flex items-center gap-3">
         <img
@@ -183,8 +187,7 @@ const Sidebar = () => {
                   {item.children && isOpen && (
                     <div className="ml-3 mt-2 space-y-1 border-l border-blue-700 pl-3">
                       {item.children.map((child, k) => {
-                        const activeChild =
-                          location.pathname === child.path;
+                        const activeChild = location.pathname === child.path;
 
                         return (
                           <div
@@ -210,13 +213,20 @@ const Sidebar = () => {
         ))}
       </div>
 
+      <div className="px-4 mt-3">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg 
+          bg-blue-500 hover:bg-blue-700 transition text-sm"
+        >
+          ← Kembali
+        </button>
+      </div>
+
       {/* FOOTER */}
       <div className="px-4 py-4 border-t border-blue-800">
-        <div className="bg-blue-800/60 rounded-xl p-3 text-center text-xs text-blue-200 shadow-inner">
-          © 2026 Aduca <br />
-          <span className="text-[10px] opacity-70">
-            Built with questionable sanity 💀
-          </span>
+        <div className="bg-blue-800/60 rounded-xl p-3 text-center text-xs text-blue-200">
+          © 2026 Aduca
         </div>
       </div>
     </div>

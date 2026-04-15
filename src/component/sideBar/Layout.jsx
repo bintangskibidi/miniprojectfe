@@ -3,10 +3,10 @@ import Sidebar from "./Sidebar";
 
 const DashboardLayout = () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex">
       <Sidebar />
 
-      <div className="flex-1 p-6">
+      <div className="ml-64 flex-1">
         <Outlet />
       </div>
     </div>
