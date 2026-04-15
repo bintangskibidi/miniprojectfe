@@ -18,7 +18,11 @@ const Sidebar = () => {
           },
           {
             title: "Kesiswaan",
-            children: [{ title: "Wali Kelas", path: "/dashboard/walikelas" }],
+            children: [
+              { title: "Wali Kelas", path: "/dashboard/walikelas" },
+              { title: "Data Kelas", path: "/dashboard/datakelas" },
+              { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
+            ],
           },
         ],
       },
@@ -33,19 +37,20 @@ const Sidebar = () => {
             path: "/dashboard/guru",
           },
           {
-            title: "Mata Pelajaran", 
+            title: "Mata Pelajaran",
             path: "/dashboard/mapel",
           },
         ],
       },
     ],
-    
+
     keuangan: [
       {
         group: "Manajemen Keuangan",
         items: [{ title: "Data Keuangan", path: "/dashboard/keuangan" }],
       },
     ],
+
     perpustakaan: [
       {
         group: "Perpustakaan",
@@ -54,10 +59,15 @@ const Sidebar = () => {
         ],
       },
     ],
+
     sekolah: [
       {
         group: "Manajemen Sekolah",
         items: [{ title: "Profil Sekolah", path: "/dashboard/profilesekolah" }],
+      },
+      {
+        group: "",
+        items: [{ title: "Setting Lokasi", path: "/dashboard/settinglokasi" }],
       },
     ],
 
@@ -71,7 +81,10 @@ const Sidebar = () => {
           { title: "Mapel", path: "/dashboard/mapel" },
           { title: "Keuangan", path: "/dashboard/keuangan" },
           { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
-          { title: "Perpustakaan", path: "/dashboard/profilesekolah" },
+          { title: "Profile Sekolah", path: "/dashboard/profilesekolah" },
+          { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
+          { title: "Kelas", path: "/dashboard/datakelas" },
+          { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
         ],
       },
     ],
@@ -81,10 +94,12 @@ const Sidebar = () => {
 
   if (
     location.pathname.startsWith("/dashboard/siswa") ||
-    location.pathname.startsWith("/dashboard/walikelas")
+    location.pathname.startsWith("/dashboard/walikelas") ||
+    location.pathname.startsWith("/dashboard/datakelas") ||
+    location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
     menu = menuConfig.siswa;
-  } if (
+  } else if (
     location.pathname.startsWith("/dashboard/guru") ||
     location.pathname.startsWith("/dashboard/mapel")
   ) {
@@ -93,7 +108,10 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
     menu = menuConfig.perpustakaan;
-  } else if (location.pathname.startsWith("/dashboard/profilesekolah")) {
+  } else if (
+    location.pathname.startsWith("/dashboard/profilesekolah") ||
+    location.pathname.startsWith("/dashboard/settinglokasi")
+  ) {
     menu = menuConfig.sekolah;
   }
 
@@ -101,112 +119,108 @@ const Sidebar = () => {
     setOpenMenu(openMenu === title ? null : title);
   };
 
- return (
-  <div className="w-64 min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col shadow-2xl">
-    
-    {/* LOGO */}
-    <div className="px-6 py-5 border-b border-blue-800 flex items-center gap-3">
-      <img
-        src={Aduca}
-        alt="Aduca Logo"
-        className="w-11 h-11 object-contain bg-white rounded-xl p-1 shadow-md"
-      />
-      <div>
-        <h1 className="text-lg font-bold tracking-wide">Aduca</h1>
-        <p className="text-[10px] text-blue-300">Smart School System</p>
+  return (
+    <div className="w-64 min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col shadow-2xl">
+      {/* LOGO */}
+      <div className="px-6 py-5 border-b border-blue-800 flex items-center gap-3">
+        <img
+          src={Aduca}
+          alt="Aduca Logo"
+          className="w-11 h-11 object-contain bg-white rounded-xl p-1 shadow-md"
+        />
+        <div>
+          <h1 className="text-lg font-bold tracking-wide">Aduca</h1>
+          <p className="text-[10px] text-blue-300">Smart School System</p>
+        </div>
       </div>
-    </div>
 
-    {/* MENU */}
-    <div className="flex-1 px-3 py-4 overflow-y-auto">
-      {menu.map((group, i) => (
-        <div key={i} className="mb-6">
-          
-          {/* GROUP TITLE */}
-          <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider mb-2 px-2">
-            {group.group}
-          </p>
+      {/* MENU */}
+      <div className="flex-1 px-3 py-4 overflow-y-auto">
+        {menu.map((group, i) => (
+          <div key={i} className="mb-6">
+            <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider mb-2 px-2">
+              {group.group}
+            </p>
 
-          {group.items.map((item, j) => {
-            const isActive = location.pathname === item.path;
-            const isOpen = openMenu === item.title;
+            {group.items.map((item, j) => {
+              const isActive = location.pathname === item.path;
+              const isOpen = openMenu === item.title;
 
-            return (
-              <div key={j} className="mb-1">
-                
-                {/* PARENT */}
-                <div
-                  onClick={() => {
-                    if (item.children) {
-                      toggleMenu(item.title);
-                    } else {
-                      navigate(item.path);
-                    }
-                  }}
-                  className={`flex justify-between items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-300
-                  ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg scale-[1.02]"
-                      : "hover:bg-blue-800/70 hover:scale-[1.01]"
-                  }`}
-                >
-                  <span className="text-sm font-medium tracking-wide">
-                    {item.title}
-                  </span>
-
-                  {item.children && (
-                    <span
-                      className={`text-xs transition-transform duration-300 ${
-                        isOpen ? "rotate-90" : ""
-                      }`}
-                    >
-                      ▶
+              return (
+                <div key={j} className="mb-1">
+                  {/* PARENT */}
+                  <div
+                    onClick={() => {
+                      if (item.children) {
+                        toggleMenu(item.title);
+                      } else {
+                        navigate(item.path);
+                      }
+                    }}
+                    className={`flex justify-between items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-300
+                    ${
+                      isActive
+                        ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg scale-[1.02]"
+                        : "hover:bg-blue-800/70 hover:scale-[1.01]"
+                    }`}
+                  >
+                    <span className="text-sm font-medium tracking-wide">
+                      {item.title}
                     </span>
+
+                    {item.children && (
+                      <span
+                        className={`text-xs transition-transform duration-300 ${
+                          isOpen ? "rotate-90" : ""
+                        }`}
+                      >
+                        ▶
+                      </span>
+                    )}
+                  </div>
+
+                  {/* CHILD */}
+                  {item.children && isOpen && (
+                    <div className="ml-3 mt-2 space-y-1 border-l border-blue-700 pl-3">
+                      {item.children.map((child, k) => {
+                        const activeChild =
+                          location.pathname === child.path;
+
+                        return (
+                          <div
+                            key={k}
+                            onClick={() => navigate(child.path)}
+                            className={`px-2 py-1.5 rounded-lg cursor-pointer text-sm transition-all duration-200
+                            ${
+                              activeChild
+                                ? "bg-blue-100 text-blue-900 font-semibold shadow"
+                                : "text-blue-200 hover:bg-blue-800/60 hover:text-white"
+                            }`}
+                          >
+                            {child.title}
+                          </div>
+                        );
+                      })}
+                    </div>
                   )}
                 </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
 
-                {/* CHILD */}
-                {item.children && isOpen && (
-                  <div className="ml-3 mt-2 space-y-1 border-l border-blue-700 pl-3">
-                    {item.children.map((child, k) => {
-                      const activeChild =
-                        location.pathname === child.path;
-
-                      return (
-                        <div
-                          key={k}
-                          onClick={() => navigate(child.path)}
-                          className={`px-2 py-1.5 rounded-lg cursor-pointer text-sm transition-all duration-200
-                          ${
-                            activeChild
-                              ? "bg-blue-00 text-blue-900 font-semibold shadow"
-                              : "text-blue-200 hover:bg-blue-800/60 hover:text-white"
-                          }`}
-                        >
-                          {child.title}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+      {/* FOOTER */}
+      <div className="px-4 py-4 border-t border-blue-800">
+        <div className="bg-blue-800/60 rounded-xl p-3 text-center text-xs text-blue-200 shadow-inner">
+          © 2026 Aduca <br />
+          <span className="text-[10px] opacity-70">
+            Built with questionable sanity 💀
+          </span>
         </div>
-      ))}
-    </div>
-
-    {/* FOOTER */}
-    <div className="px-4 py-4 border-t border-blue-800">
-      <div className="bg-blue-800/60 rounded-xl p-3 text-center text-xs text-blue-200 shadow-inner">
-        © 2026 Aduca <br />
-        <span className="text-[10px] opacity-70">
-          Built with questionable sanity 💀
-        </span>
       </div>
     </div>
-  </div>
-);
-}
+  );
+};
 
 export default Sidebar;
