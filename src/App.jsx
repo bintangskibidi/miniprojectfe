@@ -9,6 +9,9 @@ import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
 import ManajemenKeuangan from "./dashboard/manajemenKeuangan/ManajemenKeuangan";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan"
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran"
+import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi"
+import DataKelas from "./dashboard/manajemenSiswa/DataKelas";
+import TahunAjaran from "./dashboard/manajemenSiswa/TahunAjaran";
 import Layout from "./component/sideBar/Layout";
  
 import "./App.css";
@@ -34,7 +37,11 @@ function App() {
       <Route path="/dashboard/mapel" element={<MataPelajaran />} />
       <Route path="keuangan" element={<ManajemenKeuangan />} />
       <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
-      <Route path="profilSekolah" element={<ProfileSekolah />} />
+      <Route path="profileSekolah" element={<ProfileSekolah />} />
+      <Route path="settinglokasi" element={<SettingLokasi />} />
+      <Route path="datakelas" element={<DataKelas />} />
+      <Route path="tahunajaran" element={<TahunAjaran />} />
+
     </Route>
   </Routes>
 </BrowserRouter>
