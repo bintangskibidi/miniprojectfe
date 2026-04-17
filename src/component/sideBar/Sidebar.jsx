@@ -7,94 +7,108 @@ const Sidebar = () => {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
 
-  const menuConfig = {
-    siswa: [
-      {
-        group: "Manajemen Siswa",
-        items: [
-          {
-            title: "Dashboard",
-            path: "/dashboard/siswa",
-          },
-          {
-            title: "Kesiswaan",
-            children: [
-              { title: "Wali Kelas", path: "/dashboard/walikelas" },
-              { title: "Data Kelas", path: "/dashboard/datakelas" },
-              { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
-            ],
-          },
-        ],
-      },
-    ],
+ const menuConfig = {
+  siswa: [
+    {
+      group: "Manajemen Siswa",
+      items: [
+        {
+          title: "Dashboard",
+          path: "/dashboard/siswa",
+        },
+        {
+          title: "Kesiswaan",
+          children: [
+            { title: "Wali Kelas", path: "/dashboard/walikelas" },
+            { title: "Data Siswa", path: "/dashboard/datasiswa" },
+            { title: "Data Kelas", path: "/dashboard/datakelas" },
+            { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
+          ],
+        },
+        {
+          title: "Kegiatan",
+          children: [
+            {
+              title: "Ekstrakurikuler",
+              path: "/dashboard/ekstrakurikuler",
+            },
+          ],
+        },
+      ],
+    },
+  ],
 
-    guru: [
-      {
-        group: "Manajemen Guru",
-        items: [
-          {
-            title: "Data Guru",
-            path: "/dashboard/guru",
-          },
-          {
-            title: "Mata Pelajaran",
-            path: "/dashboard/mapel",
-          },
-        ],
-      },
-    ],
+  guru: [
+    {
+      group: "Manajemen Guru",
+      items: [
+        {
+          title: "Data Guru",
+          path: "/dashboard/guru",
+        },
+        {
+          title: "Mata Pelajaran",
+          path: "/dashboard/mapel",
+        },
+      ],
+    },
+  ],
 
-    keuangan: [
-      {
-        group: "Manajemen Keuangan",
-        items: [{ title: "Data Keuangan", path: "/dashboard/keuangan" }],
-      },
-    ],
+  keuangan: [
+    {
+      group: "Manajemen Keuangan",
+      items: [{ title: "Data Keuangan", path: "/dashboard/keuangan" }],
+    },
+  ],
 
-    perpustakaan: [
-      {
-        group: "Perpustakaan",
-        items: [
-          { title: "Data Perpustakaan", path: "/dashboard/perpustakaan" },
-        ],
-      },
-    ],
+  perpustakaan: [
+    {
+      group: "Perpustakaan",
+      items: [
+        { title: "Data Perpustakaan", path: "/dashboard/perpustakaan" },
+      ],
+    },
+  ],
 
-    sekolah: [
-      {
-        group: "Manajemen Sekolah",
-        items: [{ title: "Profil Sekolah", path: "/dashboard/profilesekolah" }],
-      },
-      {
-        group: "",
-        items: [{ title: "Setting Lokasi", path: "/dashboard/settinglokasi" }],
-      },
-    ],
+  sekolah: [
+    {
+      group: "Manajemen Sekolah",
+      items: [
+        { title: "Profil Sekolah", path: "/dashboard/profilesekolah" },
+      ],
+    },
+    {
+      group: "",
+      items: [
+        { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
+      ],
+    },
+  ],
 
-    default: [
-      {
-        group: "Menu Utama",
-        items: [
-          { title: "Dashboard", path: "/dashboard" },
-          { title: "Siswa", path: "/dashboard/siswa" },
-          { title: "Guru", path: "/dashboard/guru" },
-          { title: "Mapel", path: "/dashboard/mapel" },
-          { title: "Keuangan", path: "/dashboard/keuangan" },
-          { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
-          { title: "Profile Sekolah", path: "/dashboard/profilesekolah" },
-          { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
-          { title: "Kelas", path: "/dashboard/datakelas" },
-          { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
-        ],
-      },
-    ],
-  };
-
+  default: [
+    {
+      group: "Menu Utama",
+      items: [
+        { title: "Dashboard", path: "/dashboard" },
+        { title: "Siswa", path: "/dashboard/siswa" },
+        { title: "Guru", path: "/dashboard/guru" },
+        { title: "Mapel", path: "/dashboard/mapel" },
+        { title: "Keuangan", path: "/dashboard/keuangan" },
+        { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
+        { title: "Profile Sekolah", path: "/dashboard/profilesekolah" },
+        { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
+        { title: "Kelas", path: "/dashboard/datakelas" },
+        { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
+      ],
+    },
+  ],
+};
   let menu = menuConfig.default;
 
   if (
     location.pathname.startsWith("/dashboard/siswa") ||
     location.pathname.startsWith("/dashboard/walikelas") ||
+    location.pathname.startsWith("/dashboard/datasiswa") ||
     location.pathname.startsWith("/dashboard/datakelas") ||
     location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
