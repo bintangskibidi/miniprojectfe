@@ -110,6 +110,7 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/walikelas") ||
     location.pathname.startsWith("/dashboard/datasiswa") ||
     location.pathname.startsWith("/dashboard/datakelas") ||
+    location.pathname.startsWith("/dashboard/ekstrakurikuler") ||
     location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
     menu = menuConfig.siswa;
@@ -230,7 +231,7 @@ text-white flex flex-col shadow-2xl"
       <div className="px-4 mt-3">
         <button
           onClick={() => navigate("/dashboard")}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg 
+          className="w-full flex items-center gap-2 px-3 py-2 rounded  
           bg-blue-500 hover:bg-blue-700 transition text-sm"
         >
           ← Kembali
