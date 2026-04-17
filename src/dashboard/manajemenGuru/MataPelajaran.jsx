@@ -114,13 +114,13 @@ const MataPelajaran = () => {
                   </td>
 
                   <td className="px-4 py-3 text-sm border border-blue-900 flex gap-2">
-                    <button className="bg-blue-400 hover:bg-blue-500 text-white px-3 py-1 rounded-lg text-xs">
+                    <button className="bg-blue-400 hover:bg-blue-500 text-white px-3 py-1 rounded text-xs">
                       Edit
                     </button>
 
                     <button
                       onClick={() => handleHapus(index)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs"
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
                     >
                       Hapus
                     </button>
