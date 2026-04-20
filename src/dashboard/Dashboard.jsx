@@ -77,7 +77,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col font-sans">
       {/* HEADER */}
-      <div className="flex justify-between items-center px-6 py-2 bg-gradient-to-r from-orange-700 to-indigo-600 shadow-md fixed top-0 left-0 w-full z-50">
+      <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-orange-700 to-indigo-600 shadow-md fixed top-0 left-0 w-full z-50">
         <div className="flex items-center gap-3 text-white">
           <img
             src={Aduca}
@@ -93,32 +93,30 @@ const Dashboard = () => {
 
       {/* CONTENT */}
       <main
-        className="flex-1 pt-28 pb-10 my-10"
+        className="flex-1 pt-28 pb-10 my-5"
         style={{
           backgroundColor: "#f8fafc",
-          backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px)",
+
           backgroundSize: "20px 20px",
         }}
       >
         <div className="flex justify-center">
-          <div className="max-w-7xl w-full px-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="w-full px-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
               {menu.map((item, i) => (
                 <div
                   key={i}
                   onClick={() => navigate(item.path)}
-                  className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition duration-300 cursor-pointer border border-gray-100"
-                >
+                  className="group bg-gray-100 p-4 h-39 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer flex flex-col justify-center items-center">
                   {/* ICON */}
-                  <div className="flex justify-center mb-4">
-                    <div className="bg-indigo-100 text-indigo-600 p-4 rounded-full text-3xl group-hover:scale-110 transition">
+                  <div className="flex justify-center mb-2">
+                    <div className="bg-indigo-100 text-indigo-600 p-1 rounded-full text-5xl group-hover:scale-110 transition">
                       {item.icon}
                     </div>
                   </div>
 
                   {/* TITLE */}
-                  <h2 className="text-md font-semibold text-gray-700 text-center group-hover:text-indigo-600 transition">
+                  <h2 className="text-md font-medium text-gray-600 text-center leading-tight">
                     {item.title}
                   </h2>
                 </div>
@@ -129,12 +127,12 @@ const Dashboard = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="mt-auto bg-blue-900 text-gray-200 text-sm py-3 px-6 flex justify-between items-center">
+      <footer className="mt-auto bg-blue-900 text-gray-200 text-sm py-2 px-6 flex justify-between items-center">
         <p>© 2024 A-Count. All rights reserved.</p>
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
         >
           Logout
         </button>
