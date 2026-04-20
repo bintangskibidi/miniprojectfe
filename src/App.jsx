@@ -21,6 +21,7 @@ import Layout from "./component/sideBar/Layout";
 import "./App.css";
 import JadwalMengajar from "./dashboard/manajemenGuru/JadwalMengajar";
 import DataJurusan from "./dashboard/manajemenSiswa/DataJurusan";
+import KenaikanKelas from "./dashboard/manajemenSiswa/KenaikanKelas";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
       <Route path="/dashboard/mapel" element={<MataPelajaran />} />
       <Route path="/dashboard/JadwalMengajar" element={<JadwalMengajar />} />
       <Route path="/dashboard/datajurusan" element={<DataJurusan />} />
+      <Route path="/dashboard/kenaikankelas" element={<KenaikanKelas />} />
       <Route path="keuangan" element={<ManajemenKeuangan />} />
       <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
       <Route path="profileSekolah" element={<ProfileSekolah />} />
