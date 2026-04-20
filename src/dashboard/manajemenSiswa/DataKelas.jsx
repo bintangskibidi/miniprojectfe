@@ -3,11 +3,22 @@ import Swal from "sweetalert2";
 
 const DataKelas = () => {
   const [data, setData] = useState([
-    { id: 1, kode: "KLS001", nama: "X RPL 1" },
+    { id: 1, kode: "Alumni", nama: "Alumni" },
+    { id: 2, kode: "3.1", nama: "IX A" },
+    { id: 3, kode: "3.2", nama: "IX B" },
+    { id: 4, kode: "3.3", nama: "IX C" },
+    { id: 5, kode: "1.1", nama: "VII A" },
+    { id: 6, kode: "1.2", nama: "VII B" },
+    { id: 7, kode: "1.3", nama: "VII C" },
+    { id: 8, kode: "2.1", nama: "VIII A" },
+    { id: 9, kode: "2.2", nama: "VIII B" },
+    { id: 10, kode: "2.3", nama: "VIII C" },
   ]);
 
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [entries, setEntries] = useState(10);
 
   const [form, setForm] = useState({
     id: null,
@@ -15,94 +26,121 @@ const DataKelas = () => {
     nama: "",
   });
 
-  // ================= TAMBAH =================
+  // ================= CRUD =================
   const handleTambah = () => {
     setForm({ id: null, kode: "", nama: "" });
     setShowModal(true);
   };
 
-  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm(item);
     setShowModal(true);
   };
 
-  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
-      text: "Data akan dihapus permanen!",
+      text: "Data akan dihapus!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Ya, hapus",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      if (result.isConfirmed) {
+      confirmButtonText: "Hapus",
+    }).then((res) => {
+      if (res.isConfirmed) {
         setData(data.filter((item) => item.id !== id));
         Swal.fire("Berhasil", "Data dihapus", "success");
       }
     });
   };
 
-  // ================= SIMPAN =================
   const handleSubmit = () => {
     if (!form.kode || !form.nama) {
-      Swal.fire("Warning", "Semua field wajib diisi!", "warning");
+      Swal.fire("Warning", "Wajib isi semua!", "warning");
       return;
     }
 
     if (form.id) {
-      setData(data.map((item) => (item.id === form.id ? form : item)));
-      Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+      setData(data.map((d) => (d.id === form.id ? form : d)));
     } else {
       setData([...data, { ...form, id: Date.now() }]);
-      Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
     }
 
     setShowModal(false);
   };
 
-  // ================= SEARCH =================
-  const filteredData = data.filter(
-    (item) =>
-      item.kode.toLowerCase().includes(search.toLowerCase()) ||
-      item.nama.toLowerCase().includes(search.toLowerCase())
+  // ================= FILTER =================
+  const filtered = data.filter(
+    (d) =>
+      d.kode.toLowerCase().includes(search.toLowerCase()) ||
+      d.nama.toLowerCase().includes(search.toLowerCase())
   );
 
+  // ================= PAGINATION =================
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / entries);
+
+  const start = (currentPage - 1) * entries;
+  const end = start + entries;
+
+  const current = filtered.slice(start, end);
+
   return (
-    <div style={{ padding: "20px" }}>
-      {/* HEADER */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "15px",
-        }}
-      >
-        <h3>Data Kelas</h3>
-        <button className="btn btn-primary" onClick={handleTambah}>
-          + Tambah
-        </button>
-      </div>
+    <div className="container-fluid mt-3">
+      <h5 className="mb-3">📘 Data Kelas</h5>
 
-      {/* CARD */}
       <div className="card shadow-sm">
+        {/* HEADER */}
         <div className="card-header d-flex justify-content-between align-items-center">
-          <span>Daftar Kelas</span>
-
-          {/* SEARCH KECIL */}
-          <input
-            type="text"
-            placeholder="Cari..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="form-control"
-            style={{ width: "200px" }}
-          />
+          <strong>📋 Daftar Kelas</strong>
+          <button className="btn btn-primary btn-sm" onClick={handleTambah}>
+            + Tambah
+          </button>
         </div>
 
-        <div className="card-body p-0">
-          <table className="table table-bordered mb-0">
+        {/* TOP CONTROL */}
+        <div className="d-flex justify-content-between align-items-center p-3 flex-wrap gap-2">
+          <div>
+            Tampilkan{" "}
+            <select
+              value={entries}
+              onChange={(e) => {
+                setEntries(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="form-select d-inline w-auto mx-2"
+            >
+              <option>5</option>
+              <option>10</option>
+              <option>25</option>
+            </select>{" "}
+            data
+          </div>
+
+          <div>
+            Cari:
+            <input
+              type="text"
+              className="form-control d-inline w-auto ms-2"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* EXPORT BUTTON (DUMMY UI) */}
+        <div className="px-3 pb-2">
+          <button className="btn btn-outline-secondary btn-sm me-1">Copy</button>
+          <button className="btn btn-outline-secondary btn-sm me-1">CSV</button>
+          <button className="btn btn-outline-secondary btn-sm me-1">Excel</button>
+          <button className="btn btn-outline-secondary btn-sm me-1">PDF</button>
+          <button className="btn btn-outline-secondary btn-sm">Print</button>
+        </div>
+
+        {/* TABLE */}
+        <div className="table-responsive">
+          <table className="table table-striped table-hover mb-0">
             <thead className="table-light">
               <tr>
                 <th>#</th>
@@ -113,28 +151,28 @@ const DataKelas = () => {
             </thead>
 
             <tbody>
-              {filteredData.length === 0 ? (
+              {current.length === 0 ? (
                 <tr>
                   <td colSpan="4" className="text-center">
                     Tidak ada data
                   </td>
                 </tr>
               ) : (
-                filteredData.map((item, index) => (
+                current.map((item, i) => (
                   <tr key={item.id}>
-                    <td>{index + 1}</td>
+                    <td>{start + i + 1}</td>
                     <td>{item.kode}</td>
                     <td>{item.nama}</td>
                     <td>
                       <button
-                        className="btn btn-sm btn-warning me-2"
+                        className="btn btn-sm btn-outline-primary me-1"
                         onClick={() => handleEdit(item)}
                       >
                         ✏️
                       </button>
 
                       <button
-                        className="btn btn-sm btn-danger"
+                        className="btn btn-sm btn-outline-danger"
                         onClick={() => handleHapus(item.id)}
                       >
                         🗑️
@@ -146,69 +184,98 @@ const DataKelas = () => {
             </tbody>
           </table>
         </div>
+
+        {/* FOOTER */}
+        <div className="d-flex justify-content-between align-items-center p-3 flex-wrap">
+          <small>
+            Menampilkan {total === 0 ? 0 : start + 1} sampai{" "}
+            {Math.min(end, total)} dari {total} data
+          </small>
+
+          <div>
+            <button
+              className="btn btn-sm btn-light me-1"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Prev
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                className={`btn btn-sm me-1 ${
+                  currentPage === i + 1
+                    ? "btn-primary"
+                    : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              className="btn btn-sm btn-light"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       {showModal && (
         <>
-          {/* BACKDROP */}
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0,0,0,0.5)",
-              zIndex: 999,
-            }}
-          />
+          <div className="modal-backdrop fade show"></div>
 
-          {/* MODAL */}
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1000,
-              width: "400px",
-            }}
-            className="bg-white p-4 rounded shadow"
-          >
-            <h5 className="mb-3">
-              {form.id ? "Edit" : "Tambah"} Kelas
-            </h5>
+          <div className="modal d-block">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">
+                    {form.id ? "Edit" : "Tambah"} Kelas
+                  </h5>
+                  <button
+                    className="btn-close"
+                    onClick={() => setShowModal(false)}
+                  ></button>
+                </div>
 
-            <input
-              className="form-control mb-2"
-              placeholder="Kode Kelas"
-              value={form.kode}
-              onChange={(e) =>
-                setForm({ ...form, kode: e.target.value })
-              }
-            />
+                <div className="modal-body">
+                  <input
+                    className="form-control mb-2"
+                    placeholder="Kode Kelas"
+                    value={form.kode}
+                    onChange={(e) =>
+                      setForm({ ...form, kode: e.target.value })
+                    }
+                  />
 
-            <input
-              className="form-control mb-3"
-              placeholder="Nama Kelas"
-              value={form.nama}
-              onChange={(e) =>
-                setForm({ ...form, nama: e.target.value })
-              }
-            />
+                  <input
+                    className="form-control"
+                    placeholder="Nama Kelas"
+                    value={form.nama}
+                    onChange={(e) =>
+                      setForm({ ...form, nama: e.target.value })
+                    }
+                  />
+                </div>
 
-            <div className="text-end">
-              <button
-                className="btn btn-secondary me-2"
-                onClick={() => setShowModal(false)}
-              >
-                Batal
-              </button>
-
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                Simpan
-              </button>
+                <div className="modal-footer">
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Batal
+                  </button>
+                  <button className="btn btn-primary" onClick={handleSubmit}>
+                    Simpan
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </>

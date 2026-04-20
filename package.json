@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@remixicon/react": "^4.9.0",
+    "axios": "^1.15.1",
     "bootstrap": "^5.3.8",
     "chart.js": "^4.5.1",
     "lucide-react": "^1.8.0",
