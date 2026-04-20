@@ -34,6 +34,15 @@ const Sidebar = () => {
             },
           ],
         },
+        {
+          title: "E-Raport",
+          children: [
+            {
+              title: "Semester",
+              path: "/dashboard/Semester",
+            },
+          ],
+        },
       ],
     },
   ],
@@ -111,6 +120,8 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/datasiswa") ||
     location.pathname.startsWith("/dashboard/datakelas") ||
     location.pathname.startsWith("/dashboard/ekstrakurikuler") ||
+    location.pathname.startsWith("/dashboard/Semester") ||
+    location.pathname.startsWith("/dashboard/tambah-siswa") ||
     location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
     menu = menuConfig.siswa;

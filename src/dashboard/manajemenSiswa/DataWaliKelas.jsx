@@ -5,7 +5,7 @@ const DataWaliKelas = () => {
   const [data, setData] = useState([
     {
       id: 1,
-      namaKelas: "Ambasatanic 969",
+      namaKelas: "X TKJ",
       namaPegawai: "Andre Nugroho",
       tahunAjaran: "2026/2027",
     },
