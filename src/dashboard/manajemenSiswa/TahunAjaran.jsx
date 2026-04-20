@@ -143,7 +143,7 @@ const TahunAjaran = () => {
                     <td>
                       <button
                         onClick={() => toggleStatus(item)}
-                        className={`px-3 py-1 rounded-lg text-white shadow transition ${
+                        className={`px-3 py-1 rounded text-white shadow transition ${
                           item.status
                             ? "bg-yellow-500 hover:bg-yellow-600"
                             : "bg-blue-500 hover:bg-blue-600"
@@ -227,14 +227,14 @@ const TahunAjaran = () => {
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded-lg bg-gray-400 hover:bg-gray-500 text-white transition"
+                className="px-4 py-2 rounded bg-gray-400 hover:bg-gray-500 text-white transition"
               >
                 Batal
               </button>
 
               <button
                 onClick={handleSubmit}
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow transition"
+                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white shadow transition"
               >
                 Simpan
               </button>
