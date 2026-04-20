@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 
 const DataSiswa = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([
     {
       id: 1,
@@ -26,18 +29,9 @@ const DataSiswa = () => {
     status: "",
   });
 
-  const handleTambah = () => {
-    setForm({
-      id: null,
-      nis: "",
-      nama: "",
-      tglLahir: "",
-      alamat: "",
-      kelas: "",
-      status: "",
-    });
-    setShowModal(true);
-  };
+const handleTambah = () => {
+  navigate("/dashboard/tambah-siswa");
+};
 
   const handleEdit = (item) => {
     setForm(item);

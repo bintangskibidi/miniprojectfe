@@ -13,6 +13,8 @@ import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi"
 import DataSiswa from "./dashboard/manajemenSiswa/DataSiswa";
 import DataKelas from "./dashboard/manajemenSiswa/DataKelas";
 import TahunAjaran from "./dashboard/manajemenSiswa/TahunAjaran";
+import Semester from "./dashboard/manajemenSiswa/Semester";
+import Tambahsiswa from "./dashboard/manajemenSiswa/Tambahsiswa";
 import Extrakulikuler from "./dashboard/manajemenSiswa/extrakulikuler"
 import Layout from "./component/sideBar/Layout";
  
@@ -36,6 +38,8 @@ function App() {
 
       <Route path="datasiswa" element={<DataSiswa />} />
       <Route path="walikelas" element={<DataWaliKelas />} />
+      <Route path="Semester" element={<Semester />} />
+      <Route path="/dashboard/tambah-siswa" element={<Tambahsiswa />} />
             <Route path="/dashboard/ekstrakurikuler" element={<Extrakulikuler />} />
 
       <Route path="siswa" element={<ManajemenSiswa />} />

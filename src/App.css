@@ -550,4 +550,20 @@ th, td {
     right: 0;
     border-right-color: var(--border);
   }
+
+  /* FIX INPUT */
+.input {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+  background: #fff;
+}
+
+/* FIX SELECT & TEXTAREA */
+select.input,
+textarea.input {
+  border: 1px solid #ccc;
+  background: #fff;
+}
 }

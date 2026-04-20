@@ -122,7 +122,7 @@ function LandingPage() {
           </li>
         </ul>
         <button
-          className="bg-gradient-to-r from-orange-500 to-blue-800 text-white px-5 py-2 rounded-xl shadow hover:scale-105 transition"
+          className="bg-gradient-to-r from-orange-500 to-blue-800 text-white px-5 py-2 rounded shadow hover:scale-105 transition"
           onClick={scrollToKontak}
         >
           Ajukan Demo
@@ -143,13 +143,13 @@ function LandingPage() {
           </p>
           <div className="flex gap-4">
             <button
-              className="bg-orange-500 text-white px-6 py-3 rounded-xl shadow hover:bg-orange-600 transition"
+              className="bg-orange-500 text-white px-6 py-3 rounded shadow hover:bg-orange-600 transition"
               onClick={scrollToHarga}
             >
               Lihat Paket
             </button>
             <button
-              className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded-xl hover:bg-blue-800 hover:text-white transition"
+              className="border-2 border-blue-800 text-blue-800 px-6 py-3 rounded hover:bg-blue-800 hover:text-white transition"
               onClick={scrollToKontak}
             >
               Konsultasi Gratis
@@ -222,47 +222,51 @@ function LandingPage() {
       {/* MODUL */}
  
       <div id="Modul" className="px-12 py-12 bg-blue-50">
-        <h1 className="text-4xl py-2 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-5">
-          Fitur Unggulan
-        </h1>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12 ">
-          Aduca menghadirkan berbagai fitur unggulan untuk membantu sekolah
-          dalam mengelola administrasi, akademik, dan keuangan secara
-          terintegrasi, efisien, dan modern dalam satu platform.
-        </p>
-        <div className="grid md:grid-cols-4 -my-10 gap-8">
-          {[
-            { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
-            { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
-            { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
-            { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
-            { icon: <FaFingerprint />, title: "Absensi RFID" },
-            { icon: <FaCogs />, title: "Manajemen Aplikasi" },
-            { icon: <FaSchool />, title: "Manajemen Sekolah" },
-            { icon: <FaClipboardList />, title: "PPDB Online" },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="bg-white p-6 rounded-2xl shadow-md border border-orange-300 
-               hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 text-center"
-            >
-              <div
-                className="w-14 h-14 mx-auto flex items-center justify-center 
-                    bg-gradient-to-r from-blue-800 to-orange-500 
-                    text-white rounded-full text-2xl mb-4 shadow-md"
-              >
-                {item.icon}
-              </div>
+  
+  <h1 className="text-4xl py-2 font-bold text-center bg-gradient-to-r from-blue-900 to-orange-500 text-transparent bg-clip-text mb-5">
+    Fitur Unggulan
+  </h1>
 
-              <h3 className="text-lg font-bold text-blue-900">{item.title}</h3>
+  <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+    Aduca menghadirkan berbagai fitur unggulan untuk membantu sekolah
+    dalam mengelola administrasi, akademik, dan keuangan secara
+    terintegrasi, efisien, dan modern dalam satu platform.
+  </p>
 
-              <p className="text-gray-500 text-sm mt-2">
-                Fitur untuk membantu pengelolaan sekolah secara efisien.
-              </p>
-            </div>
-          ))}
+  <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    {[
+      { icon: <FaUserGraduate />, title: "Manajemen Siswa" },
+      { icon: <FaChalkboardTeacher />, title: "Manajemen Guru" },
+      { icon: <FaMoneyBillWave />, title: "Manajemen Keuangan" },
+      { icon: <FaBookOpen />, title: "Perpustakaan Digital" },
+      { icon: <FaFingerprint />, title: "Absensi RFID" },
+      { icon: <FaCogs />, title: "Manajemen Aplikasi" },
+      { icon: <FaSchool />, title: "Manajemen Sekolah" },
+      { icon: <FaClipboardList />, title: "PPDB Online" },
+    ].map((item, i) => (
+      <div
+        key={i}
+        className="bg-white p-6 rounded-2xl shadow-md border border-orange-200 
+        hover:shadow-xl hover:-translate-y-2 transition duration-300 text-center"
+      >
+        <div className="w-14 h-14 mx-auto flex items-center justify-center 
+          bg-gradient-to-r from-blue-800 to-orange-500 
+          text-white rounded-full text-2xl mb-4 shadow-md">
+          {item.icon}
         </div>
+
+        <h3 className="text-lg font-semibold text-blue-900">
+          {item.title}
+        </h3>
+
+        <p className="text-gray-500 text-sm mt-2">
+          Fitur untuk membantu pengelolaan sekolah secara efisien.
+        </p>
       </div>
+    ))}
+  </div>
+
+</div>
 
       {/* HARGA */}
       <div id="Harga" className="py-20 px-12 bg-white">
@@ -297,13 +301,13 @@ function LandingPage() {
               <li>✔️ Backup Otomatis</li>
               <li>✔️ Laporan Sekolah</li>
             </ul>
-            <button className="w-full bg-white text-blue-700 py-2 rounded-lg font-semibold hover:bg-gray-200 active:scale-95 transition">
+            <button className="w-full bg-white text-blue-700 py-2 rounded font-semibold hover:bg-gray-200 active:scale-95 transition">
               Pilih Paket Ini
             </button>
           </div>
 
           {/* ABSENSI */}
-          <div className="bg-white p-8 rounded-2xl shadow border border-orange-300 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95">
+          <div className="bg-white p-8 rounded shadow border border-orange-300 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer active:scale-95">
             <h3 className="text-lg font-semibold mb-4 text-center text-blue-900">
               Paket Absensi
             </h3>
@@ -311,7 +315,7 @@ function LandingPage() {
               Rp 1.000.000
             </h1>
             <p className="text-sm text-center mb-4 text-gray-500">Instalasi</p>
-            <div className="bg-green-100 text-green-700 rounded-lg py-2 text-center mb-6 font-semibold">
+            <div className="bg-green-100 text-green-700 rounded py-2 text-center mb-6 font-semibold">
               Rp 50.000 / bulan
             </div>
             <ul className="space-y-3 text-sm mb-6 text-gray-600">
@@ -320,7 +324,7 @@ function LandingPage() {
               <li>✔️ Laporan Real-time</li>
               <li>✔️ Notifikasi Orang Tua</li>
             </ul>
-            <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 active:scale-95 transition">
+            <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 active:scale-95 transition">
               Info Lengkap
             </button>
           </div>
@@ -339,7 +343,7 @@ function LandingPage() {
               <li>✔️ Integrasi Sistem</li>
               <li>✔️ Cetak Kartu</li>
             </ul>
-            <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 active:scale-95 transition mt-8">
+            <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 active:scale-95 transition mt-8">
               Pilih Add-on
             </button>
           </div>
@@ -469,14 +473,17 @@ function LandingPage() {
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
           <button
-            className="bg-gradient-to-r from-orange-500 to-blue-600 px-6 py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transition"
+            className="bg-gradient-to-r from-orange-500 to-blue-600 px-6 py-3 rounded font-semibold shadow-lg hover:scale-105 transition"
             onClick={scrollToKontak}
           >
             Mulai Sekarang
           </button>
-          <button className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-900 transition">
-            <a href="/login">Lihat Demo</a>
-          </button>
+          <button
+  className="border border-white px-6 py-3 rounded font-semibold hover:bg-white hover:text-blue-900 transition"
+  onClick={() => window.location.href = "/login"}
+>
+  Lihat Demo
+</button>
         </div>
       </div>
 
