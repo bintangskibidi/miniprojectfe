@@ -160,7 +160,7 @@ export default function Ekstrakurikuler() {
   };
 
   const columns = [
-    { name: "#", selector: (row) => row.id, width: "60px" },
+    { name: "No", selector: (row) => row.id, width: "60px" },
     { name: "Nama Ekstrakurikuler", selector: (row) => row.nama },
     { name: "Pembina", selector: (row) => row.pembina },
     { name: "Jadwal", selector: (row) => row.jadwal },

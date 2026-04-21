@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-
 const DataSiswa = () => {
   const navigate = useNavigate();
+
   const [data, setData] = useState([
     {
       id: 1,
@@ -29,9 +29,9 @@ const DataSiswa = () => {
     status: "",
   });
 
-const handleTambah = () => {
-  navigate("/dashboard/tambah-siswa");
-};
+  const handleTambah = () => {
+    navigate("/dashboard/tambah-siswa");
+  };
 
   const handleEdit = (item) => {
     setForm(item);
@@ -72,22 +72,59 @@ const handleTambah = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <div className="d-flex justify-content-between mb-3">
-        <h3>Data Siswa</h3>
-        <button className="btn btn-primary" onClick={handleTambah}>
-          + Tambah
-        </button>
+    <div className="container mt-4">
+      <h4 className="mb-3">📊 Data Siswa</h4>
+
+      {/* FILTER */}
+      <div className="card mb-3 p-3">
+        <div className="d-flex align-items-center gap-2">
+          <label className="fw-bold">Kelas</label>
+          <select className="form-select w-auto">
+            <option>-- Semua Kelas --</option>
+          </select>
+          <button className="btn btn-success">Terapkan</button>
+        </div>
       </div>
 
+      {/* TABLE CARD */}
       <div className="card shadow-sm">
-        <div className="card-header">Daftar Siswa</div>
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <span>📋 Daftar Siswa</span>
 
-        <div className="card-body p-0">
-          <table className="table table-bordered">
-            <thead>
+          <div className="d-flex gap-2">
+             
+            <button className="btn btn-primary btn-sm" onClick={handleTambah}>
+              + Tambah
+            </button>
+          </div>
+        </div>
+
+        <div className="card-body">
+          {/* TOP CONTROL */}
+          <div className="d-flex justify-content-between mb-2">
+            <div>
+              Tampilkan
+              <select className="mx-2 form-select d-inline w-auto">
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+              </select>
+              data
+            </div>
+
+            <input
+              type="text"
+              className="form-control w-auto"
+              placeholder="Cari..."
+            />
+          </div>
+
+
+          {/* TABLE */}
+          <table className="table table-bordered table-hover">
+            <thead className="table-light">
               <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>NIS</th>
                 <th>Nama</th>
                 <th>Tgl Lahir</th>
@@ -120,16 +157,22 @@ const handleTambah = () => {
                   </td>
                   <td>
                     <button
-                      className="btn btn-warning btn-sm me-2"
+                      className="btn btn-outline-primary btn-sm me-1"
+                      onClick={() => handleEdit(item)}
+                    >
+                      👁
+                    </button>
+                    <button
+                      className="btn btn-outline-warning btn-sm me-1"
                       onClick={() => handleEdit(item)}
                     >
                       ✏️
                     </button>
                     <button
-                      className="btn btn-danger btn-sm"
+                      className="btn btn-outline-danger btn-sm"
                       onClick={() => handleHapus(item.id)}
                     >
-                      🗑️
+                      🗑
                     </button>
                   </td>
                 </tr>
@@ -138,106 +181,6 @@ const handleTambah = () => {
           </table>
         </div>
       </div>
-
-      {showModal && (
-        <>
-     <div
-  onClick={() => setShowModal(false)}
-  style={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    zIndex: 999,
-  }}
-/>
-
-          <div
-            className="bg-white p-4 rounded shadow"
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "400px",
-              zIndex: 1000,
-            }}
-          >
-            <h5>{form.id ? "Edit" : "Tambah"} Siswa</h5>
-
-            <input
-              className="form-control mb-2"
-              placeholder="NIS"
-              value={form.nis}
-              onChange={(e) =>
-                setForm({ ...form, nis: e.target.value })
-              }
-            />
-
-            <input
-              className="form-control mb-2"
-              placeholder="Nama"
-              value={form.nama}
-              onChange={(e) =>
-                setForm({ ...form, nama: e.target.value })
-              }
-            />
-
-            <input
-              type="date"
-              className="form-control mb-2"
-              value={form.tglLahir}
-              onChange={(e) =>
-                setForm({ ...form, tglLahir: e.target.value })
-              }
-            />
-
-            <input
-              className="form-control mb-2"
-              placeholder="Alamat"
-              value={form.alamat}
-              onChange={(e) =>
-                setForm({ ...form, alamat: e.target.value })
-              }
-            />
-
-            <input
-              className="form-control mb-2"
-              placeholder="Kelas"
-              value={form.kelas}
-              onChange={(e) =>
-                setForm({ ...form, kelas: e.target.value })
-              }
-            />
-
-            <select
-              className="form-control mb-3"
-              value={form.status}
-              onChange={(e) =>
-                setForm({ ...form, status: e.target.value })
-              }
-            >
-              <option value="">Pilih Status</option>
-              <option value="Aktif">Aktif</option>
-              <option value="Alumni">Alumni</option>
-            </select>
-
-            <div className="text-end">
-              <button
-                className="btn btn-secondary me-2"
-                onClick={() => setShowModal(false)}
-              >
-                Batal
-              </button>
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                Simpan
-              </button>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 };

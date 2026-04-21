@@ -43,6 +43,15 @@ const Sidebar = () => {
             },
           ],
         },
+        {
+          title: "Absensi",
+          children: [
+            {
+              title: "Absensi Harian",
+              path: "/dashboard/Semester",
+            },
+          ],
+        },
       ],
     },
   ],
@@ -58,6 +67,10 @@ const Sidebar = () => {
         {
           title: "Mata Pelajaran",
           path: "/dashboard/mapel",
+        },
+        {
+          title: "Jadwal Mengajar",
+          path: "/dashboard/JadwalMengajar",
         },
       ],
     },
@@ -75,6 +88,7 @@ const Sidebar = () => {
       group: "Perpustakaan",
       items: [
         { title: "Data Perpustakaan", path: "/dashboard/perpustakaan" },
+        { title: "Data Buku", path: "/dashboard/databuku" },
       ],
     },
   ],
@@ -121,6 +135,7 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/datakelas") ||
     location.pathname.startsWith("/dashboard/ekstrakurikuler") ||
     location.pathname.startsWith("/dashboard/Semester") ||
+    location.pathname.startsWith("/dashboard/JadwalMengajar") ||
     location.pathname.startsWith("/dashboard/tambah-siswa") ||
     location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
@@ -133,6 +148,7 @@ const Sidebar = () => {
   } else if (location.pathname.startsWith("/dashboard/keuangan")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
+  } else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
   } else if (
     location.pathname.startsWith("/dashboard/profilesekolah") ||

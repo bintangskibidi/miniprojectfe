@@ -1,75 +1,138 @@
 import React from "react";
-import { 
-  RiGroupLine, 
-  RiMoneyDollarCircleLine, 
-  RiCalendarEventLine, 
-  RiFileChartLine 
+import {
+  RiGroupLine,
+  RiHomeOfficeLine,
+  RiBuildingLine,
+  RiGraduationCapLine,
+  RiLoginBoxLine,
+  RiUserUnfollowLine,
+  RiCalendarEventLine,
 } from "@remixicon/react";
 
-export default function DocumentationSection() {
-  const docs = [
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+
+export default function DashboardSiswa() {
+  // ===== DATA CARD =====
+  const stats = [
     {
-      title: "Manajemen Siswa",
-      desc: "Kelola data siswa dengan mudah dan terstruktur.",
-      icon: <RiGroupLine size={40} />,
-      color: "bg-blue-500",
+      title: "Total Siswa",
+      value: 221,
+      icon: <RiGroupLine size={28} />,
+      color: "from-blue-500 to-blue-600",
     },
     {
-      title: "Keuangan Sekolah",
-      desc: "Pantau pembayaran dan laporan keuangan secara real-time.",
-      icon: <RiMoneyDollarCircleLine size={40} />,
-      color: "bg-green-500",
+      title: "Total Kelas",
+      value: 11,
+      icon: <RiHomeOfficeLine size={28} />,
+      color: "from-blue-500 to-blue-600",
     },
     {
-      title: "Jadwal Kegiatan",
-      desc: "Atur jadwal kelas dan kegiatan sekolah dengan rapi.",
-      icon: <RiCalendarEventLine size={40} />,
-      color: "bg-amber-400",
+      title: "Total Jurusan",
+      value: 3,
+      icon: <RiBuildingLine size={28} />,
+      color: "from-blue-500 to-blue-600",
     },
     {
-      title: "Laporan & Raport",
-      desc: "Lihat, unduh, dan cetak raport siswa dengan cepat.",
-      icon: <RiFileChartLine size={40} />,
-      color: "bg-purple-500",
+      title: "Total Alumni",
+      value: 6,
+      icon: <RiGraduationCapLine size={28} />,
+      color: "from-blue-500 to-blue-600",
+    },
+    {
+      title: "Masuk Hari Ini",
+      value: 0,
+      icon: <RiLoginBoxLine size={28} />,
+      color: "from-green-500 to-green-600",
+    },
+    {
+      title: "Belum Masuk",
+      value: 221,
+      icon: <RiUserUnfollowLine size={28} />,
+      color: "from-yellow-400 to-yellow-500",
+    },
+    {
+      title: "Kegiatan Hari Ini",
+      value: 0,
+      icon: <RiCalendarEventLine size={28} />,
+      color: "from-purple-500 to-purple-600",
     },
   ];
 
-  return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-6">
-        {/* Judul Seksi */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-blue-800 mb-4">Dokumentasi</h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">
-            Berikut adalah tampilan sistem Aduca dalam mendukung digitalisasi sekolah, 
-            mulai dari manajemen siswa, keuangan, hingga laporan secara real-time.
-          </p>
-        </div>
+  // ===== DATA CHART =====
+  const chartData = [
+    { date: "15/04", hadir: 1 },
+    { date: "16/04", hadir: 0 },
+    { date: "17/04", hadir: 1 },
+    { date: "18/04", hadir: 0 },
+    { date: "19/04", hadir: 1 },
+    { date: "20/04", hadir: 0 },
+    { date: "21/04", hadir: 1 },
+  ];
 
-        {/* Grid Kartu Berwarna khas Aduca */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {docs.map((doc, index) => (
-            <div 
-              key={index} 
-              className={`${doc.color} rounded-3xl p-8 text-white shadow-xl transform transition hover:-translate-y-2 duration-300 flex flex-col items-center text-center`}
-            >
-              {/* Lingkaran Ikon Transparan */}
-              <div className="bg-white/20 p-4 rounded-2xl mb-6">
-                {doc.icon}
-              </div>
-              
-              {/* Teks */}
-              <h3 className="text-xl font-bold mb-3">{doc.title}</h3>
-              <p className="text-sm opacity-90 leading-relaxed">
-                {doc.desc}
-              </p>
-              
-              {/* Dekorasi kecil biar makin mirip Dashboard */}
-              <div className="mt-8 w-12 h-1.5 bg-white/30 rounded-full"></div>
+  return (
+    <div className="p-6 bg-gray-100 min-h-screen">
+      {/* TITLE */}
+      <h1 className="text-2xl font-bold text-center text-blue-600 mb-8">
+        Dashboard Manajemen Siswa
+      </h1>
+
+      {/* ===== CARD GRID ===== */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {stats.map((item, i) => (
+          <div
+            key={i}
+            className={`bg-gradient-to-br ${item.color} text-white rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center transition hover:-translate-y-1`}
+          >
+            {/* ICON */}
+            <div className="bg-white/20 p-4 rounded-full mb-4">
+              {item.icon}
             </div>
-          ))}
-        </div>
+
+            {/* TITLE */}
+            <p className="text-sm opacity-90">{item.title}</p>
+
+            {/* VALUE */}
+            <h2 className="text-3xl font-bold mt-2">{item.value}</h2>
+          </div>
+        ))}
       </div>
-    </section>
+
+      {/* ===== CHART ===== */}
+      <div className="mt-10 bg-white p-6 rounded-2xl shadow">
+        <h2 className="text-center text-lg font-semibold text-gray-700 mb-4">
+          Grafik Absensi 7 Hari Terakhir
+        </h2>
+
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" />
+
+            <XAxis dataKey="date" />
+            <YAxis allowDecimals={false} />
+
+            <Tooltip />
+            <Legend />
+
+            <Line
+              type="monotone"
+              dataKey="hadir"
+              stroke="#3b82f6"
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 }

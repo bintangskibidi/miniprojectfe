@@ -117,7 +117,7 @@ const TahunAjaran = () => {
           <table className="table table-bordered mb-0">
             <thead className="table-light">
               <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>Tahun Ajaran</th>
                 <th>Tahun</th>
                 <th>Status</th>
