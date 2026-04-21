@@ -124,7 +124,7 @@ const DataSiswa = () => {
           <table className="table table-bordered table-hover">
             <thead className="table-light">
               <tr>
-                <th>No</th>
+                <th>#</th>
                 <th>NIS</th>
                 <th>Nama</th>
                 <th>Tgl Lahir</th>
