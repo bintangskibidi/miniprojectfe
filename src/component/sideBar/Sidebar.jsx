@@ -19,8 +19,8 @@ const Sidebar = () => {
         {
           title: "Kesiswaan",
           children: [
-            { title: "Wali Kelas", path: "/dashboard/walikelas" },
             { title: "Data Siswa", path: "/dashboard/datasiswa" },
+            { title: "Wali Kelas", path: "/dashboard/walikelas" },
             { title: "Data Kelas", path: "/dashboard/datakelas" },
             { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
           ],
