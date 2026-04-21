@@ -133,7 +133,7 @@ const DataWaliKelas = () => {
           <table className="table table-bordered mb-0">
             <thead className="table-light">
               <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>Nama Kelas</th>
                 <th>Nama Pegawai</th>
                 <th>Tahun Ajaran</th>
