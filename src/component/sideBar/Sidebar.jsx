@@ -20,9 +20,11 @@ const Sidebar = () => {
           title: "Kesiswaan",
           children: [
             { title: "Data Siswa", path: "/dashboard/datasiswa" },
-            { title: "Wali Kelas", path: "/dashboard/walikelas" },
+            { title: "Kenaikan Kelas", path: "/dashboard/kenaikankelas" },
             { title: "Data Kelas", path: "/dashboard/datakelas" },
+            { title: "Data Jurusan", path: "/dashboard/datajurusan" },
             { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
+            { title: "Wali Kelas", path: "/dashboard/walikelas" },
           ],
         },
         {
@@ -38,8 +40,16 @@ const Sidebar = () => {
           title: "E-Raport",
           children: [
             {
+              title: "Aspek Penilaian",
+              path: "/dashboard/aspekpenilaian",
+            },
+            {
               title: "Semester",
               path: "/dashboard/Semester",
+            },
+            {
+              title: "Jenis Semester",
+              path: "/dashboard/jenissemester",
             },
           ],
         },
@@ -48,7 +58,15 @@ const Sidebar = () => {
           children: [
             {
               title: "Absensi Harian",
-              path: "/dashboard/Semester",
+              path: "/dashboard/absensiharian",
+            },
+            {
+              title: "Rekap Absensi",
+              path: "/dashboard/rekapabsensi",
+            },
+            {
+              title: "Absensi Mapel",
+              path: "/dashboard/absensimapel",
             },
           ],
         },
@@ -131,10 +149,17 @@ const Sidebar = () => {
   if (
     location.pathname.startsWith("/dashboard/siswa") ||
     location.pathname.startsWith("/dashboard/walikelas") ||
+    location.pathname.startsWith("/dashboard/kenaikankelas") ||
+    location.pathname.startsWith("/dashboard/datajurusan") ||
     location.pathname.startsWith("/dashboard/datasiswa") ||
     location.pathname.startsWith("/dashboard/datakelas") ||
     location.pathname.startsWith("/dashboard/ekstrakurikuler") ||
     location.pathname.startsWith("/dashboard/Semester") ||
+    location.pathname.startsWith("/dashboard/jenissemester") ||
+    location.pathname.startsWith("/dashboard/absensiharian") ||
+    location.pathname.startsWith("/dashboard/rekapabsensi") ||
+    location.pathname.startsWith("/dashboard/absensimapel") ||
+    location.pathname.startsWith("/dashboard/aspekpenilaian") ||
     location.pathname.startsWith("/dashboard/JadwalMengajar") ||
     location.pathname.startsWith("/dashboard/tambah-siswa") ||
     location.pathname.startsWith("/dashboard/tahunajaran")

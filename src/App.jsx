@@ -22,6 +22,11 @@ import "./App.css";
 import JadwalMengajar from "./dashboard/manajemenGuru/JadwalMengajar";
 import DataJurusan from "./dashboard/manajemenSiswa/kesiswaan/DataJurusan";
 import KenaikanKelas from "./dashboard/manajemenSiswa/kesiswaan/KenaikanKelas";
+import JenisSemester from "./dashboard/manajemenSiswa/e-raport/JenisSemester";
+import AspekPenilaian from "./dashboard/manajemenSiswa/e-raport/AspekPenilaian";
+import AbsensiHarian from "./dashboard/absensi/absensiharian";
+import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
+import AbsensiMapel from "./dashboard/absensi/absensimapel";
 
 function App() {
   return (
@@ -47,16 +52,21 @@ function App() {
             path="/dashboard/JadwalMengajar"
             element={<JadwalMengajar />}
           />
-          <Route path="/dashboard/datajurusan" element={<DataJurusan />} />
+          <Route path="datajurusan" element={<DataJurusan />} />
           <Route path="/dashboard/tambah-siswa" element={<Tambahsiswa />} />
           <Route path="/dashboard/edit-siswa/:id" element={<EditSiswa />} />
-          <Route path="/dashboard/kenaikankelas" element={<KenaikanKelas />} />
+          <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="profileSekolah" element={<ProfileSekolah />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />
           <Route path="datakelas" element={<DataKelas />} />
           <Route path="tahunajaran" element={<TahunAjaran />} />
+          <Route path="jenissemester" element={<JenisSemester />} />
+          <Route path="absensiharian" element={<AbsensiHarian />} />
+          <Route path="rekapabsensi" element={<RekapAbsensi />} />
+          <Route path="absensimapel" element={<AbsensiMapel />} />
+          <Route path="aspekpenilaian" element={<AspekPenilaian />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,214 +1,236 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-function DataJurusan() {
-  const [data, setData] = useState([]);
+const DataJurusan = () => {
+  const [data, setData] = useState([
+    {
+      id: 1,
+      kode: "1",
+      nama: "awd",
+      
+    },
+  ]);
+
   const [showModal, setShowModal] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
 
   const [form, setForm] = useState({
+    id: null,
     kode: "",
     nama: "",
+    
   });
 
-  const handleChange = (e) => {
+  // ================= TAMBAH =================
+  const handleTambah = () => {
     setForm({
-      ...form,
-      [e.target.name]: e.target.value,
+      id: null,
+      kode: "",
+      nama: "",
+      
     });
+    setShowModal(true);
   };
 
-  // ✅ SIMPAN / UPDATE
-  const handleSimpan = () => {
-    if (!form.kode || !form.nama) {
-      Swal.fire("Oops!", "Semua field wajib diisi", "warning");
-      return;
-    }
-
-    if (editIndex !== null) {
-      const updated = [...data];
-      updated[editIndex] = form;
-      setData(updated);
-    } else {
-      setData([...data, form]);
-    }
-
-    setForm({ kode: "", nama: "" });
-    setEditIndex(null);
-    setShowModal(false);
-
-    Swal.fire({
-      icon: "success",
-      title: "Berhasil!",
-      text: "Data berhasil disimpan",
-      timer: 1500,
-      showConfirmButton: false,
-    });
+  // ================= EDIT =================
+  const handleEdit = (item) => {
+    setForm(item);
+    setShowModal(true);
   };
 
-  // ✅ HAPUS
-  const handleHapus = (index) => {
+  // ================= HAPUS =================
+  const handleHapus = (id) => {
     Swal.fire({
-      title: "Hapus data?",
-      text: "Data akan dihapus permanen",
+      title: "Yakin?",
+      text: "Data akan dihapus permanen!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Hapus",
-    }).then((res) => {
-      if (res.isConfirmed) {
-        const newData = data.filter((_, i) => i !== index);
-        setData(newData);
+      confirmButtonText: "Ya, hapus",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setData(data.filter((item) => item.id !== id));
+        Swal.fire("Berhasil", "Data dihapus", "success");
       }
     });
   };
 
-  // ✅ EDIT
-  const handleEdit = (index) => {
-    setForm(data[index]);
-    setEditIndex(index);
-    setShowModal(true);
+  // ================= TOGGLE aksi =================
+  const toggleaksi = (item) => {
+  setData(
+    data.map((d) =>
+      d.id === item.id ? { ...d, aksi: !d.aksi } : d
+    )
+  );
+
+  // 🔥 TOAST (tidak ganggu layar)
+  Swal.fire({
+    toast: true,
+    position: "top-end",
+    icon: "success",
+    title: `nama jurusan ${
+      item.aksi ? "dinonaktifkan" : "diaktifkan"
+    }`,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+};
+
+  // ================= SIMPAN =================
+  const handleSubmit = () => {
+    if (!form.kode || !form.nama) {
+      Swal.fire("Warning", "Semua field wajib diisi!", "warning");
+      return;
+    }
+
+    if (form.id) {
+      setData(data.map((item) => (item.id === form.id ? form : item)));
+      Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+    } else {
+      setData([...data, { ...form, id: Date.now() }]);
+      Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+    }
+
+    setShowModal(false);
   };
 
-return (
-  <div className="flex  min-h-screen">
-
-
-
-    <div className="flex-1 ml p-6">
-
-      {/* TITLE */}
-      <h1 className="text-2xl py-6 font-bold mb-6 text-black-800">
-        Data Jurusan
-      </h1>
-
-      {/* CARD */}
-      <div className="bg-white rounded-xl shadow p-6 w-full">
-
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-5">
-          <h2 className="text-xl font-semibold text-blue-700">
-            Daftar Jurusan
-          </h2>
-
-          <button
-            onClick={() => {
-              setShowModal(true);
-              setEditIndex(null);
-            }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-          >
-            + Tambah
-          </button>
-        </div>
-
-        {/* TABLE */}
-        {data.length === 0 ? (
-          <div className="text-center py-10 text-black-500">
-            Belum ada data jurusan
-          </div>
-        ) : (
-  <div className="overflow-hidden rounded-xl border border-black-300">
-  <table className="w-full text-sm border-collapse">
-
-    <thead className="bg--900 text-white">
-      <tr>
-        <th className="px-4 py-3 border border--800">No</th>
-        <th className="px-4 py-3 border border--800 text-center">Kode Jurusan</th>
-        <th className="px-4 py-3 border border--800 text-center">Nama Jurusan</th>
-        <th className="px-4 py-3 border border--800 mx-10">Aksi</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {data.map((item, idx) => (
-        <tr
-          key={idx}
-          className="hover:bg-black-50 transition"
-        >
-          <td className="text-center px-4 py-3 border border-black-200">
-            {idx + 1}
-          </td>
-
-          <td className="text-center px-4 py-3 border border-black-200">
-            {item.kode}
-          </td>
-
-          <td className="text-center px-4 py-3 border border-black-200">
-            {item.nama}
-          </td>
-
-          <td className="text-center px-4 py-3 border border-black-200 space-x-2">
-            <button
-              onClick={() => handleEdit(idx)}
-              className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 -mx-30 rounded"
-            >
-              Edit
-            </button>
-
-            <button
-              onClick={() => handleHapus(idx)}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-            >
-              Hapus
-            </button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-
-  </table>
-</div>
-        )}
+  return (
+    <div style={{ padding: "20px" }}>
+      {/* HEADER */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "15px",
+        }}
+      >
+        <h3>Data Jurusan</h3>
+        <button className="btn btn-primary" onClick={handleTambah}>
+          + Tambah
+        </button>
       </div>
 
-      {/* MODAL (TETAP PUNYAMU) */}
+      {/* CARD */}
+      <div className="card shadow-sm">
+        <div className="card-header">Daftar Jurusan</div>
+
+        <div className="card-body p-0">
+          <table className="table table-bordered mb-0">
+            <thead className="table-light">
+              <tr>
+                <th>No</th>
+                <th>Kode Jurusan</th>
+                <th>nama</th>
+                <th style={{ width: "150px" }}>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {data.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center">
+                    Tidak ada data
+                  </td>
+                </tr>
+              ) : (
+                data.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td>{item.kode}</td>
+                    <td>{item.nama}</td>
+
+                    {/* 🔥 TOGGLE BARU */}
+
+                    <td>
+                      <button
+                        className="btn btn-sm btn-warning me-2"
+                        onClick={() => handleEdit(item)}
+                      >
+                        ✏️
+                      </button>
+
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleHapus(item.id)}
+                      >
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ================= MODAL ================= */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-xl w-[400px]">
-            <h2 className="font-bold mb-4">
-              {editIndex !== null ? "Edit Jurusan" : "Tambah Jurusan"}
-            </h2>
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0,0,0,0.5)",
+              zIndex: 999,
+            }}
+          />
+
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              width: "400px",
+            }}
+            className="bg-white p-4 rounded shadow"
+          >
+            <h5 className="mb-3">
+              {form.id ? "Edit" : "Tambah"}  jurusan
+            </h5>
 
             <input
-              type="text"
-              name="kode"
+              className="form-control mb-2"
+              placeholder="nama jurusan"
               value={form.kode}
-              onChange={handleChange}
-              placeholder="Kode Jurusan"
-              className="w-full mb-3 border p-2 rounded"
+              onChange={(e) =>
+                setForm({ ...form, kode: e.target.value })
+              }
             />
 
             <input
-              type="text"
-              name="nama"
+              className="form-control mb-3"
+              placeholder="nama"
               value={form.nama}
-              onChange={handleChange}
-              placeholder="Nama Jurusan"
-              className="w-full mb-4 border p-2 rounded"
+              onChange={(e) =>
+                setForm({ ...form, nama: e.target.value })
+              }
             />
 
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-black-400 px-3 py-1 text-white rounded"
+                className="px-4 py-2 rounded bg-gray-400 hover:bg-gray-500 text-white transition"
               >
                 Batal
               </button>
 
               <button
-                onClick={handleSimpan}
-                className="bg-blue-600 px-3 py-1 text-white rounded"
+                onClick={handleSubmit}
+                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white shadow transition"
               >
                 Simpan
               </button>
             </div>
           </div>
-        </div>
+        </>
       )}
-
     </div>
-  </div>
-);
-}
+  );
+};
 
 export default DataJurusan;
