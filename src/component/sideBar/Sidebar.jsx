@@ -115,7 +115,12 @@ const Sidebar = () => {
     {
       group: "Manajemen Sekolah",
       items: [
-        { title: "Profil Sekolah", path: "/dashboard/profilesekolah" },
+         {
+          title: "Data Sekolah",
+          children: [
+            { title: "Profile sekolah jir", path: "/dashboard/profilesekolah" },
+          ],
+        },
       ],
     },
     {
