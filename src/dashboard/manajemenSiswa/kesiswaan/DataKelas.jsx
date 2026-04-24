@@ -143,7 +143,7 @@ const DataKelas = () => {
           <table className="table table-striped table-hover mb-0">
             <thead className="table-light">
               <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>Kode Kelas</th>
                 <th>Nama Kelas</th>
                 <th style={{ width: "120px" }}>Aksi</th>

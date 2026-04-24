@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-const DataWaliKelas = () => {
+const Semester = () => {
   const [data, setData] = useState([
     {
       id: 1,
-      namaKelas: "Ambasatanic 969",
-      namaPegawai: "Andre Nugroho",
-      tahunAjaran: "2026/2027",
+      TahunAjaran: "2024/2025",
+      JenisSemester: "PTS",
+      NamaSemester: "Semester Ganjil",
     },
   ]);
 
@@ -15,18 +15,18 @@ const DataWaliKelas = () => {
 
   const [form, setForm] = useState({
     id: null,
-    namaKelas: "",
-    namaPegawai: "",
-    tahunAjaran: "",
+    TahunAjaran: "",
+    JenisSemester: "",
+    NamaSemester: "",
   });
 
   // ================= TAMBAH =================
   const handleTambah = () => {
     setForm({
       id: null,
-      namaKelas: "",
-      namaPegawai: "",
-      tahunAjaran: "",
+      TahunAjaran: "",
+      JenisSemester: "",
+      NamaSemester: "",
     });
     setShowModal(true);
   };
@@ -37,7 +37,7 @@ const DataWaliKelas = () => {
     setShowModal(true);
   };
 
-  // ================= HAPUS (SWEET ALERT) =================
+  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -65,7 +65,7 @@ const DataWaliKelas = () => {
 
   // ================= SIMPAN =================
   const handleSubmit = () => {
-    if (!form.namaKelas || !form.namaPegawai || !form.tahunAjaran) {
+    if (!form.TahunAjaran || !form.JenisSemester || !form.NamaSemester) {
       Swal.fire({
         icon: "warning",
         title: "Oops...",
@@ -76,11 +76,7 @@ const DataWaliKelas = () => {
 
     if (form.id) {
       // EDIT
-      setData(
-        data.map((item) =>
-          item.id === form.id ? form : item
-        )
-      );
+      setData(data.map((item) => (item.id === form.id ? form : item)));
 
       Swal.fire({
         icon: "success",
@@ -91,10 +87,7 @@ const DataWaliKelas = () => {
       });
     } else {
       // TAMBAH
-      setData([
-        ...data,
-        { ...form, id: Date.now() },
-      ]);
+      setData([...data, { ...form, id: Date.now() }]);
 
       Swal.fire({
         icon: "success",
@@ -108,36 +101,27 @@ const DataWaliKelas = () => {
     setShowModal(false);
   };
 
-
   return (
     <div style={{ padding: "20px" }}>
-      {/* HEADER */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "15px",
-        }}
-      >
-        <h3>Data Wali Kelas</h3>
+      <div className="d-flex justify-content-between mb-3">
+        <h3>Data Semester</h3>
         <button className="btn btn-primary" onClick={handleTambah}>
           + Tambah
         </button>
       </div>
 
-      {/* CARD */}
       <div className="card shadow-sm">
-        <div className="card-header">Daftar Wali Kelas</div>
+        <div className="card-header">Daftar Semester</div>
 
         <div className="card-body p-0">
           <table className="table table-bordered mb-0">
             <thead className="table-light">
               <tr>
                 <th>#</th>
-                <th>Nama Kelas</th>
-                <th>Nama Pegawai</th>
                 <th>Tahun Ajaran</th>
-                <th style={{ width: "120px" }}>Aksi</th>
+                <th>Jenis Semester</th>
+                <th>Nama Semester</th>
+                <th>Aksi</th>
               </tr>
             </thead>
 
@@ -152,9 +136,9 @@ const DataWaliKelas = () => {
                 data.map((item, index) => (
                   <tr key={item.id}>
                     <td>{index + 1}</td>
-                    <td>{item.namaKelas}</td>
-                    <td>{item.namaPegawai}</td>
-                    <td>{item.tahunAjaran}</td>
+                    <td>{item.TahunAjaran}</td>
+                    <td>{item.JenisSemester}</td>
+                    <td>{item.NamaSemester}</td>
                     <td>
                       <button
                         className="btn btn-sm btn-warning me-2"
@@ -178,62 +162,50 @@ const DataWaliKelas = () => {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       {showModal && (
         <>
-          {/* BACKDROP */}
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0,0,0,0.5)",
-              zIndex: 999,
-            }}
-          />
+          <div className="modal-backdrop show"></div>
 
-          {/* MODAL BOX */}
           <div
+            className="bg-white p-4 rounded shadow"
             style={{
               position: "fixed",
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              zIndex: 1000,
+              zIndex: 1050,
               width: "400px",
             }}
-            className="bg-white p-4 rounded shadow"
           >
             <h5 className="mb-3">
-              {form.id ? "Edit" : "Tambah"} Wali Kelas
+              {form.id ? "Edit" : "Tambah"} Semester
             </h5>
 
             <input
               className="form-control mb-2"
-              placeholder="Nama Kelas"
-              value={form.namaKelas}
+              placeholder="Tahun Ajaran"
+              value={form.TahunAjaran}
               onChange={(e) =>
-                setForm({ ...form, namaKelas: e.target.value })
+                setForm({ ...form, TahunAjaran: e.target.value })
               }
             />
 
             <input
               className="form-control mb-2"
-              placeholder="Nama Pegawai"
-              value={form.namaPegawai}
+              placeholder="Jenis Semester"
+              value={form.JenisSemester}
               onChange={(e) =>
-                setForm({ ...form, namaPegawai: e.target.value })
+                setForm({ ...form, JenisSemester: e.target.value })
               }
             />
 
             <input
               className="form-control mb-3"
-              placeholder="Tahun Ajaran"
-              value={form.tahunAjaran}
+              placeholder="Nama Semester"
+              value={form.NamaSemester}
               onChange={(e) =>
-                setForm({ ...form, tahunAjaran: e.target.value })
+                setForm({ ...form, NamaSemester: e.target.value })
               }
             />
 
@@ -256,4 +228,4 @@ const DataWaliKelas = () => {
   );
 };
 
-export default DataWaliKelas;
+export default Semester;
