@@ -11,7 +11,7 @@ import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpu
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
 import DataSiswa from "./dashboard/manajemenSiswa/kesiswaan/dataSiswa/DataSiswa";
-import DataKelas from "./dashboard/manajemenSiswa/kesiswaan/DataKelas";
+import DataKelas from "./dashboard/manajemenSiswa/kesiswaan/dataKelas/DataKelas";
 import TahunAjaran from "./dashboard/manajemenSiswa/kesiswaan/TahunAjaran";
 import Semester from "./dashboard/manajemenSiswa/e-raport/Semester";
 import Tambahsiswa from "./dashboard/manajemenSiswa/kesiswaan/dataSiswa/AddDataSiswa";
@@ -20,7 +20,7 @@ import Extrakulikuler from "./dashboard/manajemenSiswa/kegiatan/extrakulikuler";
 import Layout from "./component/sideBar/Layout";
 import "./App.css";
 import JadwalMengajar from "./dashboard/manajemenGuru/JadwalMengajar";
-import DataJurusan from "./dashboard/manajemenSiswa/kesiswaan/DataJurusan";
+import DataJurusan from "./dashboard/manajemenSiswa/kesiswaan/dataJurusan/DataJurusan";
 import KenaikanKelas from "./dashboard/manajemenSiswa/kesiswaan/KenaikanKelas";
 import JenisSemester from "./dashboard/manajemenSiswa/e-raport/JenisSemester";
 import AspekPenilaian from "./dashboard/manajemenSiswa/e-raport/AspekPenilaian";
