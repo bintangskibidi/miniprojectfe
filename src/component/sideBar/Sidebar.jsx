@@ -51,6 +51,10 @@ const Sidebar = () => {
               title: "Jenis Semester",
               path: "/dashboard/jenissemester",
             },
+            {
+              title: "Data Raport",
+              path: "/dashboard/dataraport",
+            },
           ],
         },
         {
@@ -79,7 +83,7 @@ const Sidebar = () => {
       group: "Manajemen Guru",
       items: [
         {
-          title: "Data Guru",
+          title: "Dashboard",
           path: "/dashboard/guru",
         },
         {
@@ -89,6 +93,14 @@ const Sidebar = () => {
         {
           title: "Jadwal Mengajar",
           path: "/dashboard/JadwalMengajar",
+        },
+        {
+          title: "Distribusi Jam",
+          path: "/dashboard/distribusijam",
+        },
+        {
+          title: "Riwayat Mengajar",
+          path: "/dashboard/RiwayatMengajar",
         },
       ],
     },
@@ -118,7 +130,7 @@ const Sidebar = () => {
          {
           title: "Data Sekolah",
           children: [
-            { title: "Profile sekolah jir", path: "/dashboard/profilesekolah" },
+            { title: "Profile sekolah", path: "/dashboard/profilesekolah" },
           ],
         },
       ],
@@ -165,17 +177,20 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/rekapabsensi") ||
     location.pathname.startsWith("/dashboard/absensimapel") ||
     location.pathname.startsWith("/dashboard/aspekpenilaian") ||
-    location.pathname.startsWith("/dashboard/JadwalMengajar") ||
+    location.pathname.startsWith("/dashboard/dataraport") ||
     location.pathname.startsWith("/dashboard/tambah-siswa") ||
     location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
     menu = menuConfig.siswa;
-  } else if (
-    location.pathname.startsWith("/dashboard/guru") ||
-    location.pathname.startsWith("/dashboard/mapel")
-  ) {
-    menu = menuConfig.guru;
-  } else if (location.pathname.startsWith("/dashboard/keuangan")) {
+ } else if (
+  location.pathname.startsWith("/dashboard/guru") ||
+  location.pathname.startsWith("/dashboard/mapel") ||
+  location.pathname.startsWith("/dashboard/RiwayatMengajar") ||
++ location.pathname.startsWith("/dashboard/JadwalMengajar") ||
++ location.pathname.startsWith("/dashboard/distribusijam")
+) {
+  menu = menuConfig.guru;
+} else if (location.pathname.startsWith("/dashboard/keuangan")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
   } else if (location.pathname.startsWith("/dashboard/databuku")) {
