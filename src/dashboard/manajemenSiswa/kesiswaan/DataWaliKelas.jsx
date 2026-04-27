@@ -5,8 +5,8 @@ const DataWaliKelas = () => {
   const [data, setData] = useState([
     {
       id: 1,
-      namaKelas: "X TKJ",
-      namaPegawai: "Andre Nugroho",
+      namaKelas: "VII A",
+      namaPegawai: "Eka Prasetyo",
       tahunAjaran: "2026/2027",
     },
   ]);
@@ -20,7 +20,6 @@ const DataWaliKelas = () => {
     tahunAjaran: "",
   });
 
-  // ================= TAMBAH =================
   const handleTambah = () => {
     setForm({
       id: null,
@@ -31,13 +30,11 @@ const DataWaliKelas = () => {
     setShowModal(true);
   };
 
-  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm(item);
     setShowModal(true);
   };
 
-  // ================= HAPUS (SWEET ALERT) =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -63,7 +60,6 @@ const DataWaliKelas = () => {
     });
   };
 
-  // ================= SIMPAN =================
   const handleSubmit = () => {
     if (!form.namaKelas || !form.namaPegawai || !form.tahunAjaran) {
       Swal.fire({
@@ -75,11 +71,8 @@ const DataWaliKelas = () => {
     }
 
     if (form.id) {
-      // EDIT
       setData(
-        data.map((item) =>
-          item.id === form.id ? form : item
-        )
+        data.map((item) => (item.id === form.id ? form : item))
       );
 
       Swal.fire({
@@ -90,11 +83,7 @@ const DataWaliKelas = () => {
         showConfirmButton: false,
       });
     } else {
-      // TAMBAH
-      setData([
-        ...data,
-        { ...form, id: Date.now() },
-      ]);
+      setData([...data, { ...form, id: Date.now() }]);
 
       Swal.fire({
         icon: "success",
@@ -108,63 +97,67 @@ const DataWaliKelas = () => {
     setShowModal(false);
   };
 
-
   return (
-    <div style={{ padding: "20px" }}>
-      {/* HEADER */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "15px",
-        }}
-      >
-        <h3>Data Wali Kelas</h3>
-        <button className="btn btn-primary" onClick={handleTambah}>
+    <div className="p-6 bg-gray-100 min-h-screen">
+ 
+      {/* TITLE + BUTTON */}
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="flex items-center gap-2 font-semibold text-gray-700">
+          🙄Data Wali Kelas
+        </h4>
+
+        <button
+          className="bg-blue-600 text-white px-3 py-1 rounded shadow hover:bg-blue-700 text-sm"
+          onClick={handleTambah}
+        >
           + Tambah
         </button>
       </div>
 
       {/* CARD */}
-      <div className="card shadow-sm">
-        <div className="card-header">Daftar Wali Kelas</div>
+      <div className="bg-white rounded-lg shadow border">
+        <div className="px-4 py-2 border-b font-medium text-gray-600 flex items-center gap-2">
+          📋 Daftar Wali Kelas
+        </div>
 
-        <div className="card-body p-0">
-          <table className="table table-bordered mb-0">
-            <thead className="table-light">
+        <div className="p-0">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-100 text-gray-600">
               <tr>
-                <th>No</th>
-                <th>Nama Kelas</th>
-                <th>Nama Pegawai</th>
-                <th>Tahun Ajaran</th>
-                <th style={{ width: "120px" }}>Aksi</th>
+                <th className="p-2 border">No</th>
+                <th className="p-2 border">Nama Kelas</th>
+                <th className="p-2 border">Nama Pegawai</th>
+                <th className="p-2 border">Tahun Ajaran</th>
+                <th className="p-2 border text-center">Aksi</th>
               </tr>
             </thead>
 
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center">
+                  <td colSpan="5" className="text-center p-3">
                     Tidak ada data
                   </td>
                 </tr>
               ) : (
                 data.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.namaKelas}</td>
-                    <td>{item.namaPegawai}</td>
-                    <td>{item.tahunAjaran}</td>
-                    <td>
+                  <tr key={item.id} className="hover:bg-gray-50">
+                    <td className="p-2 border text-center">
+                      {index + 1}
+                    </td>
+                    <td className="p-2 border">{item.namaKelas}</td>
+                    <td className="p-2 border">{item.namaPegawai}</td>
+                    <td className="p-2 border">{item.tahunAjaran}</td>
+                    <td className="p-2 border text-center">
                       <button
-                        className="btn btn-sm btn-warning me-2"
+                        className="bg-blue-500 text-white px-2 py-1 rounded mr-1 hover:bg-blue-600"
                         onClick={() => handleEdit(item)}
                       >
                         ✏️
                       </button>
 
                       <button
-                        className="btn btn-sm btn-danger"
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                         onClick={() => handleHapus(item.id)}
                       >
                         🗑️
@@ -178,76 +171,59 @@ const DataWaliKelas = () => {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       {showModal && (
         <>
-          {/* BACKDROP */}
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0,0,0,0.5)",
-              zIndex: 999,
-            }}
-          />
+          <div className="fixed inset-0 bg-black/40 z-40"></div>
 
-          {/* MODAL BOX */}
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1000,
-              width: "400px",
-            }}
-            className="bg-white p-4 rounded shadow"
-          >
-            <h5 className="mb-3">
-              {form.id ? "Edit" : "Tambah"} Wali Kelas
-            </h5>
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-96">
+            <div className="bg-white rounded-lg shadow-lg p-4">
+              <h5 className="mb-3 font-semibold">
+                {form.id ? "Edit" : "Tambah"} Wali Kelas
+              </h5>
 
-            <input
-              className="form-control mb-2"
-              placeholder="Nama Kelas"
-              value={form.namaKelas}
-              onChange={(e) =>
-                setForm({ ...form, namaKelas: e.target.value })
-              }
-            />
+              <input
+                className="w-full border p-2 mb-2 rounded"
+                placeholder="Nama Kelas"
+                value={form.namaKelas}
+                onChange={(e) =>
+                  setForm({ ...form, namaKelas: e.target.value })
+                }
+              />
 
-            <input
-              className="form-control mb-2"
-              placeholder="Nama Pegawai"
-              value={form.namaPegawai}
-              onChange={(e) =>
-                setForm({ ...form, namaPegawai: e.target.value })
-              }
-            />
+              <input
+                className="w-full border p-2 mb-2 rounded"
+                placeholder="Nama Pegawai"
+                value={form.namaPegawai}
+                onChange={(e) =>
+                  setForm({ ...form, namaPegawai: e.target.value })
+                }
+              />
 
-            <input
-              className="form-control mb-3"
-              placeholder="Tahun Ajaran"
-              value={form.tahunAjaran}
-              onChange={(e) =>
-                setForm({ ...form, tahunAjaran: e.target.value })
-              }
-            />
+              <input
+                className="w-full border p-2 mb-3 rounded"
+                placeholder="Tahun Ajaran"
+                value={form.tahunAjaran}
+                onChange={(e) =>
+                  setForm({ ...form, tahunAjaran: e.target.value })
+                }
+              />
 
-            <div className="text-end">
-              <button
-                className="btn btn-secondary me-2"
-                onClick={() => setShowModal(false)}
-              >
-                Batal
-              </button>
+              <div className="text-end">
+                <button
+                  className="bg-gray-400 text-white px-3 py-1 rounded mr-2"
+                  onClick={() => setShowModal(false)}
+                >
+                  Batal
+                </button>
 
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                Simpan
-              </button>
+                <button
+                  className="bg-blue-600 text-white px-3 py-1 rounded"
+                  onClick={handleSubmit}
+                >
+                  Simpan
+                </button>
+              </div>
             </div>
           </div>
         </>

@@ -114,7 +114,7 @@ const DataJurusan = () => {
             <table className="table table-hover mb-0 align-middle">
               <thead className="table-light">
                 <tr className="small fw-bold text-center border-bottom">
-                  <th width="80">#</th>
+                  <th width="80">No</th>
                   <th className="text-start ps-4">Kode Jurusan</th>
                   <th className="text-start ps-4">Nama Jurusan</th>
                   <th width="150">Aksi</th>
