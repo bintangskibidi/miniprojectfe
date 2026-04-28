@@ -7,6 +7,7 @@ import DataWaliKelas from "./dashboard/manajemenSiswa/kesiswaan/DataWaliKelas";
 import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
 import ManajemenKeuangan from "./dashboard/manajemenKeuangan/ManajemenKeuangan";
+import LaporanBukuBesar from "./dashboard/manajemenKeuangan/LaporanBukuBesar";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan";
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
@@ -62,6 +63,7 @@ function App() {
           <Route path="/dashboard/edit-siswa/:id" element={<EditSiswa />} />
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
+          <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="profileSekolah" element={<ProfileSekolah />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />
