@@ -107,10 +107,134 @@ const Sidebar = () => {
   ],
 
   keuangan: [
-    {
-      group: "Manajemen Keuangan",
-      items: [{ title: "Data Keuangan", path: "/dashboard/keuangan" }],
-    },
+      {
+        group: "Manajemen Keuangan",
+        items: [
+        {
+          title: "Dashboard",
+          path: "/dashboard/keuangan",
+        },
+        {
+          title: "Pembayaran Siswa",
+          children: [
+            { title: "bayar Tagihan", path: "/dashboard/datasiswa" },
+            { title: "Tunggakan Siswa", path: "/dashboard/kenaikankelas" },
+            { title: "jenis Pembayaran", path: "/dashboard/datakelas" },
+            { title: "tarif pembayaran", path: "/dashboard/datajurusan" },
+            { title: "Rekap Pemabayaran Bulanan", path: "/dashboard/tahunajaran" },
+            { title: "Data Transaksi", path: "/dashboard/walikelas" },
+            { title: "Rekap Persiswa", path: "/dashboard/walikelas" },
+            { title: "Rekap Pertanggal", path: "/dashboard/walikelas" },
+            { title: "Rekap Tagihan", path: "/dashboard/walikelas" },
+            { title: "tagihan bulan ini", path: "/dashboard/walikelas" },
+          ],
+        },
+        {
+          title: "Tabungan siswa",
+          children: [
+            {
+              title: "Teller",
+              path: "/dashboard/ekstrakurikuler",
+            },
+            {
+              title: "Riwayat Tabungan siswa",
+              path: "/dashboard/ekstrakurikuler",
+            },
+            {
+              title: "Riwayat Transaksi",
+              path: "/dashboard/ekstrakurikuler",
+            },
+          ],
+        },
+        {
+          title: "Penerimaan",
+          children: [
+            {
+              title: "Transaksi Penerimaan",
+              path: "/dashboard/aspekpenilaian",
+            },
+            {
+              title: "jenis Penerimaan",
+              path: "/dashboard/Semester",
+            },
+            {
+              title: "Laporan Penerimaan",
+              path: "/dashboard/jenissemester",
+            },
+            
+          ],
+        },
+        {
+          title: "pengeluaran",
+          children: [
+            {
+              title: "Transaksi Pengeluaran",
+              path: "/dashboard/absensiharian",
+            },
+            {
+              title: "Jenis Pengeluaran",
+              path: "/dashboard/rekapabsensi",
+            },
+            {
+              title: "Laporan Pengenluaran",
+              path: "/dashboard/absensimapel",
+            },
+           
+          ],
+        },
+        {
+          title: "Jurnal",
+          children: [
+            {
+            title: "Transaksi Jurnal",
+            path: "/dashboard/absensimapel"
+            },
+            {
+            title: "laporan Jurnal",
+            path: "/dashboard/absensimapel"
+            },
+          ]
+        },
+        {
+        title: "Buku Besar",
+        children: [
+          {
+         title: "laporan Buku Besar",
+         path: "/dashboard/LaporanBukuBesar"
+          },
+          {
+         title: "Neraca Saldo",
+         path: "/dashboard/absensimapel"
+          },
+          {
+         title: "Jurnal Umum",
+         path: "/dashboard/absensimapel"
+          },
+        ]
+        },
+        {
+          title: "Laporan Keuangan",
+          children: [
+            {
+           title: "Penghasilan komprehensif",
+           path: "/dashboard/absensimapel"
+            },
+            {
+           title: "Posisi Keuangan",
+           path: "/dashboard/absensimapel"
+            },
+            {
+           title: "Arus Kas",
+           path: "/dashboard/absensimapel"
+            },
+            {
+           title: "perubahan aset neto",
+           path: "/dashboard/absensimapel"
+            },
+          ]
+        },
+      ],
+      },
   ],
 
   perpustakaan: [
@@ -191,6 +315,7 @@ const Sidebar = () => {
 ) {
   menu = menuConfig.guru;
 } else if (location.pathname.startsWith("/dashboard/keuangan")) {
+} else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
   } else if (location.pathname.startsWith("/dashboard/databuku")) {
