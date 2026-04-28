@@ -1,42 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const JenisSemester = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-
-      nama: "awd",
-      
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
   const [form, setForm] = useState({
     id: null,
     nama: "",
-    
   });
 
-  // ================= TAMBAH =================
+  const API_URL = "http://localhost:8000/jenis-semester";
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setData(response.data.data || []);
+    } catch (error) {
+      Swal.fire("Error", "Gagal mengambil data", "error");
+    }
+  };
+
   const handleTambah = () => {
     setForm({
       id: null,
-
       nama: "",
-      
     });
     setShowModal(true);
   };
 
-  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm(item);
     setShowModal(true);
   };
 
-  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -45,78 +46,61 @@ const JenisSemester = () => {
       showCancelButton: true,
       confirmButtonText: "Ya, hapus",
       cancelButtonText: "Batal",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setData(data.filter((item) => item.id !== id));
-        Swal.fire("Berhasil", "Data dihapus", "success");
+        try {
+          await axios.delete(`${API_URL}/${id}`);
+          fetchData();
+          Swal.fire("Berhasil", "Data berhasil dihapus", "success");
+        } catch (error) {
+          Swal.fire("Error", "Gagal menghapus data", "error");
+        }
       }
     });
   };
 
-  // ================= TOGGLE aksi =================
-  const toggleaksi = (item) => {
-  setData(
-    data.map((d) =>
-      d.id === item.id ? { ...d, aksi: !d.aksi } : d
-    )
-  );
-
-  // 🔥 TOAST (tidak ganggu layar)
-  Swal.fire({
-    toast: true,
-    position: "top-end",
-    icon: "success",
-    title: `nama semester ${
-      item.aksi ? "dinonaktifkan" : "diaktifkan"
-    }`,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-};
-
-  // ================= SIMPAN =================
-  const handleSubmit = () => {
-    if (!form.nama) {
-      Swal.fire("Warning", "Semua field wajib diisi!", "warning");
+  const handleSubmit = async () => {
+    if (!form.nama.trim()) {
+      Swal.fire("Warning", "Nama semester wajib diisi!", "warning");
       return;
     }
 
-    if (form.id) {
-      setData(data.map((item) => (item.id === form.id ? form : item)));
-      Swal.fire("Berhasil", "Data berhasil diupdate", "success");
-    } else {
-      setData([...data, { ...form, id: Date.now() }]);
-      Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
-    }
+    try {
+      if (form.id) {
+        await axios.put(`${API_URL}/${form.id}`, {
+          nama: form.nama,
+        });
+        Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+      } else {
+        await axios.post(API_URL, {
+          nama: form.nama,
+        });
+        Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+      }
 
-    setShowModal(false);
+      setShowModal(false);
+      fetchData();
+    } catch (error) {
+      Swal.fire("Error", "Gagal menyimpan data", "error");
+    }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      {/* HEADER */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "15px",
-        }}
-      >
+    <div className="container mt-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>Jenis Semester</h3>
         <button className="btn btn-primary" onClick={handleTambah}>
           + Tambah
         </button>
       </div>
 
-      {/* CARD */}
       <div className="card shadow-sm">
         <div className="card-header">Daftar Jenis Semester</div>
-
         <div className="card-body p-0">
           <table className="table table-bordered mb-0">
             <thead className="table-light">
               <tr>
-                <th>No</th>
+                <th style={{ width: "80px" }}>No</th>
                 <th>Nama Semester</th>
                 <th style={{ width: "150px" }}>Aksi</th>
               </tr>
@@ -125,7 +109,7 @@ const JenisSemester = () => {
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center">
+                  <td colSpan="3" className="text-center">
                     Tidak ada data
                   </td>
                 </tr>
@@ -134,9 +118,6 @@ const JenisSemester = () => {
                   <tr key={item.id}>
                     <td>{index + 1}</td>
                     <td>{item.nama}</td>
-
-                    {/* 🔥 TOGGLE BARU */}
-
                     <td>
                       <button
                         className="btn btn-sm btn-warning me-2"
@@ -160,7 +141,6 @@ const JenisSemester = () => {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
       {showModal && (
         <>
           <div
@@ -176,6 +156,7 @@ const JenisSemester = () => {
           />
 
           <div
+            className="bg-white p-4 rounded shadow"
             style={{
               position: "fixed",
               top: "50%",
@@ -184,32 +165,32 @@ const JenisSemester = () => {
               zIndex: 1000,
               width: "400px",
             }}
-            className="bg-white p-4 rounded shadow"
           >
             <h5 className="mb-3">
-              {form.id ? "Edit" : "Tambah"}  Jenis Semester
+              {form.id ? "Edit" : "Tambah"} Jenis Semester
             </h5>
 
             <input
+              type="text"
               className="form-control mb-3"
-              placeholder="nama semester"
+              placeholder="Masukkan nama semester"
               value={form.nama}
               onChange={(e) =>
                 setForm({ ...form, nama: e.target.value })
               }
             />
 
-            <div className="flex justify-end gap-2 mt-4">
+            <div className="d-flex justify-content-end gap-2">
               <button
+                className="btn btn-secondary"
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded bg-gray-400 hover:bg-gray-500 text-white transition"
               >
                 Batal
               </button>
 
               <button
+                className="btn btn-primary"
                 onClick={handleSubmit}
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white shadow transition"
               >
                 Simpan
               </button>
