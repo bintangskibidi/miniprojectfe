@@ -1,246 +1,274 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import api from "../../../utils/api";
 
 const TahunAjaran = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      tahunAjaran: "2025/2026",
-      tahun: "2025",
-      status: true,
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
   const [form, setForm] = useState({
     id: null,
-    tahunAjaran: "",
+    tahun_ajaran: "",
     tahun: "",
     status: true,
   });
 
-  // ================= TAMBAH =================
+  const getData = async () => {
+    try {
+      const res = await api.get("/tahun-ajaran");
+      setData(res.data.data || []);
+    } catch (error) {
+      console.error("Gagal mengambil data tahun ajaran:", error);
+      Swal.fire("Error", "Gagal memuat data", "error");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const handleTambah = () => {
     setForm({
       id: null,
-      tahunAjaran: "",
+      tahun_ajaran: "",
       tahun: "",
       status: true,
     });
     setShowModal(true);
   };
 
-  // ================= EDIT =================
   const handleEdit = (item) => {
-    setForm(item);
+    setForm({
+      id: item.id,
+      tahun_ajaran: item.tahun_ajaran,
+      tahun: item.tahun,
+      status: item.status,
+    });
     setShowModal(true);
   };
 
-  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
       text: "Data akan dihapus permanen!",
       icon: "warning",
       showCancelButton: true,
+      confirmButtonColor: "#d33",
       confirmButtonText: "Ya, hapus",
       cancelButtonText: "Batal",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setData(data.filter((item) => item.id !== id));
-        Swal.fire("Berhasil", "Data dihapus", "success");
+        try {
+          await api.delete(`/tahun-ajaran/${id}`);
+          getData();
+          Swal.fire("Berhasil", "Data dihapus", "success");
+        } catch {
+          Swal.fire("Error", "Gagal menghapus data", "error");
+        }
       }
     });
   };
 
-  // ================= TOGGLE STATUS =================
-  const toggleStatus = (item) => {
-  setData(
-    data.map((d) =>
-      d.id === item.id ? { ...d, status: !d.status } : d
-    )
-  );
+  const toggleStatus = async (item) => {
+    try {
+      const res = await api.patch(`/tahun-ajaran/${item.id}`);
 
-  // 🔥 TOAST (tidak ganggu layar)
-  Swal.fire({
-    toast: true,
-    position: "top-end",
-    icon: "success",
-    title: `Tahun Ajaran ${
-      item.status ? "dinonaktifkan" : "diaktifkan"
-    }`,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-};
+      await getData();
 
-  // ================= SIMPAN =================
-  const handleSubmit = () => {
-    if (!form.tahunAjaran || !form.tahun) {
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: res.data.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error("Toggle error:", error.response?.data || error);
+
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Gagal mengubah status",
+        "error",
+      );
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!form.tahun_ajaran || !form.tahun) {
       Swal.fire("Warning", "Semua field wajib diisi!", "warning");
       return;
     }
 
-    if (form.id) {
-      setData(data.map((item) => (item.id === form.id ? form : item)));
-      Swal.fire("Berhasil", "Data berhasil diupdate", "success");
-    } else {
-      setData([...data, { ...form, id: Date.now() }]);
-      Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
-    }
+    try {
+      if (form.id) {
+        await api.put(`/tahun-ajaran/${form.id}`, form);
+        Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+      } else {
+        await api.post("/tahun-ajaran", form);
+        Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+      }
 
-    setShowModal(false);
+      setShowModal(false);
+      getData();
+    } catch {
+      Swal.fire("Error", "Gagal menyimpan data", "error");
+    }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      {/* HEADER */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "15px",
-        }}
-      >
-        <h3>Data Tahun Ajaran</h3>
-        <button className="btn btn-primary" onClick={handleTambah}>
+    <div
+      className="p-4"
+      style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}
+    >
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h5 className="fw-bold mb-0">
+          <i className="bi bi-calendar-event text-primary me-2"></i>
+          Data Tahun Ajaran
+        </h5>
+        <button
+          className="btn btn-primary shadow-sm fw-bold px-3"
+          onClick={handleTambah}
+        >
           + Tambah
         </button>
       </div>
 
-      {/* CARD */}
-      <div className="card shadow-sm">
-        <div className="card-header">Daftar Tahun Ajaran</div>
+      <div className="card shadow-sm border-0" style={{ borderRadius: "10px" }}>
+        <div className="card-header bg-white py-3 border-bottom">
+          <div className="fw-bold text-dark d-flex align-items-center">
+            <i className="bi bi-list-ul text-info me-2"></i>
+            Daftar Tahun Ajaran
+          </div>
+        </div>
 
         <div className="card-body p-0">
-          <table className="table table-bordered mb-0">
-            <thead className="table-light">
-              <tr>
-                <th>No</th>
-                <th>Tahun Ajaran</th>
-                <th>Tahun</th>
-                <th>Status</th>
-                <th style={{ width: "150px" }}>Aksi</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {data.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="text-center">
-                    Tidak ada data
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-hover mb-0 align-middle">
+              <thead className="table-light">
+                <tr className="small fw-bold text-center border-bottom">
+                  <th width="80">#</th>
+                  <th className="text-start ps-4">Tahun Ajaran</th>
+                  <th className="text-start ps-4">Tahun</th>
+                  <th width="180">Status</th>
+                  <th width="150">Aksi</th>
                 </tr>
-              ) : (
-                data.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.tahunAjaran}</td>
-                    <td>{item.tahun}</td>
-
-                    {/* 🔥 TOGGLE BARU */}
-                    <td>
-                      <button
-                        onClick={() => toggleStatus(item)}
-                        className={`px-3 py-1 rounded text-white shadow transition ${
-                          item.status
-                            ? "bg-yellow-500 hover:bg-yellow-600"
-                            : "bg-blue-500 hover:bg-blue-600"
-                        }`}
-                      >
-                        {item.status ? "Non-Aktifkan" : "Aktifkan"}
-                      </button>
-                    </td>
-
-                    <td>
-                      <button
-                        className="btn btn-sm btn-warning me-2"
-                        onClick={() => handleEdit(item)}
-                      >
-                        ✏️
-                      </button>
-
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleHapus(item.id)}
-                      >
-                        🗑️
-                      </button>
+              </thead>
+              <tbody>
+                {data.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="text-center py-4 text-muted small"
+                    >
+                      Data tidak tersedia
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  data.map((item, index) => (
+                    <tr key={item.id} className="small border-bottom">
+                      <td className="text-center text-muted">{index + 1}</td>
+                      <td className="ps-4 fw-medium">{item.tahun_ajaran}</td>
+                      <td className="ps-4">{item.tahun}</td>
+                      <td className="text-center">
+                        <button
+                          onClick={() => toggleStatus(item)}
+                          className={`btn btn-sm ${item.status ? "btn-warning" : "btn-success"}`}
+                        >
+                          {item.status ? "Non-Aktifkan" : "Aktifkan"}
+                        </button>
+                      </td>
+                      <td className="text-center">
+                        <div className="btn-group gap-1">
+                          <button
+                            className="btn btn-sm border text-primary bg-white"
+                            style={{ borderColor: "#0d6efd" }}
+                            onClick={() => handleEdit(item)}
+                          >
+                            <i className="bi bi-pencil-square"></i>
+                          </button>
+                          <button
+                            className="btn btn-sm border text-danger bg-white"
+                            style={{ borderColor: "#dc3545" }}
+                            onClick={() => handleHapus(item.id)}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
       {showModal && (
-        <>
+        <div
+          className="modal d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0,0,0,0.5)",
-              zIndex: 999,
-            }}
-          />
-
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1000,
-              width: "400px",
-            }}
-            className="bg-white p-4 rounded shadow"
+            className="modal-dialog modal-dialog-centered"
+            style={{ width: "400px" }}
           >
-            <h5 className="mb-3">
-              {form.id ? "Edit" : "Tambah"} Tahun Ajaran
-            </h5>
+            <div className="modal-content border-0 shadow">
+              <div className="modal-header bg-primary text-white">
+                <h6 className="modal-title fw-bold">
+                  {form.id ? "Edit" : "Tambah"} Tahun Ajaran
+                </h6>
+                <button
+                  type="button"
+                  className="btn-close btn-close-white"
+                  onClick={() => setShowModal(false)}
+                ></button>
+              </div>
 
-            <input
-              className="form-control mb-2"
-              placeholder="Tahun Ajaran (2025/2026)"
-              value={form.tahunAjaran}
-              onChange={(e) =>
-                setForm({ ...form, tahunAjaran: e.target.value })
-              }
-            />
+              <div className="modal-body p-4">
+                <div className="mb-3">
+                  <label className="small fw-bold mb-1">Tahun Ajaran</label>
+                  <input
+                    className="form-control shadow-sm"
+                    placeholder="Contoh: 2025/2026"
+                    value={form.tahun_ajaran}
+                    onChange={(e) =>
+                      setForm({ ...form, tahun_ajaran: e.target.value })
+                    }
+                  />
+                </div>
 
-            <input
-              className="form-control mb-3"
-              placeholder="Tahun (2025)"
-              value={form.tahun}
-              onChange={(e) =>
-                setForm({ ...form, tahun: e.target.value })
-              }
-            />
+                <div className="mb-3">
+                  <label className="small fw-bold mb-1">Tahun</label>
+                  <input
+                    className="form-control shadow-sm"
+                    placeholder="Contoh: 2025"
+                    value={form.tahun}
+                    onChange={(e) =>
+                      setForm({ ...form, tahun: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
 
-            <div className="flex justify-end gap-2 mt-4">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded bg-gray-400 hover:bg-gray-500 text-white transition"
-              >
-                Batal
-              </button>
-
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white shadow transition"
-              >
-                Simpan
-              </button>
+              <div className="modal-footer bg-light border-0">
+                <button
+                  className="btn btn-sm btn-secondary px-3"
+                  onClick={() => setShowModal(false)}
+                >
+                  Batal
+                </button>
+                <button
+                  className="btn btn-sm btn-primary px-3 shadow-sm"
+                  onClick={handleSubmit}
+                >
+                  Simpan
+                </button>
+              </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

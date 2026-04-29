@@ -7,6 +7,7 @@ import DataWaliKelas from "./dashboard/manajemenSiswa/kesiswaan/DataWaliKelas";
 import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
 import ManajemenKeuangan from "./dashboard/manajemenKeuangan/ManajemenKeuangan";
+import LaporanBukuBesar from "./dashboard/manajemenKeuangan/LaporanBukuBesar";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan";
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
@@ -20,6 +21,8 @@ import Extrakulikuler from "./dashboard/manajemenSiswa/kegiatan/extrakulikuler";
 import Layout from "./component/sideBar/Layout";
 import "./App.css";
 import JadwalMengajar from "./dashboard/manajemenGuru/JadwalMengajar";
+import DistribusiJam from "./dashboard/manajemenGuru/DistribusiJam";
+import RiwayatMengajar from "./dashboard/manajemenGuru/RiwayatMengajar";
 import DataJurusan from "./dashboard/manajemenSiswa/kesiswaan/dataJurusan/DataJurusan";
 import KenaikanKelas from "./dashboard/manajemenSiswa/kesiswaan/KenaikanKelas";
 import JenisSemester from "./dashboard/manajemenSiswa/e-raport/JenisSemester";
@@ -27,6 +30,7 @@ import AspekPenilaian from "./dashboard/manajemenSiswa/e-raport/AspekPenilaian";
 import AbsensiHarian from "./dashboard/absensi/absensiharian";
 import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
+import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 
 function App() {
   return (
@@ -48,6 +52,8 @@ function App() {
           <Route path="siswa" element={<ManajemenSiswa />} />
           <Route path="guru" element={<ManajemenGuru />} />
           <Route path="/dashboard/mapel" element={<MataPelajaran />} />
+          <Route path="/dashboard/distribusijam" element={<DistribusiJam />} />
+          <Route path="/dashboard/RiwayatMengajar" element={<RiwayatMengajar />} />
           <Route
             path="/dashboard/JadwalMengajar"
             element={<JadwalMengajar />}
@@ -57,6 +63,7 @@ function App() {
           <Route path="/dashboard/edit-siswa/:id" element={<EditSiswa />} />
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
+          <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="profileSekolah" element={<ProfileSekolah />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />
@@ -67,6 +74,7 @@ function App() {
           <Route path="rekapabsensi" element={<RekapAbsensi />} />
           <Route path="absensimapel" element={<AbsensiMapel />} />
           <Route path="aspekpenilaian" element={<AspekPenilaian />} />
+          <Route path="dataraport" element={<DataRaport />} />
         </Route>
       </Routes>
     </BrowserRouter>

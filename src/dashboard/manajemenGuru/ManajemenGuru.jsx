@@ -20,37 +20,36 @@ ChartJS.register(
 );
 
 const ManajemenGuru = () => {
-  // DATA CARD (sementara 0)
+  // DATA (contoh sesuai gambar)
   const stats = [
     {
       title: "Total Guru",
-      value: 0,
+      value: 15,
       icon: <FaUserTie />,
-      color: "from-indigo-500 to-indigo-700",
+      bg: "bg-blue-600",
     },
     {
       title: "Mata Pelajaran",
-      value: 0,
+      value: 5,
       icon: <FaBookOpen />,
-      color: "from-purple-500 to-purple-700",
+      bg: "bg-green-600",
     },
     {
       title: "Total Jam Mengajar",
-      value: "0 Jam",
+      value: "14 Jam",
       icon: <FaClock />,
-      color: "from-blue-400 to-blue-500",
+      bg: "bg-yellow-500",
     },
   ];
 
-  // DATA CHART (kosong dulu)
   const data = {
-    labels: ["-", "-", "-", "-", "-"],
+    labels: ["Eka Prasetyo", "Fitriani", "Bayu Aji lesmana eka putra"],
     datasets: [
       {
         label: "Total Jam",
-        data: [0, 0, 0, 0, 0],
-        backgroundColor: "#4e73df",
-        borderRadius: 8,
+        data: [5, 5, 4],
+        backgroundColor: "#3b82f6",
+        borderRadius: 6,
         barThickness: 18,
       },
     ],
@@ -74,21 +73,26 @@ const ManajemenGuru = () => {
   };
 
   return (
-    <div className=" pt-24 p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100 min-h-screen">
 
-      {/* CARD */}
+      {/* HEADER */}
+      <div className="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block shadow">
+        📁 Manajemen Guru
+      </div>
+
+      {/* CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {stats.map((item, i) => (
           <div
             key={i}
-            className={`bg-gradient-to-r ${item.color} text-white rounded-xl p-6 shadow flex justify-between items-center`}
+            className={`${item.bg} text-white rounded-lg p-5 shadow flex justify-between items-center`}
           >
             <div>
-              <p className="text-sm opacity-80">{item.title}</p>
+              <p className="text-sm opacity-90">{item.title}</p>
               <h2 className="text-2xl font-bold mt-1">{item.value}</h2>
             </div>
 
-            <div className="text-3xl bg-white/20 p-3 rounded-full">
+            <div className="text-2xl bg-white/20 p-3 rounded-full">
               {item.icon}
             </div>
           </div>
@@ -96,67 +100,97 @@ const ManajemenGuru = () => {
       </div>
 
       {/* CHART */}
-      <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
-        <h2 className="font-semibold text-gray-700 mb-4">
+      <div className="bg-white rounded-lg shadow border mb-6">
+        <div className="px-4 py-2 border-b font-medium text-gray-700">
           📊 Distribusi Jam Mengajar
-        </h2>
-
-        <Bar data={data} options={options} />
-      </div>
-      <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
-        <div className="bg-white rounded-xl shadow p-6 border border-gray-100">
-        <h2 className="font-semibold text-gray-700 mb-4">
-          📅 Jadwal Mingguan
-        </h2>
-        <div className="card-body p-0">
-          <div className="table-responsive ">
-            <table className="table table-bordered mb-0 table-hover">
-              <thead className="table-light">
-                <tr className="bg-blue-200">
-                  <th>Hari</th>
-                  <th>Jam</th>
-                  <th>Mapel</th>
-                  <th>Guru</th>
-                  <th>Kelas</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Senin</td>
-                  <td>06:00-10:00</td>
-                  <td>Bahasa Indonesia</td>
-                  <td>Sakti Wicaksono</td>
-                  <td>X TKJ</td>
-                </tr>
-                <tr>
-                  <td>Senin</td>
-                  <td>06:00-10:00</td>
-                  <td>Bahasa Indonesia</td>
-                  <td>Sakti Wicaksono</td>
-                  <td>X TKJ</td>
-                </tr>
-                <tr>
-                  <td>Senin</td>
-                  <td>06:00-10:00</td>
-                  <td>Bahasa Indonesia</td>
-                  <td>Sakti Wicaksono</td>
-                  <td>X TKJ</td>
-                </tr>
-                <tr>
-                  <td>Senin</td>
-                  <td>06:00-10:00</td>
-                  <td>Bahasa Indonesia</td>
-                  <td>Sakti Wicaksono</td>
-                  <td>X TKJ</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
+
+        <div className="p-4">
+          <Bar data={data} options={options} />
+        </div>
+      </div>
+
+      {/* TABLE */}
+      <div className="bg-white rounded-lg shadow border">
+        <div className="px-4 py-2 border-b font-medium text-gray-700">
+          📅 Jadwal Mengajar Mingguan
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-100 text-gray-600">
+              <tr>
+                <th className="p-2 border">Hari</th>
+                <th className="p-2 border">Jam</th>
+                <th className="p-2 border">Mata Pelajaran</th>
+                <th className="p-2 border">Guru</th>
+                <th className="p-2 border">Kelas</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr className="hover:bg-gray-50">
+                <td className="p-2 border">Senin</td>
+                <td className="p-2 border">12:00 - 17:00</td>
+                <td className="p-2 border">Bahasa Jawa</td>
+                <td className="p-2 border">Eka Prasetyo</td>
+                <td className="p-2 border">VII A</td>
+              </tr>
+
+              <tr className="hover:bg-gray-50">
+                <td className="p-2 border">Selasa</td>
+                <td className="p-2 border italic text-gray-400">
+                  Tidak ada jadwal
+                </td>
+                <td className="p-2 border"></td>
+                <td className="p-2 border"></td>
+                <td className="p-2 border"></td>
+              </tr>
+
+              <tr className="hover:bg-gray-50">
+                <td className="p-2 border">Rabu</td>
+                <td className="p-2 border">08:00 - 10:00</td>
+                <td className="p-2 border">Bahasa Jepang</td>
+                <td className="p-2 border">
+                  Bayu Aji lesmana eka putra
+                </td>
+                <td className="p-2 border">VII A</td>
+              </tr>
+
+              <tr className="hover:bg-gray-50">
+                <td className="p-2 border">Kamis</td>
+                <td className="p-2 border">07:00 - 12:00</td>
+                <td className="p-2 border">Bahasa Jawa</td>
+                <td className="p-2 border">Fitriani</td>
+                <td className="p-2 border">VII B</td>
+              </tr>
+
+              <tr className="hover:bg-gray-50">
+                <td className="p-2 border">Jumat</td>
+                <td className="p-2 border">10:00 - 12:00</td>
+                <td className="p-2 border">
+                  Pendidikan Agama Islam
+                </td>
+                <td className="p-2 border">
+                  Bayu Aji lesmana eka putra
+                </td>
+                <td className="p-2 border">VII A</td>
+              </tr>
+
+              <tr className="hover:bg-gray-50">
+                <td className="p-2 border">Sabtu</td>
+                <td className="p-2 border italic text-gray-400">
+                  Tidak ada jadwal
+                </td>
+                <td className="p-2 border"></td>
+                <td className="p-2 border"></td>
+                <td className="p-2 border"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    
   );
 };
 

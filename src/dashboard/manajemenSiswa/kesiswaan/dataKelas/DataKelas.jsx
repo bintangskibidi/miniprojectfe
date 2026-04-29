@@ -126,7 +126,7 @@ const DataKelas = () => {
             <table className="table table-hover mb-0 align-middle">
               <thead className="table-light border-bottom">
                 <tr className="small fw-bold text-center">
-                  <th width="60">#</th>
+                  <th width="60">No</th>
                   <th className="text-start ps-4">Kode Kelas</th>
                   <th className="text-start ps-4">Nama Kelas</th>
                   <th width="120">Aksi</th>

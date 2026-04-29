@@ -16,6 +16,10 @@
   }
 }
 
+.input {
+  @apply border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
 .animate-float {
   animation: floatBounce 3s ease-in-out infinite;
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
