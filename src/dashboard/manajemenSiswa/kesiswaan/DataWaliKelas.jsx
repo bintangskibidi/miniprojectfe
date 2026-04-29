@@ -1,18 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import api from "../../../utils/api"; // Menggunakan instance axios yang sudah kamu buat
 
 const DataWaliKelas = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      namaKelas: "VII A",
-      namaPegawai: "Eka Prasetyo",
-      tahunAjaran: "2026/2027",
-    },
-  ]);
 
   const [showModal, setShowModal] = useState(false);
-
   const [form, setForm] = useState({
     id: null,
     namaKelas: "",
@@ -20,20 +12,37 @@ const DataWaliKelas = () => {
     tahunAjaran: "",
   });
 
+
+  const getData = async () => {
+    try {
+      const res = await api.get("/walikelas");
+      // Menyesuaikan format res.data.data seperti pada DataJurusan
+      setData(res.data.data || []);
+    } catch (error) {
+      console.error("Gagal load data wali kelas:", error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+
   const handleTambah = () => {
-    setForm({
-      id: null,
-      namaKelas: "",
-      namaPegawai: "",
-      tahunAjaran: "",
-    });
+    setForm({ id: null, namaKelas: "", namaPegawai: "", tahunAjaran: "" });
     setShowModal(true);
   };
 
   const handleEdit = (item) => {
-    setForm(item);
+    setForm({
+      id: item.id,
+      namaKelas: item.namaKelas,
+      namaPegawai: item.namaPegawai,
+      tahunAjaran: item.tahunAjaran,
+    });
     setShowModal(true);
   };
+
 
   const handleHapus = (id) => {
     Swal.fire({
@@ -42,33 +51,44 @@ const DataWaliKelas = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
-      cancelButtonColor: "#6c757d",
-      confirmButtonText: "Ya, hapus!",
+      confirmButtonText: "Ya, hapus",
       cancelButtonText: "Batal",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setData(data.filter((item) => item.id !== id));
-
-        Swal.fire({
-          icon: "success",
-          title: "Terhapus!",
-          text: "Data berhasil dihapus",
-          timer: 1500,
-          showConfirmButton: false,
-        });
+        try {
+          await api.delete(`/walikelas/${id}`);
+          getData();
+          Swal.fire("Berhasil", "Data berhasil dihapus", "success");
+        } catch (error) {
+          Swal.fire("Error", "Gagal menghapus data", "error");
+        }
       }
     });
   };
 
+
+  const handleSubmit = async () => {
   const handleSubmit = () => {
     if (!form.namaKelas || !form.namaPegawai || !form.tahunAjaran) {
-      Swal.fire({
-        icon: "warning",
-        title: "Oops...",
-        text: "Semua field wajib diisi!",
-      });
+      Swal.fire("Warning", "Semua field wajib diisi!", "warning");
       return;
     }
+
+
+    try {
+      if (form.id) {
+        // Mode Update
+        await api.put(`/walikelas/${form.id}`, form);
+        Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+      } else {
+        // Mode Tambah Baru
+        await api.post("/walikelas", form);
+        Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+      }
+      setShowModal(false);
+      getData();
+    } catch (error) {
+      Swal.fire("Error", "Gagal simpan data", "error");
 
     if (form.id) {
       setData(
@@ -93,8 +113,6 @@ const DataWaliKelas = () => {
         showConfirmButton: false,
       });
     }
-
-    setShowModal(false);
   };
 
   return (
@@ -164,10 +182,37 @@ const DataWaliKelas = () => {
                       </button>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  data.map((item, index) => (
+                    <tr key={item.id} className="small border-bottom">
+                      <td className="text-center text-muted">{index + 1}</td>
+                      <td className="ps-4 fw-medium">{item.namaKelas}</td>
+                      <td className="ps-4">{item.namaPegawai}</td>
+                      <td className="ps-4">{item.tahunAjaran}</td>
+                      <td className="text-center">
+                        <div className="btn-group gap-1">
+                          <button 
+                            className="btn btn-sm border text-primary bg-white" 
+                            style={{borderColor: '#0d6efd'}}
+                            onClick={() => handleEdit(item)}
+                          >
+                            <i className="bi bi-pencil-square"></i>
+                          </button>
+                          <button 
+                            className="btn btn-sm border text-danger bg-white" 
+                            style={{borderColor: '#dc3545'}}
+                            onClick={() => handleHapus(item.id)}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -226,7 +271,7 @@ const DataWaliKelas = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
