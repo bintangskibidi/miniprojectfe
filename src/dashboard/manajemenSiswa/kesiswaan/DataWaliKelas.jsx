@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import api from "../../../utils/api"; // Menggunakan instance axios yang sudah kamu buat
 
 const DataWaliKelas = () => {
-
+  const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
     id: null,
@@ -12,7 +12,7 @@ const DataWaliKelas = () => {
     tahunAjaran: "",
   });
 
-
+  // ================= GET DATA =================
   const getData = async () => {
     try {
       const res = await api.get("/walikelas");
@@ -27,12 +27,13 @@ const DataWaliKelas = () => {
     getData();
   }, []);
 
-
+  // ================= TAMBAH =================
   const handleTambah = () => {
     setForm({ id: null, namaKelas: "", namaPegawai: "", tahunAjaran: "" });
     setShowModal(true);
   };
 
+  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm({
       id: item.id,
@@ -43,7 +44,7 @@ const DataWaliKelas = () => {
     setShowModal(true);
   };
 
-
+  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -66,14 +67,12 @@ const DataWaliKelas = () => {
     });
   };
 
-
+  // ================= SIMPAN (POST/PUT) =================
   const handleSubmit = async () => {
-  const handleSubmit = () => {
     if (!form.namaKelas || !form.namaPegawai || !form.tahunAjaran) {
       Swal.fire("Warning", "Semua field wajib diisi!", "warning");
       return;
     }
-
 
     try {
       if (form.id) {
@@ -89,97 +88,46 @@ const DataWaliKelas = () => {
       getData();
     } catch (error) {
       Swal.fire("Error", "Gagal simpan data", "error");
-
-    if (form.id) {
-      setData(
-        data.map((item) => (item.id === form.id ? form : item))
-      );
-
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: "Data berhasil diupdate",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    } else {
-      setData([...data, { ...form, id: Date.now() }]);
-
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: "Data berhasil ditambahkan",
-        timer: 1500,
-        showConfirmButton: false,
-      });
     }
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
- 
-      {/* TITLE + BUTTON */}
-      <div className="flex justify-between items-center mb-4">
-        <h4 className="flex items-center gap-2 font-semibold text-gray-700">
-          🙄Data Wali Kelas
-        </h4>
-
-        <button
-          className="bg-blue-600 text-white px-3 py-1 rounded shadow hover:bg-blue-700 text-sm"
-          onClick={handleTambah}
-        >
+    <div className="p-4" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h5 className="fw-bold mb-0">
+          <i className="bi bi-person-badge text-primary me-2"></i> Data Wali Kelas
+        </h5>
+        <button className="btn btn-primary shadow-sm fw-bold px-3" onClick={handleTambah}>
           + Tambah
         </button>
       </div>
 
-      {/* CARD */}
-      <div className="bg-white rounded-lg shadow border">
-        <div className="px-4 py-2 border-b font-medium text-gray-600 flex items-center gap-2">
-          📋 Daftar Wali Kelas
+      {/* CARD TABEL */}
+      <div className="card shadow-sm border-0" style={{ borderRadius: "10px" }}>
+        <div className="card-header bg-white py-3 border-bottom">
+          <div className="fw-bold text-dark d-flex align-items-center">
+            <i className="bi bi-list-ul text-info me-2"></i> Daftar Wali Kelas
+          </div>
         </div>
 
-        <div className="p-0">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-100 text-gray-600">
-              <tr>
-                <th className="p-2 border">No</th>
-                <th className="p-2 border">Nama Kelas</th>
-                <th className="p-2 border">Nama Pegawai</th>
-                <th className="p-2 border">Tahun Ajaran</th>
-                <th className="p-2 border text-center">Aksi</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {data.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="text-center p-3">
-                    Tidak ada data
-                  </td>
+        <div className="card-body p-0">
+          <div className="table-responsive">
+            <table className="table table-hover mb-0 align-middle">
+              <thead className="table-light">
+                <tr className="small fw-bold text-center border-bottom">
+                  <th width="80">#</th>
+                  <th className="text-start ps-4">Nama Kelas</th>
+                  <th className="text-start ps-4">Nama Pegawai</th>
+                  <th className="text-start ps-4">Tahun Ajaran</th>
+                  <th width="150">Aksi</th>
                 </tr>
-              ) : (
-                data.map((item, index) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="p-2 border text-center">
-                      {index + 1}
-                    </td>
-                    <td className="p-2 border">{item.namaKelas}</td>
-                    <td className="p-2 border">{item.namaPegawai}</td>
-                    <td className="p-2 border">{item.tahunAjaran}</td>
-                    <td className="p-2 border text-center">
-                      <button
-                        className="bg-blue-500 text-white px-2 py-1 rounded mr-1 hover:bg-blue-600"
-                        onClick={() => handleEdit(item)}
-                      >
-                        ✏️
-                      </button>
-
-                      <button
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        onClick={() => handleHapus(item.id)}
-                      >
-                        🗑️
-                      </button>
+              </thead>
+              <tbody>
+                {data.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" className="text-center py-4 text-muted small">
+                      Data tidak tersedia
                     </td>
                   </tr>
                 ) : (
@@ -216,58 +164,49 @@ const DataWaliKelas = () => {
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* ================= MODAL TAMBAH/EDIT ================= */}
       {showModal && (
-        <>
-          <div className="fixed inset-0 bg-black/40 z-40"></div>
-
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-96">
-            <div className="bg-white rounded-lg shadow-lg p-4">
-              <h5 className="mb-3 font-semibold">
-                {form.id ? "Edit" : "Tambah"} Wali Kelas
-              </h5>
-
-              <input
-                className="w-full border p-2 mb-2 rounded"
-                placeholder="Nama Kelas"
-                value={form.namaKelas}
-                onChange={(e) =>
-                  setForm({ ...form, namaKelas: e.target.value })
-                }
-              />
-
-              <input
-                className="w-full border p-2 mb-2 rounded"
-                placeholder="Nama Pegawai"
-                value={form.namaPegawai}
-                onChange={(e) =>
-                  setForm({ ...form, namaPegawai: e.target.value })
-                }
-              />
-
-              <input
-                className="w-full border p-2 mb-3 rounded"
-                placeholder="Tahun Ajaran"
-                value={form.tahunAjaran}
-                onChange={(e) =>
-                  setForm({ ...form, tahunAjaran: e.target.value })
-                }
-              />
-
-              <div className="text-end">
-                <button
-                  className="bg-gray-400 text-white px-3 py-1 rounded mr-2"
-                  onClick={() => setShowModal(false)}
-                >
-                  Batal
-                </button>
-
-                <button
-                  className="bg-blue-600 text-white px-3 py-1 rounded"
-                  onClick={handleSubmit}
-                >
-                  Simpan
-                </button>
+        <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog modal-dialog-centered" style={{ width: "450px" }}>
+            <div className="modal-content border-0 shadow">
+              <div className="modal-header bg-primary text-white">
+                <h6 className="modal-title fw-bold">
+                  {form.id ? "Edit" : "Tambah"} Wali Kelas
+                </h6>
+                <button type="button" className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
+              </div>
+              <div className="modal-body p-4">
+                <div className="mb-3">
+                  <label className="small fw-bold mb-1">Nama Kelas</label>
+                  <input
+                    className="form-control shadow-sm"
+                    placeholder="Contoh: X RPL 1"
+                    value={form.namaKelas}
+                    onChange={(e) => setForm({ ...form, namaKelas: e.target.value })}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="small fw-bold mb-1">Nama Pegawai</label>
+                  <input
+                    className="form-control shadow-sm"
+                    placeholder="Nama Lengkap Guru"
+                    value={form.namaPegawai}
+                    onChange={(e) => setForm({ ...form, namaPegawai: e.target.value })}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="small fw-bold mb-1">Tahun Ajaran</label>
+                  <input
+                    className="form-control shadow-sm"
+                    placeholder="Contoh: 2023/2024"
+                    value={form.tahunAjaran}
+                    onChange={(e) => setForm({ ...form, tahunAjaran: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="modal-footer bg-light border-0">
+                <button className="btn btn-sm btn-secondary px-3" onClick={() => setShowModal(false)}>Batal</button>
+                <button className="btn btn-sm btn-primary px-3 shadow-sm" onClick={handleSubmit}>Simpan</button>
               </div>
             </div>
           </div>
