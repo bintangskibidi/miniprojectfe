@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
+import api from "../../../utils/api"; // pastikan path benar
 
 // ================== STYLE ==================
 const customStyles = {
@@ -26,7 +27,6 @@ const ModalTambah = ({ isOpen, onClose, onSave, editData }) => {
     keterangan: "",
   });
 
-  // 🔥 isi form saat edit
   useEffect(() => {
     if (editData) {
       setForm(editData);
@@ -39,7 +39,7 @@ const ModalTambah = ({ isOpen, onClose, onSave, editData }) => {
         keterangan: "",
       });
     }
-  }, [editData]);
+  }, [editData, isOpen]); // Tambahkan isOpen agar form reset saat modal dibuka ulang
 
   if (!isOpen) return null;
 
@@ -64,15 +64,17 @@ const ModalTambah = ({ isOpen, onClose, onSave, editData }) => {
   return (
     <div style={overlayStyle}>
       <div style={modalStyle}>
-        <h3>{editData ? "Edit Ekstrakurikuler" : "Tambah Ekstrakurikuler"}</h3>
+        <h3 style={{ marginBottom: "10px" }}>
+          {editData ? "Edit Ekstrakurikuler" : "Tambah Ekstrakurikuler"}
+        </h3>
 
-        <input name="nama" value={form.nama} onChange={handleChange} placeholder="Nama" style={inputStyle} />
+        <input name="nama" value={form.nama} onChange={handleChange} placeholder="Nama Ekstrakurikuler" style={inputStyle} />
         <input name="pembina" value={form.pembina} onChange={handleChange} placeholder="Pembina" style={inputStyle} />
-        <input name="jadwal" value={form.jadwal} onChange={handleChange} placeholder="Jadwal" style={inputStyle} />
+        <input name="jadwal" value={form.jadwal} onChange={handleChange} placeholder="Jadwal (Contoh: Senin, 15:00)" style={inputStyle} />
         <input name="tanggal" type="date" value={form.tanggal} onChange={handleChange} style={inputStyle} />
         <input name="keterangan" value={form.keterangan} onChange={handleChange} placeholder="Keterangan" style={inputStyle} />
 
-        <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+        <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
           <button onClick={handleSubmit} style={btnPrimary}>
             {editData ? "Update" : "Simpan"}
           </button>
@@ -83,23 +85,29 @@ const ModalTambah = ({ isOpen, onClose, onSave, editData }) => {
   );
 };
 
-// ================== MAIN ==================
+// ================== MAIN COMPONENT ==================
 export default function Ekstrakurikuler() {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      nama: "Pramuka",
-      pembina: "Jayadi",
-      jadwal: "Sabtu",
-      tanggal: "2025-07-12",
-      keterangan: "-",
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [editData, setEditData] = useState(null);
 
-  // DELETE
+  // ================= GET DATA =================
+  const getData = async () => {
+    try {
+      const res = await api.get("/ekstra");
+      // Membalikkan urutan agar data ID terbesar (terbaru) muncul di index 0
+      const sortedData = (res.data.data || []).reverse();
+      setData(sortedData);
+    } catch (error) {
+      console.error("Gagal load data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // ================= DELETE =================
   const handleDelete = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -109,60 +117,60 @@ export default function Ekstrakurikuler() {
       confirmButtonColor: "#2563eb",
       cancelButtonColor: "#dc2626",
       confirmButtonText: "Ya, hapus!",
-    }).then((result) => {
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setData(data.filter((item) => item.id !== id));
+        try {
+          await api.delete(`/ekstra/${id}`);
+          getData(); // Refresh data
 
-        Swal.fire({
-          icon: "success",
-          title: "Terhapus!",
-          timer: 1200,
-          showConfirmButton: false,
-        });
+          Swal.fire({
+            icon: "success",
+            title: "Terhapus!",
+            timer: 1200,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          Swal.fire("Error", "Gagal hapus data", "error");
+        }
       }
     });
   };
 
-  // SAVE (ADD + EDIT)
-  const handleSave = (form) => {
-    if (editData) {
-      const updated = data.map((item) =>
-        item.id === editData.id ? { ...item, ...form } : item
-      );
+  // ================= SAVE (ADD / EDIT) =================
+  const handleSave = async (form) => {
+    try {
+      if (editData) {
+        await api.put(`/ekstra/${editData.id}`, form);
+        Swal.fire({ icon: "success", title: "Update berhasil", timer: 1200, showConfirmButton: false });
+      } else {
+        await api.post("/ekstra", form);
+        Swal.fire({ icon: "success", title: "Data ditambahkan", timer: 1200, showConfirmButton: false });
+      }
 
-      setData(updated);
-
-      Swal.fire({
-        icon: "success",
-        title: "Update berhasil",
-        timer: 1200,
-        showConfirmButton: false,
-      });
-
+      getData(); // Refresh list agar urutan kembali benar
       setEditData(null);
-    } else {
-      const newId = data.length + 1;
-      setData([...data, { id: newId, ...form }]);
-
-      Swal.fire({
-        icon: "success",
-        title: "Data ditambahkan",
-        timer: 1200,
-        showConfirmButton: false,
-      });
+    } catch (error) {
+      Swal.fire("Error", "Gagal simpan data", "error");
     }
   };
 
-  // EDIT
+  // ================= EDIT HANDLER =================
   const handleEdit = (row) => {
     setEditData(row);
     setOpenModal(true);
   };
 
+  // Definisi Kolom
   const columns = [
-    { name: "No", selector: (row) => row.id, width: "60px" },
-    { name: "Nama Ekstrakurikuler", selector: (row) => row.nama },
-    { name: "Pembina", selector: (row) => row.pembina },
+    {
+      name: "No",
+      // Menggunakan index i + 1 agar nomor selalu urut 1, 2, 3... di tampilan
+      selector: (row, i) => i + 1,
+      width: "60px",
+    },
+    { name: "Nama Ekstrakurikuler", selector: (row) => row.nama, sortable: true },
+    { name: "Pembina", selector: (row) => row.pembina, sortable: true },
     { name: "Jadwal", selector: (row) => row.jadwal },
     { name: "Tanggal", selector: (row) => row.tanggal },
     { name: "Keterangan", selector: (row) => row.keterangan },
@@ -170,17 +178,20 @@ export default function Ekstrakurikuler() {
       name: "Aksi",
       cell: (row) => (
         <div style={{ display: "flex", gap: "10px" }}>
-          <button style={btnEdit} onClick={() => handleEdit(row)}>✏️</button>
-          <button style={btnDelete} onClick={() => handleDelete(row.id)}>🗑️</button>
+          <button style={btnEdit} onClick={() => handleEdit(row)} title="Edit">✏️</button>
+          <button style={btnDelete} onClick={() => handleDelete(row.id)} title="Hapus">🗑️</button>
         </div>
       ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
   ];
 
   return (
     <div style={container}>
       <div style={header}>
-        <h2>Data Ekstrakurikuler</h2>
+        <h2 style={{ color: "#1e293b" }}>Data Ekstrakurikuler</h2>
         <button
           style={btnPrimary}
           onClick={() => {
@@ -188,7 +199,7 @@ export default function Ekstrakurikuler() {
             setOpenModal(true);
           }}
         >
-          + Tambah
+          + Tambah Ekstra
         </button>
       </div>
 
@@ -200,6 +211,7 @@ export default function Ekstrakurikuler() {
           highlightOnHover
           responsive
           customStyles={customStyles}
+          noDataComponent="Tidak ada data untuk ditampilkan"
         />
       </div>
 
@@ -213,43 +225,47 @@ export default function Ekstrakurikuler() {
   );
 }
 
-// ================== STYLE ==================
+// ================== CSS-IN-JS STYLES ==================
 const container = {
-  padding: "20px",
+  padding: "30px",
   backgroundColor: "#f1f5f9",
   minHeight: "100vh",
+  fontFamily: "Inter, sans-serif",
 };
 
 const header = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  marginBottom: "15px",
+  marginBottom: "20px",
 };
 
 const card = {
   background: "white",
   borderRadius: "12px",
-  padding: "15px",
-  boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+  padding: "10px",
+  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
 };
 
 const btnPrimary = {
   background: "#2563eb",
   color: "white",
   border: "none",
-  padding: "8px 14px",
+  padding: "10px 18px",
   borderRadius: "8px",
   cursor: "pointer",
+  fontWeight: "600",
+  transition: "0.3s",
 };
 
 const btnDanger = {
   background: "#dc2626",
   color: "white",
   border: "none",
-  padding: "8px 14px",
+  padding: "10px 18px",
   borderRadius: "8px",
   cursor: "pointer",
+  fontWeight: "600",
 };
 
 const btnEdit = {
@@ -258,6 +274,7 @@ const btnEdit = {
   padding: "6px 10px",
   borderRadius: "6px",
   cursor: "pointer",
+  fontSize: "14px",
 };
 
 const btnDelete = {
@@ -267,6 +284,7 @@ const btnDelete = {
   borderRadius: "6px",
   cursor: "pointer",
   color: "white",
+  fontSize: "14px",
 };
 
 const overlayStyle = {
@@ -275,24 +293,28 @@ const overlayStyle = {
   left: 0,
   width: "100%",
   height: "100%",
-  background: "rgba(0,0,0,0.5)",
+  background: "rgba(0,0,0,0.6)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  zIndex: 1000,
 };
 
 const modalStyle = {
   background: "white",
-  padding: "20px",
-  borderRadius: "10px",
-  width: "300px",
+  padding: "25px",
+  borderRadius: "12px",
+  width: "400px",
   display: "flex",
   flexDirection: "column",
+  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2)",
 };
 
 const inputStyle = {
-  padding: "8px",
-  marginTop: "8px",
-  borderRadius: "6px",
-  border: "1px solid #ccc",
+  padding: "10px",
+  marginTop: "12px",
+  borderRadius: "8px",
+  border: "1px solid #cbd5e1",
+  fontSize: "14px",
+  outline: "none",
 };
