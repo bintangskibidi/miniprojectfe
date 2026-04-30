@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../../utils/api"
 
 export default function DataRaport() {
   const [filter, setFilter] = useState({
     kelas: "",
     tahun: "",
-    semester: "",
+    nama_semester: "",
     wali: "",
     mapel: "",
   });
@@ -34,18 +35,18 @@ export default function DataRaport() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [kelas, tahun, semester, wali, mapel] = await Promise.all([
-        axios.get("/api/kelas"),
-        axios.get("/api/tahun"),
-        axios.get("/api/semester"),
-        axios.get("/api/wali"),
+      const [kelas, tahun, nama_semester, wali, mapel] = await Promise.all([
+        api.get("/kelas"),
+        api.get("/tahun-ajaran"),
+        api.get("http://localhost:8000/semester"),
+        axios.get("/walikelas"),
         axios.get("/api/mapel"),
       ]);
 
       
       setKelasList(normalize(kelas.data));
       setTahunList(normalize(tahun.data));
-      setSemesterList(normalize(semester.data));
+      setSemesterList(normalize(nama_semester.data));
       setWaliList(normalize(wali.data));
       setMapelList(normalize(mapel.data));
 
@@ -64,7 +65,7 @@ export default function DataRaport() {
     setFilter({
       kelas: "",
       tahun: "",
-      semester: "",
+      nama_semester: "",
       wali: "",
       mapel: "",
     });
@@ -114,13 +115,13 @@ export default function DataRaport() {
               ))}
             </select>
 
-            {/* SEMESTER */}
-            <select name="semester" value={filter.semester} onChange={handleChange}
+
+            <select name="nama_semester" value={filter.nama_semester} onChange={handleChange}
               className="border rounded-lg px-3 py-2">
               <option value="">-- Pilih Semester --</option>
               {semesterList.map((s, i) => (
                 <option key={s.id || i} value={s.id}>
-                  Semester {s.nama || s.semester}
+                  Semester {s.nama_semester}
                 </option>
               ))}
             </select>

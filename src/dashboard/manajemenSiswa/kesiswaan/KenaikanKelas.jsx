@@ -1,29 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import api from "../../../utils/api";
 
-const dummySiswa = [
-  { id: 1, nama: "dwseaeggedrsg", nis: "3423234234" },
-  { id: 2, nama: "Ahmad Fikry", nis: "234396" },
-  { id: 3, nama: "Aulia Chelsea", nis: "234399" },
-];
 
 const KenaikanKelas = () => {
   const [tahun, setTahun] = useState("");
   const [kelas, setKelas] = useState("");
-
   const [tahunTujuan, setTahunTujuan] = useState("");
+  const [kelasTujuan, setKelasTujuan] = useState("");
+
+  const [dataTahunAjaran, setDataTahunAjaran] = useState([]);
+  const [dataKelas, setDataKelas] = useState([]);
 
   const [siswa, setSiswa] = useState([]);
   const [selected, setSelected] = useState([]);
   const [kelasBaru, setKelasBaru] = useState([]);
 
-  const handleTampilkan = () => {
-    if (!tahun || !kelas) {
-      alert("Pilih tahun ajaran dan kelas dulu!");
-      return;
+  // ================= FETCH DATA =================
+  useEffect(() => {
+    fetchTahunAjaran();
+    fetchKelas();
+  }, []);
+
+  const fetchTahunAjaran = async () => {
+    try {
+      const res = await api.get("/tahun-ajaran");
+      setDataTahunAjaran(res.data.data || []);
+    } catch (error) {
+      console.error("Gagal fetch tahun ajaran:", error);
     }
-    setSiswa(dummySiswa);
   };
+
+  const fetchKelas = async () => {
+    try {
+      const res = await api.get("/kelas");
+      setDataKelas(res.data.data || []);
+    } catch (error) {
+      console.error("Gagal fetch kelas:", error);
+    }
+  };
+
+const handleTampilkan = async () => {
+  if (!tahun || !kelas) {
+    Swal.fire({
+      icon: "warning",
+      title: "Oops...",
+      text: "Pilih tahun ajaran dan kelas dulu!",
+    });
+    return;
+  }
+
+  try {
+    const res = await api.get("/siswa");
+    const allSiswa = res.data.data || [];
+
+    // 1. Cari Nama Teks dari data master (karena database siswa isinya TEKS, bukan ID)
+    const objekKelas = dataKelas.find(k => String(k.id) === String(kelas));
+    const objekTahun = dataTahunAjaran.find(t => String(t.id) === String(tahun));
+
+    const namaKelasDicari = objekKelas ? objekKelas.nama_kelas : "";
+    const namaTahunDicari = objekTahun ? objekTahun.tahun_ajaran : "";
+
+    // 2. Filter dengan pembersihan data (trim)
+    const hasilFilter = allSiswa.filter((s) => {
+      // Pastikan s.kelas dan s.tahun_ajaran ada isinya sebelum di-string-kan
+      const kSiswa = s.kelas ? String(s.kelas).trim() : "";
+      const tSiswa = s.tahun_ajaran ? String(s.tahun_ajaran).trim() : "";
+      
+      const kTarget = namaKelasDicari.trim();
+      const tTarget = namaTahunDicari.trim();
+
+      return kSiswa === kTarget && tSiswa === tTarget;
+    });
+
+    // 3. Update state
+    setSiswa(hasilFilter);
+
+    if (hasilFilter.length === 0) {
+      Swal.fire({
+        icon: "info",
+        title: "Data Kosong",
+        text: `Siswa tidak ditemukan.`,
+      });
+    }
+  } catch (error) {
+    console.error("Gagal ambil siswa:", error);
+    Swal.fire("Error", "Gagal mengambil data dari server", "error");
+  }
+};
 
   const handleCheck = (id) => {
     if (selected.includes(id)) {
@@ -43,10 +107,7 @@ const KenaikanKelas = () => {
       return;
     }
 
-    const dataTerpilih = siswa.filter((s) =>
-      selected.includes(s.id)
-    );
-
+    const dataTerpilih = siswa.filter((s) => selected.includes(s.id));
     setKelasBaru([...kelasBaru, ...dataTerpilih]);
     setSelected([]);
 
@@ -85,11 +146,11 @@ const KenaikanKelas = () => {
   };
 
   const handleProses = () => {
-    if (!tahunTujuan) {
+    if (!tahunTujuan || !kelasTujuan) {
       Swal.fire({
         icon: "warning",
         title: "Oops...",
-        text: "Pilih tahun tujuan dulu!",
+        text: "Pilih tahun tujuan dan kelas baru!",
       });
       return;
     }
@@ -103,13 +164,17 @@ const KenaikanKelas = () => {
       return;
     }
 
-    Swal.fire({
+    // Find class name
+    const kelasNama = dataKelas.find(k => k.id === parseInt(kelasTujuan))?.nama_kelas || kelasTujuan;
+    const tahunNama = dataTahunAjaran.find(t => t.id === parseInt(tahunTujuan))?.tahun_ajaran || tahunTujuan;
+
+Swal.fire({
       title: "Konfirmasi Kenaikan",
       html: `
         <p>Yakin ingin memproses kenaikan kelas untuk <b>${kelasBaru.length} siswa</b>?</p>
         <ul style="text-align:left">
-          <li>Tahun Baru: <b>${tahunTujuan}</b></li>
-          <li>Kelas Baru: <b>${kelas}</b></li>
+          <li>Tahun Baru: <b>${tahunNama}</b></li>
+          <li>Kelas Baru: <b>${kelasNama}</b></li>
         </ul>
         <p style="color:red;">Proses ini tidak dapat dibatalkan!</p>
       `,
@@ -119,11 +184,9 @@ const KenaikanKelas = () => {
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.isConfirmed) {
-        // pindahkan data
         setSiswa(kelasBaru);
         setKelasBaru([]);
         setSelected([]);
-        setTahun(tahunTujuan);
 
         Swal.fire({
           icon: "success",
@@ -137,155 +200,187 @@ const KenaikanKelas = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-xl font-semibold mb-4">⬆️ Kenaikan Kelas</h1>
+    <div className="p-4" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+      <h2 className="fw-bold mb-4">⬆️ Kenaikan Kelas</h2>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* KIRI */}
-        <div className="bg-white border rounded">
-          <div className="bg-blue-500 text-white p-2 text-center font-semibold rounded-t">
+      <div className="grid md:grid-cols-2 gap-4">
+        {/* KIRI - KELAS ASAL */}
+        <div className="bg-white border rounded shadow-sm" style={{ borderRadius: "10px" }}>
+          <div className="bg-blue-500 text-white p-3 text-center font-semibold rounded-t" style={{ borderRadius: "10px 10px 0 0" }}>
             Kelas Asal
           </div>
 
-          <div className="p-4 space-y-3">
-            <div className="flex gap-2">
-              <select
-                value={tahun}
-                onChange={(e) => setTahun(e.target.value)}
-                className="border p-2 w-1/2 rounded"
-              >
-                <option value="">Pilih Tahun Ajaran</option>
-                <option value="2024/2025">2024/2025</option>
-                <option value="2025/2026">2025/2026</option>
-              </select>
+          <div className="p-4 space-y-4">
+            <div className="row g-3">
+              <div className="col-md-6">
+                <label className="form-label small fw-bold">Tahun Ajaran</label>
+                <select
+                  value={tahun}
+                  onChange={(e) => setTahun(e.target.value)}
+                  className="form-control"
+                >
+                  <option value="">Pilih Tahun Ajaran</option>
+                  {dataTahunAjaran.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.tahun_ajaran}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              <select
-                value={kelas}
-                onChange={(e) => setKelas(e.target.value)}
-                className="border p-2 w-1/2 rounded"
-              >
-                <option value="">Pilih Kelas</option>
-                <option value="IX A">IX A</option>
-                <option value="IX B">IX B</option>
-                <option value="Alumni">Alumni</option>
-              </select>
+              <div className="col-md-6">
+                <label className="form-label small fw-bold">Kelas</label>
+                <select
+                  value={kelas}
+                  onChange={(e) => setKelas(e.target.value)}
+                  className="form-control"
+                >
+                  <option value="">Pilih Kelas</option>
+                  {dataKelas.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.nama_kelas}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <button
               onClick={handleTampilkan}
               disabled={!tahun || !kelas}
-              className={`px-4 py-2 rounded text-white ${
-                !tahun || !kelas
-                  ? "bg-gray-400"
-                  : "bg-blue-500"
-              }`}
+              className={`btn w-100 ${!tahun || !kelas ? "btn-secondary" : "btn-primary"}`}
             >
               🔍 Tampilkan Siswa
             </button>
 
             {siswa.length > 0 && (
-              <>
-                <table className="w-full border text-sm mt-3">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border p-2"></th>
-                      <th className="border p-2 text-left">Nama</th>
-                      <th className="border p-2">NIS</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {siswa.map((s) => (
-                      <tr key={s.id}>
-                        <td className="border p-2 text-center">
-                          <input
-                            type="checkbox"
-                            checked={selected.includes(s.id)}
-                            onChange={() => handleCheck(s.id)}
-                          />
-                        </td>
-                        <td className="border p-2">{s.nama}</td>
-                        <td className="border p-2 text-center">
-                          {s.nis}
-                        </td>
+              <div className="mt-4">
+                <div className="table-responsive">
+                  <table className="table table-bordered table-hover small">
+                    <thead className="table-light">
+                      <tr>
+                        <th width="50"></th>
+                        <th>Nama</th>
+                        <th width="100">NIS</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {siswa.map((s) => (
+                        <tr key={s.id}>
+                          <td className="text-center">
+                            <input
+                              type="checkbox"
+                              checked={selected.includes(s.id)}
+                              onChange={() => handleCheck(s.id)}
+                            />
+                          </td>
+                          <td>{s.nama}</td>
+                          <td className="text-center">{s.nis}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 <button
                   onClick={handleTambah}
-                  className="mt-3 bg-blue-500 text-white px-4 py-2 rounded"
+                  className="btn btn-primary w-100 mt-2"
                 >
-                  ➕ Tambahkan
+                  ➕ Tambahkan ke Kelas Baru
                 </button>
-              </>
+              </div>
             )}
           </div>
         </div>
 
-        {/* KANAN */}
-        <div className="bg-white border rounded">
-          <div className="bg-green-600 text-white p-2 text-center font-semibold rounded-t">
+        {/* KANAN - KELAS BARU */}
+        <div className="bg-white border rounded shadow-sm" style={{ borderRadius: "10px" }}>
+          <div className="bg-success text-white p-3 text-center font-semibold rounded-t" style={{ borderRadius: "10px 10px 0 0" }}>
             Kelas Baru
           </div>
 
-   <div className="p-4 space-y-3">
-  {/* SELECT MUNCUL HANYA KALAU ADA DATA */}
-  {kelasBaru.length > 0 && (
-    <select
-      value={tahunTujuan}
-      onChange={(e) => setTahunTujuan(e.target.value)}
-      className="border p-2 py-20 w-full rounded"
-    > <br /> <br /> <br /> 
-      <option value="">Pilih Tahun Tujuan</option>
-      <option value="2025/2026">2025/2026</option>
-      <option value="2026/2027">2026/2027</option>
-    </select>
-  )}
+          <div className="p-4 space-y-4">
+            {/* Form Tujuan - Hanya muncul jika ada siswa */}
+            {kelasBaru.length > 0 && (
+              <div className="row g-3">
+                <div className="col-md-6">
+                  <label className="form-label small fw-bold">Tahun Tujuan</label>
+                  <select
+                    value={tahunTujuan}
+                    onChange={(e) => setTahunTujuan(e.target.value)}
+                    className="form-control"
+                  >
+                    <option value="">Pilih Tahun Tujuan</option>
+                    {dataTahunAjaran.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.tahun_ajaran}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-  {kelasBaru.length === 0 ? (
-    <div className="bg-blue-100 p-3 rounded">
-      Pilih siswa dulu
-    </div>
-  ) : (
-    <>
-      <table className="w-full border text-sm">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2 text-left">Nama</th>
-            <th className="border p-2">NIS</th>
-            <th className="border p-2">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {kelasBaru.map((s) => (
-            <tr key={s.id}>
-              <td className="border p-2">{s.nama}</td>
-              <td className="border p-2 text-center">
-                {s.nis}
-              </td>
-              <td className="border p-2 text-center">
+                <div className="col-md-6">
+                  <label className="form-label small fw-bold">Kelas Baru</label>
+                  <select
+                    value={kelasTujuan}
+                    onChange={(e) => setKelasTujuan(e.target.value)}
+                    className="form-control"
+                  >
+                    <option value="">Pilih Kelas Baru</option>
+                    {dataKelas.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.nama_kelas}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {kelasBaru.length === 0 ? (
+              <div className="alert alert-info text-center py-5">
+                <i className="bi bi-info-circle fs-4 d-block mb-2"></i>
+                Pilih siswa dari Kelas Asal dan tambahkan ke sini
+              </div>
+            ) : (
+              <>
+                <div className="table-responsive">
+                  <table className="table table-bordered table-hover small">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Nama</th>
+                        <th width="100">NIS</th>
+                        <th width="80">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {kelasBaru.map((s) => (
+                        <tr key={s.id}>
+                          <td>{s.nama}</td>
+                          <td className="text-center">{s.nis}</td>
+                          <td className="text-center">
+                            <button
+                              onClick={() => handleHapus(s.id)}
+                              className="btn btn-sm btn-danger"
+                            >
+                              🗑️
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
                 <button
-                  onClick={() => handleHapus(s.id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={handleProses}
+                  className="btn btn-success w-100 mt-2"
                 >
-                  🗑️
+                  ✔ Proses Knaikan Kelas
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <button
-        onClick={handleProses}
-        className="mt-3 bg-green-600 text-white px-4 py-2 rounded"
-      >
-        ✔ Proses Kenaikan
-      </button>
-    </>
-  )}
-</div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -293,3 +388,4 @@ const KenaikanKelas = () => {
 };
 
 export default KenaikanKelas;
+
