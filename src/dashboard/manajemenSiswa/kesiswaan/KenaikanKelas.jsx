@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import api from "../../../utils/api";
 
-const dummySiswa = [
-  { id: 1, nama: "dwseaeggedrsg", nis: "3423234234" },
-  { id: 2, nama: "Ahmad Fikry", nis: "234396" },
-  { id: 3, nama: "Aulia Chelsea", nis: "234399" },
-];
 
 const KenaikanKelas = () => {
   const [tahun, setTahun] = useState("");
@@ -45,18 +40,54 @@ const KenaikanKelas = () => {
     }
   };
 
-  // ================= HANDLERS =================
-  const handleTampilkan = () => {
-    if (!tahun || !kelas) {
+const handleTampilkan = async () => {
+  if (!tahun || !kelas) {
+    Swal.fire({
+      icon: "warning",
+      title: "Oops...",
+      text: "Pilih tahun ajaran dan kelas dulu!",
+    });
+    return;
+  }
+
+  try {
+    const res = await api.get("/siswa");
+    const allSiswa = res.data.data || [];
+
+    // 1. Cari Nama Teks dari data master (karena database siswa isinya TEKS, bukan ID)
+    const objekKelas = dataKelas.find(k => String(k.id) === String(kelas));
+    const objekTahun = dataTahunAjaran.find(t => String(t.id) === String(tahun));
+
+    const namaKelasDicari = objekKelas ? objekKelas.nama_kelas : "";
+    const namaTahunDicari = objekTahun ? objekTahun.tahun_ajaran : "";
+
+    // 2. Filter dengan pembersihan data (trim)
+    const hasilFilter = allSiswa.filter((s) => {
+      // Pastikan s.kelas dan s.tahun_ajaran ada isinya sebelum di-string-kan
+      const kSiswa = s.kelas ? String(s.kelas).trim() : "";
+      const tSiswa = s.tahun_ajaran ? String(s.tahun_ajaran).trim() : "";
+      
+      const kTarget = namaKelasDicari.trim();
+      const tTarget = namaTahunDicari.trim();
+
+      return kSiswa === kTarget && tSiswa === tTarget;
+    });
+
+    // 3. Update state
+    setSiswa(hasilFilter);
+
+    if (hasilFilter.length === 0) {
       Swal.fire({
-        icon: "warning",
-        title: "Oops...",
-        text: "Pilih tahun ajaran dan kelas dulu!",
+        icon: "info",
+        title: "Data Kosong",
+        text: `Siswa tidak ditemukan.`,
       });
-      return;
     }
-    setSiswa(dummySiswa);
-  };
+  } catch (error) {
+    console.error("Gagal ambil siswa:", error);
+    Swal.fire("Error", "Gagal mengambil data dari server", "error");
+  }
+};
 
   const handleCheck = (id) => {
     if (selected.includes(id)) {
