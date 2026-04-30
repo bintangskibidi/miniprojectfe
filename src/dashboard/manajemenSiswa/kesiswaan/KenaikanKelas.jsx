@@ -54,33 +54,63 @@ const handleTampilkan = async () => {
     const res = await api.get("/siswa");
     const allSiswa = res.data.data || [];
 
-    // 1. Cari Nama Teks dari data master (karena database siswa isinya TEKS, bukan ID)
+    // Debug: lihat struktur data siswa (3 data pertama)
+    console.log("=== DEBUG: Data Siswa (3 data pertama) ===");
+    allSiswa.slice(0, 3).forEach((s, i) => {
+      console.log(`Siswa ${i + 1}:`, {
+        id: s.id,
+        nama: s.nama,
+        kelas: s.kelas,
+        tahun_ajaran: s.tahun_ajaran
+      });
+    });
+
+    // Cari data kelas dan tahun dari dropdown yang dipilih
     const objekKelas = dataKelas.find(k => String(k.id) === String(kelas));
     const objekTahun = dataTahunAjaran.find(t => String(t.id) === String(tahun));
 
+    // Handle: kelas di database siswa bisa "10", "XI", "X IPA 1", dll
+    // Kita cocokkan berdasarkan ANGKA kelas (10, 11, 12) dari nama kelas
+    const kelasAngka = objekKelas ? String(objekKelas.nama_kelas).replace(/[^0-9]/g, "") : "";
     const namaKelasDicari = objekKelas ? objekKelas.nama_kelas : "";
     const namaTahunDicari = objekTahun ? objekTahun.tahun_ajaran : "";
 
-    // 2. Filter dengan pembersihan data (trim)
-    const hasilFilter = allSiswa.filter((s) => {
-      // Pastikan s.kelas dan s.tahun_ajaran ada isinya sebelum di-string-kan
-      const kSiswa = s.kelas ? String(s.kelas).trim() : "";
-      const tSiswa = s.tahun_ajaran ? String(s.tahun_ajaran).trim() : "";
-      
-      const kTarget = namaKelasDicari.trim();
-      const tTarget = namaTahunDicari.trim();
+    // Debug: lihat apa yang dipilih
+    console.log("=== DEBUG: Filter yang dipilih ===");
+    console.log("Kelas ID:", kelas, "-> Nama:", namaKelasDicari, "-> Angka:", kelasAngka);
+    console.log("Tahun ID:", tahun, "-> Nama:", namaTahunDicari);
+    console.log("NOTE: karena tahun_ajaran undefined di database, filter hanya berdasarkan KELAS");
 
-      return kSiswa === kTarget && tSiswa === tTarget;
+    // Filter - hanya berdasarkan KELAS karena tahun_ajaran tidak ada di database
+    const hasilFilter = allSiswa.filter((s) => {
+      // Normalisasi data kelas dari siswa
+      const kSiswa = s.kelas ? String(s.kelas).trim() : "";
+      
+      // Ambil angka dari kelas siswa juga
+      const kSiswaAngka = kSiswa.replace(/[^0-9]/g, "");
+
+      // Cocokkan: bisa berdasarkan angka (10 vs 10) ATAU nama lengkap
+      const match = kelasAngka === kSiswaAngka || kSiswa.toLowerCase() === namaKelasDicari.toLowerCase();
+
+      // Debug jika tidak cocok
+      if (!match && s.nama) {
+        console.log(`Tidak cocok: ${s.nama} | kelas: "${kSiswa}" (${kSiswaAngka}) vs "${kelasAngka}"`);
+      }
+
+      return match;
     });
 
-    // 3. Update state
+    console.log("=== Hasil Filter ===");
+    console.log("Ditemukan:", hasilFilter.length, "siswa");
+
+    // Update state
     setSiswa(hasilFilter);
 
     if (hasilFilter.length === 0) {
       Swal.fire({
         icon: "info",
         title: "Data Kosong",
-        text: `Siswa tidak ditemukan.`,
+        text: `Siswa tidak ditemukan untuk kelas ${namaKelasDicari}. Cek console untuk detail.`,
       });
     }
   } catch (error) {
@@ -168,7 +198,38 @@ const handleTampilkan = async () => {
     const kelasNama = dataKelas.find(k => k.id === parseInt(kelasTujuan))?.nama_kelas || kelasTujuan;
     const tahunNama = dataTahunAjaran.find(t => t.id === parseInt(tahunTujuan))?.tahun_ajaran || tahunTujuan;
 
-Swal.fire({
+    // Proses kenaikan kelas (langsung update ke API)
+    const processKenaikan = async () => {
+      try {
+        // Update setiap siswa satu per satu
+        for (const sis of kelasBaru) {
+          await api.put(`/siswa/${sis.id}`, {
+            kelas: kelasNama,
+            tahun_ajaran: tahunNama
+          });
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil!",
+          text: `Kenaikan kelas berhasil diproses untuk ${kelasBaru.length} siswa`,
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        // Reset state
+        setSiswa([]);
+        setKelasBaru([]);
+        setSelected([]);
+        setKelasTujuan("");
+        setTahunTujuan("");
+      } catch (error) {
+        console.error("Gagal proses kenaikan:", error);
+        Swal.fire("Error", "Gagal memproses kenaikan kelas", "error");
+      }
+    };
+
+    Swal.fire({
       title: "Konfirmasi Kenaikan",
       html: `
         <p>Yakin ingin memproses kenaikan kelas untuk <b>${kelasBaru.length} siswa</b>?</p>
@@ -184,17 +245,7 @@ Swal.fire({
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.isConfirmed) {
-        setSiswa(kelasBaru);
-        setKelasBaru([]);
-        setSelected([]);
-
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil!",
-          text: "Kenaikan kelas berhasil diproses",
-          timer: 1500,
-          showConfirmButton: false,
-        });
+        processKenaikan();
       }
     });
   };
@@ -319,7 +370,7 @@ Swal.fire({
                   </select>
                 </div>
 
-                <div className="col-md-6">
+<div className="col-md-6">
                   <label className="form-label small fw-bold">Kelas Baru</label>
                   <select
                     value={kelasTujuan}
@@ -388,4 +439,3 @@ Swal.fire({
 };
 
 export default KenaikanKelas;
-
