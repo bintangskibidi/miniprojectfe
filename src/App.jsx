@@ -8,6 +8,14 @@ import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
 import ManajemenKeuangan from "./dashboard/manajemenKeuangan/ManajemenKeuangan";
 import LaporanBukuBesar from "./dashboard/manajemenKeuangan/LaporanBukuBesar";
+import NeracaSaldo from "./dashboard/manajemenKeuangan/NeracaSaldo";
+import JurnalUmum from "./dashboard/manajemenKeuangan/JurnalUmum";
+import TunggakanSiswa from "./dashboard/manajemenKeuangan/TunggakanSiswa";
+import  BayarTagihan from "./dashboard/manajemenKeuangan/BayarTagihan";
+import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
+import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
+import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
+import RiwayatTabunganSiswa from "./dashboard/manajemenKeuangan/RiwayatTabunganSiswa";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan";
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
@@ -64,6 +72,14 @@ function App() {
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
+          <Route path="NeracaSaldo" element={<NeracaSaldo />} />
+          <Route path="JurnalUmum" element={<JurnalUmum />} />
+          <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
+          <Route path="BayarTagihan" element={<BayarTagihan />} />
+          <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />
+          <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
+          <Route path="RiwayatTabunganSiswa" element={<RiwayatTabunganSiswa />} />
+          <Route path="LaporanPengeluaran" element={<LaporanPengeluaran />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="profileSekolah" element={<ProfileSekolah />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />

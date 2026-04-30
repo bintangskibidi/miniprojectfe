@@ -117,8 +117,8 @@ const Sidebar = () => {
         {
           title: "Pembayaran Siswa",
           children: [
-            { title: "bayar Tagihan", path: "/dashboard/datasiswa" },
-            { title: "Tunggakan Siswa", path: "/dashboard/kenaikankelas" },
+            { title: "bayar Tagihan", path: "/dashboard/BayarTagihan" },
+            { title: "Tunggakan Siswa", path: "/dashboard/TunggakanSiswa" },
             { title: "jenis Pembayaran", path: "/dashboard/datakelas" },
             { title: "tarif pembayaran", path: "/dashboard/datajurusan" },
             { title: "Rekap Pemabayaran Bulanan", path: "/dashboard/tahunajaran" },
@@ -126,7 +126,7 @@ const Sidebar = () => {
             { title: "Rekap Persiswa", path: "/dashboard/walikelas" },
             { title: "Rekap Pertanggal", path: "/dashboard/walikelas" },
             { title: "Rekap Tagihan", path: "/dashboard/walikelas" },
-            { title: "tagihan bulan ini", path: "/dashboard/walikelas" },
+            { title: "tagihan bulan ini", path: "/dashboard/TagihanBulanIni" },
           ],
         },
         {
@@ -138,11 +138,11 @@ const Sidebar = () => {
             },
             {
               title: "Riwayat Tabungan siswa",
-              path: "/dashboard/ekstrakurikuler",
+              path: "/dashboard/RiwayatTabunganSiswa",
             },
             {
               title: "Riwayat Transaksi",
-              path: "/dashboard/ekstrakurikuler",
+              path: "/dashboard/RiwayatTransaksi",
             },
           ],
         },
@@ -177,7 +177,7 @@ const Sidebar = () => {
             },
             {
               title: "Laporan Pengenluaran",
-              path: "/dashboard/absensimapel",
+              path: "/dashboard/LaporanPengeluaran",
             },
            
           ],
@@ -204,11 +204,11 @@ const Sidebar = () => {
           },
           {
          title: "Neraca Saldo",
-         path: "/dashboard/absensimapel"
+         path: "/dashboard/NeracaSaldo"
           },
           {
          title: "Jurnal Umum",
-         path: "/dashboard/absensimapel"
+         path: "/dashboard/JurnalUmum"
           },
         ]
         },
@@ -314,10 +314,34 @@ const Sidebar = () => {
 + location.pathname.startsWith("/dashboard/distribusijam")
 ) {
   menu = menuConfig.guru;
-} else if (location.pathname.startsWith("/dashboard/keuangan")) {
+}  else if (location.pathname.startsWith("/dashboard/keuangan")) {
+  menu = menuConfig.keuangan;
 } else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
-    menu = menuConfig.keuangan;
-  } else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/NeracaSaldo")) {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/JurnalUmum")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/TunggakanSiswa")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/BayarTagihan")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/TagihanBulanIni")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/RiwayatTransaksi")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/RiwayatTabunganSiswa")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/LaporanPengeluaran")) 
+  {
+  menu = menuConfig.keuangan;
+}else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
   } else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
   } else if (
