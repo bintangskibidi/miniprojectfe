@@ -206,13 +206,19 @@ const FormEditSiswa = () => {
 
             <div className="col-md-3">
               <label className="form-label small fw-bold">Agama</label>
-              <input
-                type="text"
+              <select
                 name="agama"
-                className="form-control form-control-sm"
+                className="form-select form-select-sm"
                 value={formData.agama}
                 onChange={handleChange}
-              />
+              >
+                <option value="Islam">Islam</option>
+                <option value="Kristen">Kristen</option>
+                <option value="Katolik">Katolik</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Buddha">Buddha</option>
+                <option value="Konghucu">Konghucu</option>
+              </select>
             </div>
 
             <div className="col-md-12">
@@ -260,7 +266,10 @@ const FormEditSiswa = () => {
               >
                 <option value="">Pilih Jurusan</option>
                 {jurusanList.map((item) => (
-                  <option key={item.id} value={item.nama_jurusan || item.jurusan}>
+                  <option
+                    key={item.id}
+                    value={item.nama_jurusan || item.jurusan}
+                  >
                     {item.nama_jurusan || item.jurusan}
                   </option>
                 ))}
@@ -329,45 +338,99 @@ const FormEditSiswa = () => {
           <div className="card-body row g-3">
             <div className="col-md-4">
               <label className="form-label small fw-bold">Nama Ayah</label>
-              <input type="text" name="ayah" className="form-control form-control-sm" value={formData.ayah} onChange={handleChange} />
+              <input
+                type="text"
+                name="ayah"
+                className="form-control form-control-sm"
+                value={formData.ayah}
+                onChange={handleChange}
+              />
             </div>
             <div className="col-md-4">
               <label className="form-label small fw-bold">Pekerjaan Ayah</label>
-              <input type="text" name="pekerjaan_ayah" className="form-control form-control-sm" value={formData.pekerjaan_ayah} onChange={handleChange} />
+              <input
+                type="text"
+                name="pekerjaan_ayah"
+                className="form-control form-control-sm"
+                value={formData.pekerjaan_ayah}
+                onChange={handleChange}
+              />
             </div>
             <div className="col-md-4">
               <label className="form-label small fw-bold">HP Ayah</label>
-              <input type="text" name="hp_ayah" className="form-control form-control-sm" value={formData.hp_ayah} onChange={handleChange} />
+              <input
+                type="text"
+                name="hp_ayah"
+                className="form-control form-control-sm"
+                value={formData.hp_ayah}
+                onChange={handleChange}
+              />
             </div>
 
             <hr className="my-2 text-muted" />
 
             <div className="col-md-4">
               <label className="form-label small fw-bold">Nama Ibu</label>
-              <input type="text" name="ibu" className="form-control form-control-sm" value={formData.ibu} onChange={handleChange} />
+              <input
+                type="text"
+                name="ibu"
+                className="form-control form-control-sm"
+                value={formData.ibu}
+                onChange={handleChange}
+              />
             </div>
             <div className="col-md-4">
               <label className="form-label small fw-bold">Pekerjaan Ibu</label>
-              <input type="text" name="pekerjaan_ibu" className="form-control form-control-sm" value={formData.pekerjaan_ibu} onChange={handleChange} />
+              <input
+                type="text"
+                name="pekerjaan_ibu"
+                className="form-control form-control-sm"
+                value={formData.pekerjaan_ibu}
+                onChange={handleChange}
+              />
             </div>
             <div className="col-md-4">
               <label className="form-label small fw-bold">HP Ibu</label>
-              <input type="text" name="hp_ibu" className="form-control form-control-sm" value={formData.hp_ibu} onChange={handleChange} />
+              <input
+                type="text"
+                name="hp_ibu"
+                className="form-control form-control-sm"
+                value={formData.hp_ibu}
+                onChange={handleChange}
+              />
             </div>
 
             <hr className="my-2 text-muted" />
 
             <div className="col-md-4">
               <label className="form-label small fw-bold">Nama Wali</label>
-              <input type="text" name="wali" className="form-control form-control-sm" value={formData.wali} onChange={handleChange} />
+              <input
+                type="text"
+                name="wali"
+                className="form-control form-control-sm"
+                value={formData.wali}
+                onChange={handleChange}
+              />
             </div>
             <div className="col-md-4">
               <label className="form-label small fw-bold">Hubungan Wali</label>
-              <input type="text" name="hubungan_wali" className="form-control form-control-sm" value={formData.hubungan_wali} onChange={handleChange} />
+              <input
+                type="text"
+                name="hubungan_wali"
+                className="form-control form-control-sm"
+                value={formData.hubungan_wali}
+                onChange={handleChange}
+              />
             </div>
             <div className="col-md-4">
               <label className="form-label small fw-bold">HP Wali</label>
-              <input type="text" name="hp_wali" className="form-control form-control-sm" value={formData.hp_wali} onChange={handleChange} />
+              <input
+                type="text"
+                name="hp_wali"
+                className="form-control form-control-sm"
+                value={formData.hp_wali}
+                onChange={handleChange}
+              />
             </div>
           </div>
         </div>
