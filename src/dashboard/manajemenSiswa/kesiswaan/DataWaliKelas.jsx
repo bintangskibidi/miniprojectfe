@@ -92,19 +92,23 @@ const DataWaliKelas = () => {
   };
 
   return (
-    <div className="p-4" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+    <div className="p-4 min-h-screen bg-gray-100">
       {/* HEADER */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5 className="fw-bold mb-0">
-          <i className="bi bi-person-badge text-primary me-2"></i> Data Wali Kelas
+      <div className="flex justify-between items-center mb-4">
+        <h5 className="flex items-center gap-2 text-lg font-semibold text-gray-700">
+          <i className="bi bi-person-badge text-blue-500"></i>
+          Data Wali Kelas
         </h5>
-        <button className="btn btn-primary shadow-sm fw-bold px-3" onClick={handleTambah}>
+        <button
+          onClick={handleTambah}
+          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded shadow-sm"
+        >
           + Tambah
         </button>
       </div>
 
       {/* CARD TABEL */}
-      <div className="card shadow-sm border-0" style={{ borderRadius: "10px" }}>
+      <div className="bg-white border border-gray-300 rounded-md shadow-sm">
         <div className="card-header bg-white py-3 border-bottom">
           <div className="fw-bold text-dark d-flex align-items-center">
             <i className="bi bi-list-ul text-info me-2"></i> Daftar Wali Kelas
@@ -139,16 +143,16 @@ const DataWaliKelas = () => {
                       <td className="ps-4">{item.tahunAjaran}</td>
                       <td className="text-center">
                         <div className="btn-group gap-1">
-                          <button 
-                            className="btn btn-sm border text-primary bg-white" 
-                            style={{borderColor: '#0d6efd'}}
+                          <button
+                            className="btn btn-sm border text-primary bg-white"
+                            style={{ borderColor: '#0d6efd' }}
                             onClick={() => handleEdit(item)}
                           >
                             <i className="bi bi-pencil-square"></i>
                           </button>
-                          <button 
-                            className="btn btn-sm border text-danger bg-white" 
-                            style={{borderColor: '#dc3545'}}
+                          <button
+                            className="btn btn-sm border text-danger bg-white"
+                            style={{ borderColor: '#dc3545' }}
                             onClick={() => handleHapus(item.id)}
                           >
                             <i className="bi bi-trash"></i>
