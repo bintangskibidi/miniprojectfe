@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../../utils/api";
 import Swal from "sweetalert2";
 
 const FormTambahSiswa = () => {
   const navigate = useNavigate();
+
+  const [dropdown, setDropdown] = useState({
+    kelas: [],
+    jurusan: [],
+    tahun_ajaran: [],
+  }); 
+
   const [formData, setFormData] = useState({
     nis: "",
     nisn: "",
@@ -16,8 +23,8 @@ const FormTambahSiswa = () => {
     agama: "Islam",
     golongan_darah: "O",
     status: "Aktif",
-    tahun_ajaran: "2024/2025",
-    tahun_masuk: "2024",
+    tahun_ajaran: "",
+    tahun_masuk: "",
     kelas: "",
     jurusan: "",
     hp: "",
@@ -33,6 +40,26 @@ const FormTambahSiswa = () => {
     hubungan_wali: "",
   });
 
+  useEffect(() => {
+    fetchDropdown();
+  }, []);
+
+  const fetchDropdown = async () => {
+    try {
+      const res = await api.get("/siswa/dropdown");
+      const data = res.data.data || res.data;
+
+      setDropdown({
+        kelas: data.kelas || [],
+        jurusan: data.jurusan || [],
+        tahun_ajaran: data.tahun_ajaran || [],
+      });
+    } catch (error) {
+      console.error("Gagal mengambil data dropdown:", error);
+      Swal.fire("Error", "Gagal memuat data dropdown", "error");
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -44,7 +71,12 @@ const FormTambahSiswa = () => {
       Swal.fire("Berhasil", "Data siswa berhasil disimpan!", "success");
       navigate("/dashboard/datasiswa");
     } catch (error) {
-      Swal.fire("Error", "Terjadi kesalahan saat menyimpan data", "error");
+      Swal.fire(
+        "Error",
+        error.response?.data?.message ||
+          "Terjadi kesalahan saat menyimpan data",
+        "error",
+      );
     }
   };
 
@@ -56,13 +88,11 @@ const FormTambahSiswa = () => {
           className="btn btn-secondary btn-sm"
           onClick={() => navigate(-1)}
         >
-          {" "}
           Kembali
         </button>
       </div>
 
       <form onSubmit={handleSubmit}>
-        {/* CARD 1: DATA PRIBADI */}
         <div className="card shadow-sm border-0 mb-4">
           <div className="card-header bg-primary text-white py-2">
             <h6 className="mb-0 small fw-bold">I. DATA PRIBADI</h6>
@@ -74,6 +104,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="nis"
                 className="form-control form-control-sm"
+                value={formData.nis}
                 onChange={handleChange}
                 required
               />
@@ -84,6 +115,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="nisn"
                 className="form-control form-control-sm"
+                value={formData.nisn}
                 onChange={handleChange}
               />
             </div>
@@ -93,6 +125,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="nama"
                 className="form-control form-control-sm"
+                value={formData.nama}
                 onChange={handleChange}
                 required
               />
@@ -103,6 +136,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="tempat_lahir"
                 className="form-control form-control-sm"
+                value={formData.tempat_lahir}
                 onChange={handleChange}
               />
             </div>
@@ -112,6 +146,7 @@ const FormTambahSiswa = () => {
                 type="date"
                 name="tanggal_lahir"
                 className="form-control form-control-sm"
+                value={formData.tanggal_lahir}
                 onChange={handleChange}
               />
             </div>
@@ -120,6 +155,7 @@ const FormTambahSiswa = () => {
               <select
                 name="jenis_kelamin"
                 className="form-select form-select-sm"
+                value={formData.jenis_kelamin}
                 onChange={handleChange}
               >
                 <option value="Laki-laki">Laki-laki</option>
@@ -132,6 +168,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="agama"
                 className="form-control form-control-sm"
+                value={formData.agama}
                 onChange={handleChange}
               />
             </div>
@@ -141,13 +178,13 @@ const FormTambahSiswa = () => {
                 name="alamat"
                 className="form-control form-control-sm"
                 rows="2"
+                value={formData.alamat}
                 onChange={handleChange}
               ></textarea>
             </div>
           </div>
         </div>
 
-        {/* CARD 2: DATA AKADEMIK */}
         <div className="card shadow-sm border-0 mb-4">
           <div className="card-header bg-primary text-white py-2">
             <h6 className="mb-0 small fw-bold">II. DATA AKADEMIK & SEKOLAH</h6>
@@ -155,36 +192,61 @@ const FormTambahSiswa = () => {
           <div className="card-body row g-3">
             <div className="col-md-3">
               <label className="form-label small fw-bold">Kelas</label>
-              <input
-                type="text"
+              <select
                 name="kelas"
-                className="form-control form-control-sm"
+                className="form-select form-select-sm"
+                value={formData.kelas}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Pilih Kelas</option>
+                {dropdown.kelas.map((item) => (
+                  <option key={item.id} value={item.nama_kelas}>
+                    {item.nama_kelas}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="col-md-3">
               <label className="form-label small fw-bold">Jurusan</label>
-              <input
-                type="text"
+              <select
                 name="jurusan"
-                className="form-control form-control-sm"
+                className="form-select form-select-sm"
+                value={formData.jurusan}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Pilih Jurusan</option>
+                {dropdown.jurusan.map((item) => (
+                  <option key={item.id} value={item.nama_jurusan}>
+                    {item.nama_jurusan}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="col-md-3">
               <label className="form-label small fw-bold">Tahun Ajaran</label>
-              <input
-                type="text"
+              <select
                 name="tahun_ajaran"
-                className="form-control form-control-sm"
+                className="form-select form-select-sm"
+                value={formData.tahun_ajaran}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Pilih Tahun Ajaran</option>
+                {dropdown.tahun_ajaran.map((item) => (
+                  <option key={item.id} value={item.tahun_ajaran}>
+                    {item.tahun_ajaran}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="col-md-3">
               <label className="form-label small fw-bold">Status</label>
               <select
                 name="status"
                 className="form-select form-select-sm"
+                value={formData.status}
                 onChange={handleChange}
               >
                 <option value="Aktif">Aktif</option>
@@ -192,12 +254,14 @@ const FormTambahSiswa = () => {
                 <option value="Alumni">Alumni</option>
               </select>
             </div>
+
             <div className="col-md-4">
               <label className="form-label small fw-bold">Sekolah Asal</label>
               <input
                 type="text"
                 name="sekolah_asal"
                 className="form-control form-control-sm"
+                value={formData.sekolah_asal}
                 onChange={handleChange}
               />
             </div>
@@ -207,13 +271,13 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="hp"
                 className="form-control form-control-sm"
+                value={formData.hp}
                 onChange={handleChange}
               />
             </div>
           </div>
         </div>
 
-        {/* CARD 3: DATA KELUARGA */}
         <div className="card shadow-sm border-0 mb-4">
           <div className="card-header bg-primary text-white py-2">
             <h6 className="mb-0 small fw-bold">III. DATA ORANG TUA / WALI</h6>
@@ -225,6 +289,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="ayah"
                 className="form-control form-control-sm"
+                value={formData.ayah}
                 onChange={handleChange}
               />
             </div>
@@ -234,6 +299,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="pekerjaan_ayah"
                 className="form-control form-control-sm"
+                value={formData.pekerjaan_ayah}
                 onChange={handleChange}
               />
             </div>
@@ -243,6 +309,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="hp_ayah"
                 className="form-control form-control-sm"
+                value={formData.hp_ayah}
                 onChange={handleChange}
               />
             </div>
@@ -253,6 +320,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="ibu"
                 className="form-control form-control-sm"
+                value={formData.ibu}
                 onChange={handleChange}
               />
             </div>
@@ -262,6 +330,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="pekerjaan_ibu"
                 className="form-control form-control-sm"
+                value={formData.pekerjaan_ibu}
                 onChange={handleChange}
               />
             </div>
@@ -271,6 +340,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="hp_ibu"
                 className="form-control form-control-sm"
+                value={formData.hp_ibu}
                 onChange={handleChange}
               />
             </div>
@@ -281,6 +351,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="wali"
                 className="form-control form-control-sm"
+                value={formData.wali}
                 onChange={handleChange}
               />
             </div>
@@ -290,6 +361,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="hubungan_wali"
                 className="form-control form-control-sm"
+                value={formData.hubungan_wali}
                 onChange={handleChange}
               />
             </div>
@@ -299,6 +371,7 @@ const FormTambahSiswa = () => {
                 type="text"
                 name="hp_wali"
                 className="form-control form-control-sm"
+                value={formData.hp_wali}
                 onChange={handleChange}
               />
             </div>
@@ -307,7 +380,11 @@ const FormTambahSiswa = () => {
 
         <div className="card shadow-sm border-0">
           <div className="card-body text-end">
-            <button type="reset" className="btn btn-light btn-sm me-2 fw-bold">
+            <button
+              type="button"
+              className="btn btn-light btn-sm me-2 fw-bold"
+              onClick={() => window.location.reload()}
+            >
               Reset Form
             </button>
             <button
