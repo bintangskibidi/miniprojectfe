@@ -15,6 +15,13 @@ import  BayarTagihan from "./dashboard/manajemenKeuangan/BayarTagihan";
 import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
 import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
 import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
+import Teller from "./dashboard/manajemenKeuangan/Teller";
+import JenisPembayaran from "./dashboard/manajemenKeuangan/JenisPembayaran";
+import RekapPembayaran from "./dashboard/manajemenKeuangan/RekapPembayaran";
+import RekapTagihan from "./dashboard/manajemenKeuangan/RekapTagihan";
+import RekapPerTanggal from "./dashboard/manajemenKeuangan/RekapPerTanggal";
+import RekapPerSiswa from "./dashboard/manajemenKeuangan/RekapPerSiswa";
+import TarifPembayaranSiswa from "./dashboard/manajemenKeuangan/TarifPembayaranSiswa";
 import RiwayatTabunganSiswa from "./dashboard/manajemenKeuangan/RiwayatTabunganSiswa";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan";
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
@@ -74,6 +81,13 @@ function App() {
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
+          <Route path="Teller" element={<Teller />} />
+          <Route path="JenisPembayaran" element={<JenisPembayaran />} />
+          <Route path="RekapTagihan" element={<RekapTagihan />} />
+          <Route path="RekapSiswa" element={<RekapPerSiswa />} />
+          <Route path="RekapPembayaran" element={<RekapPembayaran />} />
+          <Route path="RekapTanggal" element={<RekapPerTanggal />} />
+          <Route path="TarifPembayaranSiswa" element={<TarifPembayaranSiswa />} />
           <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
           <Route path="BayarTagihan" element={<BayarTagihan />} />
           <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />

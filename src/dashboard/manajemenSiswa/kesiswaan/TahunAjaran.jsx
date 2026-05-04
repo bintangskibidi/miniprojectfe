@@ -116,18 +116,15 @@ const TahunAjaran = () => {
   };
 
   return (
-    <div
-      className="p-4"
-      style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}
-    >
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5 className="fw-bold mb-0">
-          <i className="bi bi-calendar-event text-primary me-2"></i>
+    <div className="p-4 min-h-screen bg-gray-100">
+      <div className="flex justify-between items-center mb-4">
+        <h5 className="flex items-center gap-2 text-lg font-semibold text-gray-700">
+          <i className="bi bi-calendar-event text-blue-500"></i>
           Data Tahun Ajaran
         </h5>
         <button
-          className="btn btn-primary shadow-sm fw-bold px-3"
           onClick={handleTambah}
+          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded shadow-sm"
         >
           + Tambah
         </button>

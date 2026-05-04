@@ -119,13 +119,13 @@ const Sidebar = () => {
           children: [
             { title: "bayar Tagihan", path: "/dashboard/BayarTagihan" },
             { title: "Tunggakan Siswa", path: "/dashboard/TunggakanSiswa" },
-            { title: "jenis Pembayaran", path: "/dashboard/datakelas" },
-            { title: "tarif pembayaran", path: "/dashboard/datajurusan" },
-            { title: "Rekap Pemabayaran Bulanan", path: "/dashboard/tahunajaran" },
+            { title: "jenis Pembayaran", path: "/dashboard/JenisPembayaran" },
+            { title: "tarif pembayaran", path: "/dashboard/TarifPembayaranSiswa" },
+            { title: "Rekap Pembayaran Bulanan", path: "/dashboard/RekapPembayaran" },
             { title: "Data Transaksi", path: "/dashboard/walikelas" },
-            { title: "Rekap Persiswa", path: "/dashboard/walikelas" },
-            { title: "Rekap Pertanggal", path: "/dashboard/walikelas" },
-            { title: "Rekap Tagihan", path: "/dashboard/walikelas" },
+            { title: "Rekap Persiswa", path: "/dashboard/RekapSiswa" },
+            { title: "Rekap Pertanggal", path: "/dashboard/RekapTanggal" },
+            { title: "Rekap Tagihan", path: "/dashboard/RekapTagihan" },
             { title: "tagihan bulan ini", path: "/dashboard/TagihanBulanIni" },
           ],
         },
@@ -134,7 +134,7 @@ const Sidebar = () => {
           children: [
             {
               title: "Teller",
-              path: "/dashboard/ekstrakurikuler",
+              path: "/dashboard/Teller",
             },
             {
               title: "Riwayat Tabungan siswa",
@@ -176,7 +176,7 @@ const Sidebar = () => {
               path: "/dashboard/rekapabsensi",
             },
             {
-              title: "Laporan Pengenluaran",
+              title: "Laporan Pengeluaran",
               path: "/dashboard/LaporanPengeluaran",
             },
            
@@ -319,6 +319,9 @@ const Sidebar = () => {
 } else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
   menu = menuConfig.keuangan;
 } else if (location.pathname.startsWith("/dashboard/NeracaSaldo")) {
+} else if (location.pathname.startsWith("/dashboard/RekapPembayaran")) {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
   menu = menuConfig.keuangan;
 } else if (location.pathname.startsWith("/dashboard/JurnalUmum")) 
   {
@@ -335,13 +338,28 @@ const Sidebar = () => {
 } else if (location.pathname.startsWith("/dashboard/RiwayatTransaksi")) 
   {
   menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/Teller")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/RekapSiswa")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/RekapTanggal")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/TarifPembayaranSiswa")) 
+  {
+  menu = menuConfig.keuangan;
+} else if (location.pathname.startsWith("/dashboard/RekapTagihan")) 
+  {
+  menu = menuConfig.keuangan;
 } else if (location.pathname.startsWith("/dashboard/RiwayatTabunganSiswa")) 
   {
   menu = menuConfig.keuangan;
 } else if (location.pathname.startsWith("/dashboard/LaporanPengeluaran")) 
   {
   menu = menuConfig.keuangan;
-}else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
+} else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
   } else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
   } else if (

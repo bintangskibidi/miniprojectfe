@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
-export default function TunggakanSiswa() {
+export default function RekapTagihan() {
   const [kelas, setKelas] = useState("");
   const [tahun, setTahun] = useState("");
 
   return (
-    <div className="bg-white border rounded mt-1">
+    <div className="bg-white border rounded">
+      
       {/* Header */}
-      <h5 className="ml-5">Tunggakan Siswa Semua Kelas TA.</h5>
+      <div className="bg-cyan-500 text-white px-4 py-2 font-semibold rounded-t">
+        Rekap Tagihan
+      </div>
 
       {/* Content */}
       <div className="p-4">
@@ -15,40 +18,40 @@ export default function TunggakanSiswa() {
           
           {/* Kelas */}
           <div className="flex flex-col w-1/3">
-            <label className="text-sm mb-1">Kelas</label>
+            <label className="text-sm mb-1">Pilih Kelas</label>
             <select
               value={kelas}
               onChange={(e) => setKelas(e.target.value)}
-              className="border p-2 rounded bg-gray-100 focus:bg-white"
+              className="border border-gray-300 p-2 rounded bg-gray-100 focus:bg-white text-sm"
             >
-              <option value="">Semua Kelas</option>
-              <option value="Semua">Semua Kelas</option>
-              <option value="VI">VI</option>
-              <option value="XI">XI</option>
+              <option value="">Pilih Kelas</option>
+              <option>Semua</option>
+              <option>X</option>
+              <option>XI</option>
             </select>
           </div>
 
-          {/* Tahun Ajaran */}
+          {/* Tahun */}
           <div className="flex flex-col w-1/3">
             <label className="text-sm mb-1">Tahun Ajaran</label>
             <select
               value={tahun}
               onChange={(e) => setTahun(e.target.value)}
-              className="border p-2 rounded bg-gray-100 focus:bg-white"
+              className="border border-gray-300 p-2 rounded bg-gray-100 focus:bg-white text-sm"
             >
-              <option value="">Pilih Tahun</option>
-              <option value="2025/2026">2025/2026</option>
-              <option value="2024/2025">2024/2025</option>
+              <option value="">Pilih Tahun Ajaran</option>
+              <option>2025/2026</option>
+              <option>2024/2025</option>
             </select>
           </div>
 
           {/* Button */}
           <div className="w-1/3">
             <button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
-              disabled={!tahun}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm"
+              disabled={!kelas || !tahun}
             >
-              🔍 Tampilkan
+              PILIH
             </button>
           </div>
 
