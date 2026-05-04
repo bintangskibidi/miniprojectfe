@@ -90,34 +90,37 @@ const DataJurusan = () => {
   };
 
   return (
-    <div className="p-4" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+    <div className="p-4 min-h-screen bg-gray-100">
       {/* HEADER SESUAI GAMBAR */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5 className="fw-bold mb-0">
-          <i className="bi bi-building text-primary me-2"></i> Data Jurusan
+      <div className="flex justify-between items-center mb-4">
+        <h5 className="font-semibold text-lg flex items-center gap-2 text-gray-700">
+          <i className="bi bi-building text-blue-500"></i> Data Jurusan
         </h5>
-        <button className="btn btn-primary shadow-sm fw-bold px-3" onClick={handleTambah}>
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded shadow-sm"
+          onClick={handleTambah}
+        >
           + Tambah
         </button>
       </div>
 
       {/* CARD TABEL */}
-      <div className="card shadow-sm border-0" style={{ borderRadius: "10px" }}>
-        <div className="card-header bg-white py-3 border-bottom">
-          <div className="fw-bold text-dark d-flex align-items-center">
-            <i className="bi bi-list-ul text-info me-2"></i> Daftar Jurusan
+      <div className="bg-white border border-gray-300 rounded-md shadow-sm">
+        <div className="px-4 py-3 border-b border-gray-300 bg-gray-50">
+          <div className="font-semibold text-gray-700 flex items-center gap-2">
+            <i className="bi bi-list-ul text-blue-400"></i> Daftar Jurusan
           </div>
         </div>
 
         <div className="card-body p-0">
           <div className="table-responsive">
-            <table className="table table-hover mb-0 align-middle">
-              <thead className="table-light">
-                <tr className="small fw-bold text-center border-bottom">
-                  <th width="80">No</th>
-                  <th className="text-start ps-4">Kode Jurusan</th>
-                  <th className="text-start ps-4">Nama Jurusan</th>
-                  <th width="150">Aksi</th>
+            <table className="w-full text-sm">
+              <thead className="bg-gray-100 text-gray-700">
+                <tr className="text-center">
+                  <th className="border px-3 py-2 w-16">No</th>
+                  <th className="border px-3 py-2 text-left">Kode Jurusan</th>
+                  <th className="border px-3 py-2 text-left">Nama Jurusan</th>
+                  <th className="border px-3 py-2 w-32">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -135,16 +138,16 @@ const DataJurusan = () => {
                       <td className="ps-4">{item.nama_jurusan}</td>
                       <td className="text-center">
                         <div className="btn-group gap-1">
-                          <button 
-                            className="btn btn-sm border text-primary bg-white" 
-                            style={{borderColor: '#0d6efd'}}
+                          <button
+                            className="btn btn-sm border text-primary bg-white"
+                            style={{ borderColor: '#0d6efd' }}
                             onClick={() => handleEdit(item)}
                           >
                             <i className="bi bi-pencil-square"></i>
                           </button>
-                          <button 
-                            className="btn btn-sm border text-danger bg-white" 
-                            style={{borderColor: '#dc3545'}}
+                          <button
+                            className="btn btn-sm border text-danger bg-white"
+                            style={{ borderColor: '#dc3545' }}
                             onClick={() => handleHapus(item.id)}
                           >
                             <i className="bi bi-trash"></i>

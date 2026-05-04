@@ -123,18 +123,18 @@ const DataKelas = () => {
 
         <div className="card-body p-0">
           <div className="table-responsive">
-            <table className="table table-hover mb-0 align-middle">
-              <thead className="table-light border-bottom">
-                <tr className="small fw-bold text-center">
-                  <th width="60">No</th>
-                  <th className="text-start ps-4">Kode Kelas</th>
-                  <th className="text-start ps-4">Nama Kelas</th>
-                  <th width="120">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
+          <table className="w-full text-sm border border-gray-300">
+  <thead className="bg-gray-100 text-gray-700">
+    <tr>
+      <th className="border px-3 py-2 text-center w-12">No</th>
+      <th className="border px-3 py-2 text-left">Kode Kelas</th>
+      <th className="border px-3 py-2 text-left">Nama Kelas</th>
+      <th className="border px-3 py-2 text-center w-28">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
                 {filteredData.length === 0 ? (
-                  <tr>
+                  <tr className="hover:bg-gray-50">
                     <td colSpan="4" className="text-center py-4 text-muted small">
                       Data tidak tersedia
                     </td>
@@ -142,19 +142,19 @@ const DataKelas = () => {
                 ) : (
                   filteredData.map((item, index) => (
                     <tr key={item.id} className="small">
-                      <td className="text-center text-muted">{index + 1}</td>
-                      <td className="ps-4">{item.kode_kelas}</td>
-                      <td className="ps-4">{item.nama_kelas}</td>
-                      <td className="text-center">
-                        <div className="btn-group gap-1">
-                          <button className="btn btn-sm border text-primary bg-white" onClick={() => handleEdit(item)}>
-                            <i className="bi bi-pencil-square"></i>
-                          </button>
-                          <button className="btn btn-sm border text-danger bg-white" onClick={() => handleHapus(item.id)}>
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </td>
+                     <td className="border px-3 py-2 text-center">{index + 1}</td>
+<td className="border px-3 py-2">{item.kode_kelas}</td>
+<td className="border px-3 py-2">{item.nama_kelas}</td>
+<td className="border px-3 py-2 text-center">
+  <div className="flex justify-center gap-1">
+    <button className="border px-2 py-1 text-blue-600 hover:bg-blue-50 rounded">
+      ✏️
+    </button>
+    <button className="border px-2 py-1 text-red-600 hover:bg-red-50 rounded">
+      🗑️
+    </button>
+  </div>
+</td>
                     </tr>
                   ))
                 )}
