@@ -151,15 +151,15 @@ const Sidebar = () => {
           children: [
             {
               title: "Transaksi Penerimaan",
-              path: "/dashboard/aspekpenilaian",
+              path: "/dashboard/TransaksiPenerimaan",
             },
             {
               title: "jenis Penerimaan",
-              path: "/dashboard/Semester",
+              path: "/dashboard/JenisPenerimaan",
             },
             {
               title: "Laporan Penerimaan",
-              path: "/dashboard/jenissemester",
+              path: "/dashboard/LaporanPenerimaan",
             },
             
           ],
@@ -169,11 +169,11 @@ const Sidebar = () => {
           children: [
             {
               title: "Transaksi Pengeluaran",
-              path: "/dashboard/absensiharian",
+              path: "/dashboard/TransaksiPengeluaran",
             },
             {
               title: "Jenis Pengeluaran",
-              path: "/dashboard/rekapabsensi",
+              path: "/dashboard/JenisPengeluaran",
             },
             {
               title: "Laporan Pengeluaran",
@@ -217,15 +217,15 @@ const Sidebar = () => {
           children: [
             {
            title: "Penghasilan komprehensif",
-           path: "/dashboard/absensimapel"
+           path: "/dashboard/Penghasilan Komprehensif"
             },
             {
            title: "Posisi Keuangan",
-           path: "/dashboard/absensimapel"
+           path: "/dashboard/PosisiKeuangan"
             },
             {
            title: "Arus Kas",
-           path: "/dashboard/absensimapel"
+           path: "/dashboard/ArusKas"
             },
             {
            title: "perubahan aset neto",
