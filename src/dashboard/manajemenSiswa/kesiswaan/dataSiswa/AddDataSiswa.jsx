@@ -10,7 +10,7 @@ const FormTambahSiswa = () => {
     kelas: [],
     jurusan: [],
     tahun_ajaran: [],
-  }); 
+  });
 
   const [formData, setFormData] = useState({
     nis: "",
@@ -164,13 +164,19 @@ const FormTambahSiswa = () => {
             </div>
             <div className="col-md-3">
               <label className="form-label small fw-bold">Agama</label>
-              <input
-                type="text"
+              <select
                 name="agama"
-                className="form-control form-control-sm"
+                className="form-select form-select-sm"
                 value={formData.agama}
                 onChange={handleChange}
-              />
+              >
+                <option value="Islam">Islam</option>
+                <option value="Kristen">Kristen</option>
+                <option value="Katolik">Katolik</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Buddha">Buddha</option>
+                <option value="Konghucu">Konghucu</option>
+              </select>
             </div>
             <div className="col-md-12">
               <label className="form-label small fw-bold">Alamat</label>
