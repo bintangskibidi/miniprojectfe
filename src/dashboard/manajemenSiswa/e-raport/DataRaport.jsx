@@ -4,7 +4,7 @@ import api from "../../../utils/api"
 export default function DataRaport() {
   const [filter, setFilter] = useState({
     kelas: "",
-    tahun_ajaran: "", // Diubah dari tahun ke tahun_ajaran
+    tahun_ajaran: "",
     nama_semester: "",
     wali: "",
     mapel: "",
@@ -17,19 +17,16 @@ export default function DataRaport() {
   const [mapelList, setMapelList] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  // New states for table
   const [siswaList, setSiswaList] = useState([]);
   const [raportData, setRaportData] = useState({});
   const [tableLoading, setTableLoading] = useState(false);
   const [saveTimeout, setSaveTimeout] = useState(null);
 
-  //   AMBIL DATA
   useEffect(() => {
     fetchData();
   }, []);
 
   const normalize = (res) => {
-    // bikin aman semua bentuk response
     if (Array.isArray(res)) return res;
     if (Array.isArray(res?.data)) return res.data;
     if (Array.isArray(res?.data?.data)) return res.data.data;
@@ -39,18 +36,17 @@ export default function DataRaport() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [kelas, tahun, nama_semester, wali, mapel] = await Promise.all([
+      const [kelas, tahun, semester, wali, mapel] = await Promise.all([
         api.get("/kelas"),
-        api.get("/tahun-ajaran"), // Mengarah ke API tahun ajaran
+        api.get("/tahun-ajaran"),
         api.get("/semester"),
         api.get("/walikelas"),
-        api.get("/mapel"),
+        api.get("/aspek-penilaian"), // ✅ FIX
       ]);
 
-      
       setKelasList(normalize(kelas.data));
       setTahunList(normalize(tahun.data));
-      setSemesterList(normalize(nama_semester.data));
+      setSemesterList(normalize(semester.data));
       setWaliList(normalize(wali.data));
       setMapelList(normalize(mapel.data));
 
@@ -65,7 +61,6 @@ export default function DataRaport() {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
-  // Load siswa and raport when relevant filters selected
   useEffect(() => {
     if (filter.kelas && filter.nama_semester && filter.mapel) {
       loadRaportData();
@@ -78,17 +73,11 @@ export default function DataRaport() {
   const loadRaportData = async () => {
     setTableLoading(true);
     try {
-      // Fetch siswa
-      const siswaRes = await api.get("/datasiswa", {
-        params: {
-          kelas_id: filter.kelas,
-          semester_id: filter.nama_semester,
-        }
-      });
+      // ✅ FIX endpoint siswa
+      const siswaRes = await api.get("/siswa");
       const siswaData = normalize(siswaRes.data);
       setSiswaList(siswaData);
 
-      // Initialize raport data for new entries
       const initialData = {};
       siswaData.forEach(s => {
         initialData[s.id] = {
@@ -98,9 +87,8 @@ export default function DataRaport() {
           deskripsi: ''
         };
       });
-      setRaportData(initialData);
 
-      // Try to fetch existing data
+      // ambil raport existing
       try {
         const raportRes = await api.get("/raport", {
           params: {
@@ -109,20 +97,27 @@ export default function DataRaport() {
             mapel_id: filter.mapel
           }
         });
+
         const existingData = normalize(raportRes.data);
+
         existingData.forEach(item => {
-          initialData[item.siswa_id] = {
-            ...initialData[item.siswa_id],
+          const sid = item.siswa_id || item.siswa?.id;
+          if (!sid) return;
+
+          initialData[sid] = {
             kkm: item.kkm || '',
             harian: item.harian || '',
             ujian: item.ujian || '',
             deskripsi: item.deskripsi || ''
           };
         });
-        setRaportData(initialData);
-      } catch (fetchErr) {
-        console.log("No existing raport data found, using defaults");
+
+      } catch {
+        console.log("raport kosong");
       }
+
+      setRaportData(initialData);
+
     } catch (err) {
       console.error("Error loading raport:", err);
     } finally {
@@ -139,7 +134,6 @@ export default function DataRaport() {
       }
     }));
 
-    // Debounce save
     if (saveTimeout) clearTimeout(saveTimeout);
     setSaveTimeout(setTimeout(() => {
       autoSave(siswaId);
@@ -149,7 +143,9 @@ export default function DataRaport() {
   const autoSave = async (siswaId) => {
     try {
       const data = raportData[siswaId];
-      await api.put(`/raport/${siswaId}`, {
+
+      // ✅ FIX: pakai POST (bukan PUT)
+      await api.post(`/raport`, {
         ...data,
         siswa_id: siswaId,
         mapel_id: filter.mapel,
@@ -158,7 +154,8 @@ export default function DataRaport() {
         tahun_ajaran_id: filter.tahun_ajaran || null,
         wali_id: filter.wali || null
       });
-      console.log(`Saved raport for siswa ${siswaId}`);
+
+      console.log("saved:", siswaId);
     } catch (err) {
       console.error("Save error:", err);
     }
@@ -178,8 +175,7 @@ export default function DataRaport() {
   };
 
   const handleFilter = () => {
-    console.log("Kirim ke backend:", filter);
-    // Logic filter bisa ditambahkan di sini
+    console.log("filter:", filter);
   };
 
   return (
@@ -195,7 +191,6 @@ export default function DataRaport() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4">
 
-            {/* KELAS */}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 uppercase">Kelas</label>
               <select name="kelas" value={filter.kelas} onChange={handleChange}
@@ -209,7 +204,6 @@ export default function DataRaport() {
               </select>
             </div>
 
-            {/* TAHUN AJARAN */}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 uppercase">Tahun Ajaran</label>
               <select name="tahun_ajaran" value={filter.tahun_ajaran} onChange={handleChange}
@@ -223,7 +217,6 @@ export default function DataRaport() {
               </select>
             </div>
 
-            {/* SEMESTER */}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 uppercase">Semester</label>
               <select name="nama_semester" value={filter.nama_semester} onChange={handleChange}
@@ -237,7 +230,6 @@ export default function DataRaport() {
               </select>
             </div>
 
-            {/* WALI KELAS */}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 uppercase">Wali Kelas</label>
               <select name="wali" value={filter.wali} onChange={handleChange}
@@ -245,13 +237,12 @@ export default function DataRaport() {
                 <option value="">-- Semua Wali --</option>
                 {waliList.map((w, i) => (
                   <option key={w.id || i} value={w.id}>
-                    {w.namaPegawai}
+                    {w.nama_pegawai}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* MAPEL */}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 uppercase">Mata Pelajaran</label>
               <select name="mapel" value={filter.mapel} onChange={handleChange}
@@ -259,7 +250,7 @@ export default function DataRaport() {
                 <option value="">-- Semua Mapel --</option>
                 {mapelList.map((m, i) => (
                   <option key={m.id || i} value={m.id}>
-                    {m.nama_mapel || m.nama}
+                    {m.nama_aspek || m.nama}
                   </option>
                 ))}
               </select>
@@ -268,29 +259,21 @@ export default function DataRaport() {
           </div>
         )}
 
-        {/* BUTTON */}
         <div className="flex justify-end gap-2 p-4 border-t">
-          <button
-            onClick={handleReset}
-            className="bg-gray-200 px-4 py-2 rounded-lg text-sm"
-          >
+          <button onClick={handleReset} className="bg-gray-200 px-4 py-2 rounded-lg text-sm">
             Reset
           </button>
-
-          <button
-            onClick={handleFilter}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm"
-          >
+          <button onClick={handleFilter} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
             Filter
           </button>
         </div>
 
-        {/* RAPORT TABLE */}
         {siswaList.length > 0 && (
           <div className="mt-6">
             <div className="bg-green-600 text-white px-4 py-3 rounded-t-lg font-semibold mb-0">
               Data Raport - {siswaList.length} Siswa
             </div>
+
             {tableLoading ? (
               <div className="p-8 text-center">Loading raport data...</div>
             ) : (
@@ -300,48 +283,39 @@ export default function DataRaport() {
                     <tr className="bg-gray-50">
                       <th className="border px-4 py-2 text-left">Kriteria</th>
                       {siswaList.map(s => (
-                        <th key={s.id} className="border px-2 py-2 text-center font-medium min-w-[120px]">
-                          {s.nama || s.nama_siswa}
+                        <th key={s.id} className="border px-2 py-2 text-center min-w-[120px]">
+                          {s.nama}
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {['kkm', 'harian', 'ujian'].map(type => (
-                      <tr key={type} className="hover:bg-gray-50">
-                        <td className="border px-4 py-2 font-medium capitalize">{type.replace('_', ' ')}</td>
-                        {siswaList.map(s => {
-                          const siswaData = raportData[s.id] || {};
-                          return (
-                            <td key={s.id} className="border p-2">
-                              <input 
-                                type="number" 
-                                min="1" max="100"
-                                value={siswaData[type] || ''}
-                                onChange={(e) => handleInputChange(s.id, type, e.target.value)}
-                                className="w-full p-1 border rounded text-center text-sm"
-                              />
-                            </td>
-                          );
-                        })}
+                      <tr key={type}>
+                        <td className="border px-4 py-2 font-medium">{type}</td>
+                        {siswaList.map(s => (
+                          <td key={s.id} className="border p-2">
+                            <input
+                              type="number"
+                              value={raportData[s.id]?.[type] || ''}
+                              onChange={(e) => handleInputChange(s.id, type, e.target.value)}
+                              className="w-full p-1 border rounded text-center text-sm"
+                            />
+                          </td>
+                        ))}
                       </tr>
                     ))}
                     <tr>
                       <td className="border px-4 py-2 font-medium">Deskripsi</td>
-                      {siswaList.map(s => {
-                        const siswaData = raportData[s.id] || {};
-                        return (
-                          <td key={s.id} className="border p-2">
-                            <textarea 
-                              value={siswaData.deskripsi || ''}
-                              onChange={(e) => handleInputChange(s.id, 'deskripsi', e.target.value)}
-                              className="w-full p-1 border rounded text-sm resize-none" 
-                              rows="2"
-                              placeholder="Deskripsi nilai..."
-                            />
-                          </td>
-                        );
-                      })}
+                      {siswaList.map(s => (
+                        <td key={s.id} className="border p-2">
+                          <textarea
+                            value={raportData[s.id]?.deskripsi || ''}
+                            onChange={(e) => handleInputChange(s.id, 'deskripsi', e.target.value)}
+                            className="w-full p-1 border rounded text-sm"
+                          />
+                        </td>
+                      ))}
                     </tr>
                   </tbody>
                 </table>
@@ -349,6 +323,7 @@ export default function DataRaport() {
             )}
           </div>
         )}
+
       </div>
     </div>
   );

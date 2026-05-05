@@ -206,8 +206,8 @@ const FormTambahSiswa = () => {
               >
                 <option value="">Pilih Kelas</option>
                 {dropdown.kelas.map((item) => (
-                  <option key={item.id} value={item.nama_kelas}>
-                    {item.nama_kelas}
+                  <option key={item.id} value={item.nama}>
+                    {item.nama}
                   </option>
                 ))}
               </select>
@@ -223,8 +223,8 @@ const FormTambahSiswa = () => {
               >
                 <option value="">Pilih Jurusan</option>
                 {dropdown.jurusan.map((item) => (
-                  <option key={item.id} value={item.nama_jurusan}>
-                    {item.nama_jurusan}
+                  <option key={item.id} value={item.nama}>
+                    {item.nama}
                   </option>
                 ))}
               </select>
@@ -240,8 +240,8 @@ const FormTambahSiswa = () => {
               >
                 <option value="">Pilih Tahun Ajaran</option>
                 {dropdown.tahun_ajaran.map((item) => (
-                  <option key={item.id} value={item.tahun_ajaran}>
-                    {item.tahun_ajaran}
+                  <option key={item.id} value={item.nama}>
+                    {item.nama}
                   </option>
                 ))}
               </select>
