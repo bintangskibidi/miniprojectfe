@@ -51,7 +51,7 @@ const Dashboard = () => {
     { icon: <FaLaptop />, title: "Aplikasi", path: "/aplikasi" },
     { icon: <FaClipboardList />, title: "PPDB", path: "/ppdb" },
     { icon: <FaSchool />, title: "Manajemen Sekolah", path: "/dashboard/profilesekolah" },
-    { icon: <FaIdCard />, title: "Kepegawaian", path: "/kepegawaian" },
+    { icon: <FaIdCard />, title: "Kepegawaian", path: "/dashboard/kepegawaian" },
   ];
 
   return (

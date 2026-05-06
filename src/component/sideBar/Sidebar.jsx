@@ -7,284 +7,300 @@ const Sidebar = () => {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
 
- const menuConfig = {
-  siswa: [
-    {
-      group: "Manajemen Siswa",
-      items: [
-        {
-          title: "Dashboard",
-          path: "/dashboard/siswa",
-        },
-        {
-          title: "Kesiswaan",
-          children: [
-            { title: "Data Siswa", path: "/dashboard/datasiswa" },
-            { title: "Kenaikan Kelas", path: "/dashboard/kenaikankelas" },
-            { title: "Data Kelas", path: "/dashboard/datakelas" },
-            { title: "Data Jurusan", path: "/dashboard/datajurusan" },
-            { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
-            { title: "Wali Kelas", path: "/dashboard/walikelas" },
-          ],
-        },
-        {
-          title: "Kegiatan",
-          children: [
-            {
-              title: "Ekstrakurikuler",
-              path: "/dashboard/ekstrakurikuler",
-            },
-          ],
-        },
-        {
-          title: "E-Raport",
-          children: [
-            {
-              title: "Aspek Penilaian",
-              path: "/dashboard/aspekpenilaian",
-            },
-            {
-              title: "Semester",
-              path: "/dashboard/Semester",
-            },
-            {
-              title: "Jenis Semester",
-              path: "/dashboard/jenissemester",
-            },
-            {
-              title: "Data Raport",
-              path: "/dashboard/dataraport",
-            },
-          ],
-        },
-        {
-          title: "Absensi",
-          children: [
-            {
-              title: "Absensi Harian",
-              path: "/dashboard/absensiharian",
-            },
-            {
-              title: "Rekap Absensi",
-              path: "/dashboard/rekapabsensi",
-            },
-            {
-              title: "Absensi Mapel",
-              path: "/dashboard/absensimapel",
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  const menuConfig = {
+    siswa: [
+      {
+        group: "Manajemen Siswa",
+        items: [
+          {
+            title: "Dashboard",
+            path: "/dashboard/siswa",
+          },
+          {
+            title: "Kesiswaan",
+            children: [
+              { title: "Data Siswa", path: "/dashboard/datasiswa" },
+              { title: "Kenaikan Kelas", path: "/dashboard/kenaikankelas" },
+              { title: "Data Kelas", path: "/dashboard/datakelas" },
+              { title: "Data Jurusan", path: "/dashboard/datajurusan" },
+              { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
+              { title: "Wali Kelas", path: "/dashboard/walikelas" },
+            ],
+          },
+          {
+            title: "Kegiatan",
+            children: [
+              {
+                title: "Ekstrakurikuler",
+                path: "/dashboard/ekstrakurikuler",
+              },
+            ],
+          },
+          {
+            title: "E-Raport",
+            children: [
+              {
+                title: "Aspek Penilaian",
+                path: "/dashboard/aspekpenilaian",
+              },
+              {
+                title: "Semester",
+                path: "/dashboard/Semester",
+              },
+              {
+                title: "Jenis Semester",
+                path: "/dashboard/jenissemester",
+              },
+              {
+                title: "Data Raport",
+                path: "/dashboard/dataraport",
+              },
+            ],
+          },
+          {
+            title: "Absensi",
+            children: [
+              {
+                title: "Absensi Harian",
+                path: "/dashboard/absensiharian",
+              },
+              {
+                title: "Rekap Absensi",
+                path: "/dashboard/rekapabsensi",
+              },
+              {
+                title: "Absensi Mapel",
+                path: "/dashboard/absensimapel",
+              },
+            ],
+          },
+        ],
+      },
+    ],
 
-  guru: [
-    {
-      group: "Manajemen Guru",
-      items: [
-        {
-          title: "Dashboard",
-          path: "/dashboard/guru",
-        },
-        {
-          title: "Mata Pelajaran",
-          path: "/dashboard/mapel",
-        },
-        {
-          title: "Jadwal Mengajar",
-          path: "/dashboard/JadwalMengajar",
-        },
-        {
-          title: "Distribusi Jam",
-          path: "/dashboard/distribusijam",
-        },
-        {
-          title: "Riwayat Mengajar",
-          path: "/dashboard/RiwayatMengajar",
-        },
-      ],
-    },
-  ],
+    guru: [
+      {
+        group: "Manajemen Guru",
+        items: [
+          {
+            title: "Dashboard",
+            path: "/dashboard/guru",
+          },
+          {
+            title: "Mata Pelajaran",
+            path: "/dashboard/mapel",
+          },
+          {
+            title: "Jadwal Mengajar",
+            path: "/dashboard/JadwalMengajar",
+          },
+          {
+            title: "Distribusi Jam",
+            path: "/dashboard/distribusijam",
+          },
+          {
+            title: "Riwayat Mengajar",
+            path: "/dashboard/RiwayatMengajar",
+          },
+        ],
+      },
+    ],
 
-  keuangan: [
+    keuangan: [
       {
         group: "Manajemen Keuangan",
         items: [
-        {
-          title: "Dashboard",
-          path: "/dashboard/keuangan",
-        },
-        {
-          title: "Pembayaran Siswa",
-          children: [
-            { title: "bayar Tagihan", path: "/dashboard/BayarTagihan" },
-            { title: "Tunggakan Siswa", path: "/dashboard/TunggakanSiswa" },
-            { title: "jenis Pembayaran", path: "/dashboard/JenisPembayaran" },
-            { title: "tarif pembayaran", path: "/dashboard/TarifPembayaranSiswa" },
-            { title: "Rekap Pembayaran Bulanan", path: "/dashboard/RekapPembayaran" },
-            { title: "Data Transaksi", path: "/dashboard/walikelas" },
-            { title: "Rekap Persiswa", path: "/dashboard/RekapSiswa" },
-            { title: "Rekap Pertanggal", path: "/dashboard/RekapTanggal" },
-            { title: "Rekap Tagihan", path: "/dashboard/RekapTagihan" },
-            { title: "tagihan bulan ini", path: "/dashboard/TagihanBulanIni" },
-          ],
-        },
-        {
-          title: "Tabungan siswa",
-          children: [
-            {
-              title: "Teller",
-              path: "/dashboard/Teller",
-            },
-            {
-              title: "Riwayat Tabungan siswa",
-              path: "/dashboard/RiwayatTabunganSiswa",
-            },
-            {
-              title: "Riwayat Transaksi",
-              path: "/dashboard/RiwayatTransaksi",
-            },
-          ],
-        },
-        {
-          title: "Penerimaan",
-          children: [
-            {
-              title: "Transaksi Penerimaan",
-              path: "/dashboard/TransaksiPenerimaan",
-            },
-            {
-              title: "jenis Penerimaan",
-              path: "/dashboard/JenisPenerimaan",
-            },
-            {
-              title: "Laporan Penerimaan",
-              path: "/dashboard/LaporanPenerimaan",
-            },
-            
-          ],
-        },
-        {
-          title: "pengeluaran",
-          children: [
-            {
-              title: "Transaksi Pengeluaran",
-              path: "/dashboard/TransaksiPengeluaran",
-            },
-            {
-              title: "Jenis Pengeluaran",
-              path: "/dashboard/JenisPengeluaran",
-            },
-            {
-              title: "Laporan Pengeluaran",
-              path: "/dashboard/LaporanPengeluaran",
-            },
-           
-          ],
-        },
-        {
-          title: "Jurnal",
-          children: [
-            {
-            title: "Transaksi Jurnal",
-            path: "/dashboard/absensimapel"
-            },
-            {
-            title: "laporan Jurnal",
-            path: "/dashboard/absensimapel"
-            },
-          ]
-        },
-        {
-        title: "Buku Besar",
-        children: [
           {
-         title: "laporan Buku Besar",
-         path: "/dashboard/LaporanBukuBesar"
+            title: "Dashboard",
+            path: "/dashboard/keuangan",
           },
           {
-         title: "Neraca Saldo",
-         path: "/dashboard/NeracaSaldo"
+            title: "Pembayaran Siswa",
+            children: [
+              { title: "bayar Tagihan", path: "/dashboard/BayarTagihan" },
+              { title: "Tunggakan Siswa", path: "/dashboard/TunggakanSiswa" },
+              { title: "jenis Pembayaran", path: "/dashboard/JenisPembayaran" },
+              { title: "tarif pembayaran", path: "/dashboard/TarifPembayaranSiswa" },
+              { title: "Rekap Pembayaran Bulanan", path: "/dashboard/RekapPembayaran" },
+              { title: "Data Transaksi", path: "/dashboard/walikelas" },
+              { title: "Rekap Persiswa", path: "/dashboard/RekapSiswa" },
+              { title: "Rekap Pertanggal", path: "/dashboard/RekapTanggal" },
+              { title: "Rekap Tagihan", path: "/dashboard/RekapTagihan" },
+              { title: "tagihan bulan ini", path: "/dashboard/TagihanBulanIni" },
+            ],
           },
           {
-         title: "Jurnal Umum",
-         path: "/dashboard/JurnalUmum"
+            title: "Tabungan siswa",
+            children: [
+              {
+                title: "Teller",
+                path: "/dashboard/Teller",
+              },
+              {
+                title: "Riwayat Tabungan siswa",
+                path: "/dashboard/RiwayatTabunganSiswa",
+              },
+              {
+                title: "Riwayat Transaksi",
+                path: "/dashboard/RiwayatTransaksi",
+              },
+            ],
+          },
+          {
+            title: "Penerimaan",
+            children: [
+              {
+                title: "Transaksi Penerimaan",
+                path: "/dashboard/TransaksiPenerimaan",
+              },
+              {
+                title: "jenis Penerimaan",
+                path: "/dashboard/JenisPenerimaan",
+              },
+              {
+                title: "Laporan Penerimaan",
+                path: "/dashboard/LaporanPenerimaan",
+              },
+
+            ],
+          },
+          {
+            title: "pengeluaran",
+            children: [
+              {
+                title: "Transaksi Pengeluaran",
+                path: "/dashboard/TransaksiPengeluaran",
+              },
+              {
+                title: "Jenis Pengeluaran",
+                path: "/dashboard/JenisPengeluaran",
+              },
+              {
+                title: "Laporan Pengeluaran",
+                path: "/dashboard/LaporanPengeluaran",
+              },
+
+            ],
+          },
+          {
+            title: "Jurnal",
+            children: [
+              {
+                title: "Transaksi Jurnal",
+                path: "/dashboard/absensimapel"
+              },
+              {
+                title: "laporan Jurnal",
+                path: "/dashboard/absensimapel"
+              },
+            ]
+          },
+          {
+            title: "Buku Besar",
+            children: [
+              {
+                title: "laporan Buku Besar",
+                path: "/dashboard/LaporanBukuBesar"
+              },
+              {
+                title: "Neraca Saldo",
+                path: "/dashboard/NeracaSaldo"
+              },
+              {
+                title: "Jurnal Umum",
+                path: "/dashboard/JurnalUmum"
+              },
+            ]
+          },
+          {
+            title: "Laporan Keuangan",
+            children: [
+              {
+                title: "Penghasilan komprehensif",
+                path: "/dashboard/Penghasilan Komprehensif"
+              },
+              {
+                title: "Posisi Keuangan",
+                path: "/dashboard/PosisiKeuangan"
+              },
+              {
+                title: "Arus Kas",
+                path: "/dashboard/ArusKas"
+              },
+              {
+                title: "perubahan aset neto",
+                path: "/dashboard/absensimapel"
+              },
+            ]
+          },
+        ],
+      },
+    ],
+
+    Kepegawaian: [
+      {
+        group: "MENU",
+        items: [
+          {
+            title: "Dashboard",
+            path: "/dashboard/kepegawaian",
+          },
+          {
+            title: "DataPegawai",
+            path: "/dashboard/DataPegawai",
           },
         ]
-        },
-        {
-          title: "Laporan Keuangan",
-          children: [
-            {
-           title: "Penghasilan komprehensif",
-           path: "/dashboard/Penghasilan Komprehensif"
-            },
-            {
-           title: "Posisi Keuangan",
-           path: "/dashboard/PosisiKeuangan"
-            },
-            {
-           title: "Arus Kas",
-           path: "/dashboard/ArusKas"
-            },
-            {
-           title: "perubahan aset neto",
-           path: "/dashboard/absensimapel"
-            },
-          ]
-        },
-      ],
+      }
+    ],
+
+    perpustakaan: [
+      {
+        group: "Perpustakaan",
+        items: [
+          { title: "Data Perpustakaan", path: "/dashboard/perpustakaan" },
+          { title: "Data Buku", path: "/dashboard/databuku" },
+        ],
       },
-  ],
+    ],
 
-  perpustakaan: [
-    {
-      group: "Perpustakaan",
-      items: [
-        { title: "Data Perpustakaan", path: "/dashboard/perpustakaan" },
-        { title: "Data Buku", path: "/dashboard/databuku" },
-      ],
-    },
-  ],
+    sekolah: [
+      {
+        group: "Manajemen Sekolah",
+        items: [
+          {
+            title: "Data Sekolah",
+            children: [
+              { title: "Profile sekolah", path: "/dashboard/profilesekolah" },
+            ],
+          },
+        ],
+      },
+      {
+        group: "",
+        items: [
+          { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
+        ],
+      },
+    ],
 
-  sekolah: [
-    {
-      group: "Manajemen Sekolah",
-      items: [
-         {
-          title: "Data Sekolah",
-          children: [
-            { title: "Profile sekolah", path: "/dashboard/profilesekolah" },
-          ],
-        },
-      ],
-    },
-    {
-      group: "",
-      items: [
-        { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
-      ],
-    },
-  ],
-
-  default: [
-    {
-      group: "Menu Utama",
-      items: [
-        { title: "Dashboard", path: "/dashboard" },
-        { title: "Siswa", path: "/dashboard/siswa" },
-        { title: "Guru", path: "/dashboard/guru" },
-        { title: "Mapel", path: "/dashboard/mapel" },
-        { title: "Keuangan", path: "/dashboard/keuangan" },
-        { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
-        { title: "Profile Sekolah", path: "/dashboard/profilesekolah" },
-        { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
-        { title: "Kelas", path: "/dashboard/datakelas" },
-        { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
-      ],
-    },
-  ],
-};
+    default: [
+      {
+        group: "Menu Utama",
+        items: [
+          { title: "Dashboard", path: "/dashboard" },
+          { title: "Siswa", path: "/dashboard/siswa" },
+          { title: "Guru", path: "/dashboard/guru" },
+          { title: "Mapel", path: "/dashboard/mapel" },
+          { title: "Keuangan", path: "/dashboard/keuangan" },
+          { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
+          { title: "Profile Sekolah", path: "/dashboard/profilesekolah" },
+          { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
+          { title: "Kelas", path: "/dashboard/datakelas" },
+          { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
+        ],
+      },
+    ],
+  };
   let menu = menuConfig.default;
 
   if (
@@ -306,60 +322,58 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/tahunajaran")
   ) {
     menu = menuConfig.siswa;
- } else if (
-  location.pathname.startsWith("/dashboard/guru") ||
-  location.pathname.startsWith("/dashboard/mapel") ||
-  location.pathname.startsWith("/dashboard/RiwayatMengajar") ||
-+ location.pathname.startsWith("/dashboard/JadwalMengajar") ||
-+ location.pathname.startsWith("/dashboard/distribusijam")
-) {
-  menu = menuConfig.guru;
-}  else if (location.pathname.startsWith("/dashboard/keuangan")) {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/NeracaSaldo")) {
-} else if (location.pathname.startsWith("/dashboard/RekapPembayaran")) {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/JurnalUmum")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/TunggakanSiswa")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/BayarTagihan")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/TagihanBulanIni")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/RiwayatTransaksi")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/Teller")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/RekapSiswa")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/RekapTanggal")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/TarifPembayaranSiswa")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/RekapTagihan")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/RiwayatTabunganSiswa")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/LaporanPengeluaran")) 
-  {
-  menu = menuConfig.keuangan;
-} else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
+  } else if (
+    location.pathname.startsWith("/dashboard/guru") ||
+    location.pathname.startsWith("/dashboard/mapel") ||
+    location.pathname.startsWith("/dashboard/RiwayatMengajar") ||
+    + location.pathname.startsWith("/dashboard/JadwalMengajar") ||
+    + location.pathname.startsWith("/dashboard/distribusijam")
+  ) {
+    menu = menuConfig.guru;
+  } else if (location.pathname.startsWith("/dashboard/keuangan")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/NeracaSaldo")) {
+  } else if (location.pathname.startsWith("/dashboard/RekapPembayaran")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/JurnalUmum")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/TunggakanSiswa")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/BayarTagihan")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/TagihanBulanIni")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RiwayatTransaksi")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/Teller")) {
+    menu = menuConfig.keuangan;
+  
+  } else if (location.pathname.startsWith("/dashboard/TransaksiPenerimaan")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RekapSiswa")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RekapTanggal")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/TarifPembayaranSiswa")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RekapTagihan")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RiwayatTabunganSiswa")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/LaporanPengeluaran")) {
+    menu = menuConfig.keuangan;
+  }
+  else if (location.pathname.startsWith("/dashboard/kepegawaian")) {
+    menu = menuConfig.Kepegawaian;
+  }
+  else if (location.pathname.startsWith("/dashboard/DataPegawai")) {
+    menu = menuConfig.Kepegawaian;
+  } 
+  else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
   } else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
   } else if (
@@ -416,11 +430,10 @@ text-white flex flex-col shadow-2xl"
                       }
                     }}
                     className={`flex justify-between items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-300
-                    ${
-                      isActive
+                    ${isActive
                         ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg scale-[1.02]"
                         : "hover:bg-blue-800/70 hover:scale-[1.01]"
-                    }`}
+                      }`}
                   >
                     <span className="text-sm font-medium tracking-wide">
                       {item.title}
@@ -428,9 +441,8 @@ text-white flex flex-col shadow-2xl"
 
                     {item.children && (
                       <span
-                        className={`text-xs transition-transform duration-300 ${
-                          isOpen ? "rotate-90" : ""
-                        }`}
+                        className={`text-xs transition-transform duration-300 ${isOpen ? "rotate-90" : ""
+                          }`}
                       >
                         ▶
                       </span>
@@ -448,11 +460,10 @@ text-white flex flex-col shadow-2xl"
                             key={k}
                             onClick={() => navigate(child.path)}
                             className={`px-2 py-1.5 rounded-lg cursor-pointer text-sm transition-all duration-200
-                            ${
-                              activeChild
+                            ${activeChild
                                 ? "bg-blue-100 text-blue-900 font-semibold shadow"
                                 : "text-blue-200 hover:bg-blue-800/60 hover:text-white"
-                            }`}
+                              }`}
                           >
                             {child.title}
                           </div>
