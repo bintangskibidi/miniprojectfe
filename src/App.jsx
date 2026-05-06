@@ -16,6 +16,9 @@ import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
 import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
 import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
 import Teller from "./dashboard/manajemenKeuangan/Teller";
+import DataPegawai from "./dashboard/Kepegawaian/DataPegawai";
+import TransaksiJurnal from "./dashboard/manajemenKeuangan/TransaksiJurnal";
+import TransaksiPenerimaan from "./dashboard/manajemenKeuangan/TransaksiPenerimaan";
 import JenisPembayaran from "./dashboard/manajemenKeuangan/JenisPembayaran";
 import RekapPembayaran from "./dashboard/manajemenKeuangan/RekapPembayaran";
 import RekapTagihan from "./dashboard/manajemenKeuangan/RekapTagihan";
@@ -47,15 +50,21 @@ import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 
+import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian"
+
+ 
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/dashboard" element={<Layout />}>
+        
+
           <Route path="datasiswa" element={<DataSiswa />} />
           <Route path="walikelas" element={<DataWaliKelas />} />
           <Route path="Semester" element={<Semester />} />
@@ -78,10 +87,14 @@ function App() {
           <Route path="/dashboard/edit-siswa/:id" element={<EditSiswa />} />
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
+          <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
           <Route path="Teller" element={<Teller />} />
+          <Route path="DataPegawai" element={<DataPegawai />} />
+          <Route path="TransaksiJurnal" element={<TransaksiJurnal />} />
+          <Route path="TransaksiPenerimaan" element={<TransaksiPenerimaan />} />
           <Route path="JenisPembayaran" element={<JenisPembayaran />} />
           <Route path="RekapTagihan" element={<RekapTagihan />} />
           <Route path="RekapSiswa" element={<RekapPerSiswa />} />
