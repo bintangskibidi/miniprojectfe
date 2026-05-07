@@ -1,11 +1,30 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Aduca from "../../assets/Aduca.png";
+import {
+  FaTachometerAlt,
+  FaUserGraduate,
+  FaCalendarAlt,
+  FaFileAlt,
+  FaClipboardCheck,
+  FaBook,
+  FaCalendarCheck,
+  FaClock,
+  FaHistory,
+  FaMoneyBillWave,
+  FaPiggyBank,
+  FaArrowDown,
+  FaArrowUp,
+  FaBookOpen,
+  FaChartBar,
+  FaUserTie,
+  FaSchool,
+} from "react-icons/fa";
 import { useState } from "react";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [openMenu, setOpenMenu] = useState(null);
+  const [openMenu, setOpenMenu] = useState([]);
 
   const menuConfig = {
     siswa: [
@@ -15,9 +34,11 @@ const Sidebar = () => {
           {
             title: "Dashboard",
             path: "/dashboard/siswa",
+            icon: <FaTachometerAlt />,
           },
           {
             title: "Kesiswaan",
+            icon: <FaUserGraduate />,
             children: [
               { title: "Data Siswa", path: "/dashboard/datasiswa" },
               { title: "Kenaikan Kelas", path: "/dashboard/kenaikankelas" },
@@ -29,6 +50,7 @@ const Sidebar = () => {
           },
           {
             title: "Kegiatan",
+            icon: <FaCalendarAlt />,
             children: [
               {
                 title: "Ekstrakurikuler",
@@ -38,6 +60,7 @@ const Sidebar = () => {
           },
           {
             title: "E-Raport",
+            icon: <FaFileAlt />,
             children: [
               {
                 title: "Aspek Penilaian",
@@ -59,6 +82,7 @@ const Sidebar = () => {
           },
           {
             title: "Absensi",
+            icon: <FaClipboardCheck />,
             children: [
               {
                 title: "Absensi Harian",
@@ -85,22 +109,27 @@ const Sidebar = () => {
           {
             title: "Dashboard",
             path: "/dashboard/guru",
+            icon: <FaTachometerAlt />,
           },
           {
             title: "Mata Pelajaran",
             path: "/dashboard/mapel",
+            icon: <FaBook />,
           },
           {
             title: "Jadwal Mengajar",
             path: "/dashboard/JadwalMengajar",
+            icon: <FaCalendarCheck />,
           },
           {
             title: "Distribusi Jam",
             path: "/dashboard/distribusijam",
+            icon: <FaClock />,
           },
           {
             title: "Riwayat Mengajar",
             path: "/dashboard/RiwayatMengajar",
+            icon: <FaHistory />,
           },
         ],
       },
@@ -113,9 +142,11 @@ const Sidebar = () => {
           {
             title: "Dashboard",
             path: "/dashboard/keuangan",
+            icon: <FaTachometerAlt />,
           },
           {
             title: "Pembayaran Siswa",
+            icon: <FaMoneyBillWave />,
             children: [
               { title: "bayar Tagihan", path: "/dashboard/BayarTagihan" },
               { title: "Tunggakan Siswa", path: "/dashboard/TunggakanSiswa" },
@@ -131,6 +162,7 @@ const Sidebar = () => {
           },
           {
             title: "Tabungan siswa",
+            icon: <FaPiggyBank />,
             children: [
               {
                 title: "Teller",
@@ -148,6 +180,8 @@ const Sidebar = () => {
           },
           {
             title: "Penerimaan",
+            icon: <FaArrowDown />,
+
             children: [
               {
                 title: "Transaksi Penerimaan",
@@ -166,6 +200,7 @@ const Sidebar = () => {
           },
           {
             title: "pengeluaran",
+            icon: <FaArrowUp />,
             children: [
               {
                 title: "Transaksi Pengeluaran",
@@ -184,6 +219,7 @@ const Sidebar = () => {
           },
           {
             title: "Jurnal",
+            icon: <FaBookOpen />,
             children: [
               {
                 title: "Transaksi Jurnal",
@@ -197,6 +233,8 @@ const Sidebar = () => {
           },
           {
             title: "Buku Besar",
+            icon: <FaBook />,
+
             children: [
               {
                 title: "laporan Buku Besar",
@@ -214,6 +252,7 @@ const Sidebar = () => {
           },
           {
             title: "Laporan Keuangan",
+            icon: <FaChartBar />,
             children: [
               {
                 title: "Penghasilan komprehensif",
@@ -269,6 +308,7 @@ const Sidebar = () => {
         items: [
           {
             title: "Data Sekolah",
+            icon: <FaSchool />,
             children: [
               { title: "Profile sekolah", path: "/dashboard/profilesekolah" },
             ],
@@ -351,7 +391,7 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/Teller")) {
     menu = menuConfig.keuangan;
-  
+
   } else if (location.pathname.startsWith("/dashboard/TransaksiPenerimaan")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/RekapSiswa")) {
@@ -372,7 +412,7 @@ const Sidebar = () => {
   }
   else if (location.pathname.startsWith("/dashboard/DataPegawai")) {
     menu = menuConfig.Kepegawaian;
-  } 
+  }
   else if (location.pathname.startsWith("/dashboard/perpustakaan")) {
   } else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
@@ -384,39 +424,43 @@ const Sidebar = () => {
   }
 
   const toggleMenu = (title) => {
-    setOpenMenu(openMenu === title ? null : title);
-  };
+    setOpenMenu((prev) =>
+      prev.includes(title)
+        ? prev.filter((item) => item !== title) // tutup
+        : [...prev, title] // buka tanpa nutup yg lain
+    );
+  };;
 
   return (
     <div
       className="w-64 h-screen fixed top-0 left-0 z-50 
-bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 
-text-white flex flex-col shadow-2xl"
+bg-[#2f436e]
+  text-white flex flex-col shadow-2xl"
     >
       {/* LOGO */}
-      <div className="px-6 py-5 border-b border-blue-800 flex items-center gap-3">
-        <img
-          src={Aduca}
-          alt="Aduca Logo"
-          className="w-11 h-11 object-contain bg-white rounded-xl p-1 shadow-md"
-        />
-        <div>
-          <h1 className="text-lg font-bold tracking-wide">Aduca</h1>
-          <p className="text-[10px] text-blue-300">Smart School System</p>
-        </div>
-      </div>
+      <div className="px-4 py-4 border-b border-white-800 flex items-center justify-center gap-3">
+  <img
+    src={Aduca}
+    alt="Aduca Logo"
+    className="w-6 h-6 object-contain"
+  />
+
+  <span className="text-sm font-semibold tracking-wide">
+    Aduca
+  </span>
+</div>
 
       {/* MENU */}
-      <div className="flex-1 px-3 py-4 overflow-y-auto">
+      <div className="flex-1 px-3 py-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white-700">
         {menu.map((group, i) => (
           <div key={i} className="mb-6">
-            <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider mb-2 px-2">
+            <p className="text-[10px] font-semibold text-white-200/70 uppercase tracking-wider mb-2 px-2">
               {group.group}
             </p>
 
             {group.items.map((item, j) => {
               const isActive = location.pathname === item.path;
-              const isOpen = openMenu === item.title;
+              const isOpen = openMenu.includes(item.title);
 
               return (
                 <div key={j} className="mb-1">
@@ -429,19 +473,20 @@ text-white flex flex-col shadow-2xl"
                         navigate(item.path);
                       }
                     }}
-                    className={`flex justify-between items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-300
-                    ${isActive
-                        ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg scale-[1.02]"
-                        : "hover:bg-blue-800/70 hover:scale-[1.01]"
+                    className={`flex justify-between items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-300 group
+                ${isActive
+                        ? "bg-[#3b558a] shadow-lg scale-[1.02]"
+                        : "hover:bg-white/10 hover:scale-[1.01]"
                       }`}
                   >
-                    <span className="text-sm font-medium tracking-wide">
+                    <span className="text-sm font-medium tracking-wide flex items-center gap-2">
+                      {item.icon && <span className="text-base">{item.icon}</span>}
                       {item.title}
                     </span>
 
                     {item.children && (
                       <span
-                        className={`text-xs transition-transform duration-300 ${isOpen ? "rotate-90" : ""
+                        className={`text-xs transition-all duration-300 ${isOpen ? "rotate-90" : "group-hover:translate-x-1"
                           }`}
                       >
                         ▶
@@ -449,28 +494,34 @@ text-white flex flex-col shadow-2xl"
                     )}
                   </div>
 
-                  {/* CHILD */}
-                  {item.children && isOpen && (
-                    <div className="ml-3 mt-2 space-y-1 border-l border-blue-700 pl-3">
-                      {item.children.map((child, k) => {
-                        const activeChild = location.pathname === child.path;
+                  {/* CHILD (smooth dropdown) */}
+                  <div
+                    className={`transition-all duration-300 ${isOpen ? "mt-2" : "max-h-0 overflow-hidden"
+                      }`}
+                  >
+                    {item.children && (
+                      <div className="ml-3 space-y-1 border-l border-blue-700 pl-3">
+                        {item.children.map((child, k) => {
+                          const activeChild =
+                            location.pathname === child.path;
 
-                        return (
-                          <div
-                            key={k}
-                            onClick={() => navigate(child.path)}
-                            className={`px-2 py-1.5 rounded-lg cursor-pointer text-sm transition-all duration-200
-                            ${activeChild
-                                ? "bg-blue-100 text-blue-900 font-semibold shadow"
-                                : "text-blue-200 hover:bg-blue-800/60 hover:text-white"
-                              }`}
-                          >
-                            {child.title}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                          return (
+                            <div
+                              key={k}
+                              onClick={() => navigate(child.path)}
+                              className={`px-2 py-1.5 rounded-lg cursor-pointer text-sm transition-all duration-200
+                          ${activeChild
+                                  ? "bg-white text-blue-900 font-semibold shadow"
+                                  : "text-blue-200 hover:bg-[#1f2d4d] hover:text-white"
+                                }`}
+                            >
+                              {child.title}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
@@ -478,11 +529,12 @@ text-white flex flex-col shadow-2xl"
         ))}
       </div>
 
+      {/* BUTTON */}
       <div className="px-4 mt-3">
         <button
           onClick={() => navigate("/dashboard")}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded  
-          bg-blue-500 hover:bg-blue-700 transition text-sm"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg  
+      bg-blue-500 hover:bg-blue-700 transition text-sm shadow-md hover:scale-[1.02]"
         >
           ← Kembali
         </button>
