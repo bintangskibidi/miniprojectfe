@@ -155,6 +155,7 @@ const Sidebar = () => {
               { title: "Rekap Pembayaran Bulanan", path: "/dashboard/RekapPembayaran" },
               { title: "Data Transaksi", path: "/dashboard/walikelas" },
               { title: "Rekap Persiswa", path: "/dashboard/RekapSiswa" },
+              { title: "Presensi", path: "/dashboard/presensi" },
               { title: "Rekap Pertanggal", path: "/dashboard/RekapTanggal" },
               { title: "Rekap Tagihan", path: "/dashboard/RekapTagihan" },
               { title: "tagihan bulan ini", path: "/dashboard/TagihanBulanIni" },

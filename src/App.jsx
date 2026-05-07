@@ -51,6 +51,7 @@ import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian"
+import Presensi from "./dashboard/absensi/presensi";
 
  
 
@@ -114,6 +115,7 @@ function App() {
           <Route path="tahunajaran" element={<TahunAjaran />} />
           <Route path="jenissemester" element={<JenisSemester />} />
           <Route path="absensiharian" element={<AbsensiHarian />} />
+          <Route path="presensi" element={<Presensi />} />
           <Route path="rekapabsensi" element={<RekapAbsensi />} />
           <Route path="absensimapel" element={<AbsensiMapel />} />
           <Route path="aspekpenilaian" element={<AspekPenilaian />} />
