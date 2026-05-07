@@ -16,7 +16,7 @@ import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
 import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
 import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
 import Teller from "./dashboard/manajemenKeuangan/Teller";
-import DataPegawai from "./dashboard/Kepegawaian/DataPegawai";
+import DataPegawai from "./dashboard/kepegawaian/DataPegawai";
 import TransaksiJurnal from "./dashboard/manajemenKeuangan/TransaksiJurnal";
 import TransaksiPenerimaan from "./dashboard/manajemenKeuangan/TransaksiPenerimaan";
 import JenisPembayaran from "./dashboard/manajemenKeuangan/JenisPembayaran";

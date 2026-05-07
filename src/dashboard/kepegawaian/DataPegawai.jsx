@@ -1,46 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import api from "../../utils/api";
 
-export default function DataPegawai() {
-  const [dataPegawai, setDataPegawai] = useState([
-    {
-      nama: "Agus Santoso",
-      nip: "1234567804",
-      pendidikan: "S1",
-      golongan: "III/a",
-      statusPegawai: "PNS",
-      tanggalSk: "2026-01-01",
-      jabatan: "Guru Ekonomi",
-      hp: "081234560004",
-      email: "agus@example.com",
-      jenis: "guru",
-      unit: "SMA",
-      index: "1",
-      status: "Aktif",
-    },
-  ]);
+import {
+  RiAddLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+  RiSearchLine,
+  RiTeamLine,
+} from "react-icons/ri";
+
+const initialForm = {
+  nama: "",
+  nip: "",
+  pendidikan: "",
+  golongan: "",
+  status_pegawai: "",
+  tanggal_sk: "",
+  jabatan: "",
+  no_hp: "",
+  email: "",
+  jenis_pegawai: "",
+  unit: "",
+  status: "",
+};
+
+const DataPegawai = () => {
+  const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
 
   const [showModal, setShowModal] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
-
-  const initialForm = {
-    nama: "",
-    nip: "",
-    pendidikan: "",
-    golongan: "",
-    statusPegawai: "",
-    tanggalSk: "",
-    jabatan: "",
-    hp: "",
-    email: "",
-    jenis: "",
-    unit: "",
-    index: "",
-    status: "",
-  };
 
   const [form, setForm] = useState(initialForm);
 
+  const [editId, setEditId] = useState(null);
+
+  // ================= GET DATA =================
+  const getData = async () => {
+    try {
+      const res = await api.get("/pegawai");
+
+      setData(res.data.data || []);
+    } catch (err) {
+      console.error(err);
+
+      Swal.fire("Error", "Gagal mengambil data", "error");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // ================= HANDLE CHANGE =================
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -48,394 +60,482 @@ export default function DataPegawai() {
     });
   };
 
+  // ================= RESET =================
   const resetForm = () => {
     setForm(initialForm);
-    setEditIndex(null);
+    setEditId(null);
   };
 
-  const handleSubmit = () => {
-    if (
-      !form.nama ||
-      !form.jabatan ||
-      !form.hp ||
-      !form.unit ||
-      !form.status
-    ) {
-      Swal.fire({
-        icon: "warning",
-        title: "Oops...",
-        text: "Field wajib belum diisi!",
-      });
-      return;
+  // ================= SUBMIT =================
+  const handleSubmit = async () => {
+    try {
+      if (
+        !form.nama ||
+        !form.jabatan ||
+        !form.unit ||
+        !form.status
+      ) {
+        Swal.fire(
+          "Warning",
+          "Field wajib belum diisi",
+          "warning"
+        );
+        return;
+      }
+
+      if (editId) {
+        await api.put(`/pegawai/${editId}`, form);
+
+        Swal.fire(
+          "Berhasil",
+          "Data berhasil diupdate",
+          "success"
+        );
+      } else {
+        await api.post("/pegawai", form);
+
+        Swal.fire(
+          "Berhasil",
+          "Data berhasil ditambahkan",
+          "success"
+        );
+      }
+
+      getData();
+
+      setShowModal(false);
+
+      resetForm();
+    } catch (err) {
+      console.error(err);
+
+      Swal.fire("Error", "Terjadi kesalahan", "error");
     }
-
-    if (editIndex !== null) {
-      const updated = [...dataPegawai];
-      updated[editIndex] = form;
-
-      setDataPegawai(updated);
-
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: "Data berhasil diupdate",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    } else {
-      setDataPegawai([...dataPegawai, form]);
-
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: "Data pegawai ditambahkan",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    }
-
-    setShowModal(false);
-    resetForm();
   };
 
-  const handleEdit = (index) => {
-    setForm(dataPegawai[index]);
-    setEditIndex(index);
+  // ================= EDIT =================
+  const handleEdit = (item) => {
+    setForm(item);
+
+    setEditId(item.id);
+
     setShowModal(true);
   };
 
-  const handleDelete = (index) => {
-    Swal.fire({
-      title: "Yakin?",
-      text: "Data akan dihapus!",
+  // ================= DELETE =================
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Yakin hapus data?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const updated = dataPegawai.filter((_, i) => i !== index);
-        setDataPegawai(updated);
-
-        Swal.fire("Terhapus!", "Data berhasil dihapus.", "success");
-      }
+      confirmButtonText: "Ya",
     });
+
+    if (result.isConfirmed) {
+      try {
+        await api.delete(`/pegawai/${id}`);
+
+        Swal.fire(
+          "Berhasil",
+          "Data berhasil dihapus",
+          "success"
+        );
+
+        getData();
+      } catch (err) {
+        Swal.fire(
+          "Error",
+          "Gagal menghapus data",
+          "error"
+        );
+      }
+    }
   };
 
+  // ================= FILTER =================
+  const filtered = data.filter(
+    (item) =>
+      item.nama
+        ?.toLowerCase()
+        .includes(search.toLowerCase()) ||
+      item.nip
+        ?.toLowerCase()
+        .includes(search.toLowerCase())
+  );
+
+  // ================= MASA KERJA =================
   const hitungMasaKerja = (tanggal) => {
-  if (!tanggal) return "-";
-  const start = new Date(tanggal);
-  const now = new Date();
+    if (!tanggal) return "-";
 
-  let tahun = now.getFullYear() - start.getFullYear();
-  let bulan = now.getMonth() - start.getMonth();
+    const start = new Date(tanggal);
 
-  if (bulan < 0) {
-    tahun--;
-    bulan += 12;
-  }
+    const now = new Date();
 
-  return `${tahun} th ${bulan} bln`;
-};
+    let tahun = now.getFullYear() - start.getFullYear();
+
+    let bulan = now.getMonth() - start.getMonth();
+
+    if (bulan < 0) {
+      tahun--;
+
+      bulan += 12;
+    }
+
+    return `${tahun} th ${bulan} bln`;
+  };
 
   return (
-    <div className="p-4 bg-gray-100 min-h-screen">
-      <div className="bg-white rounded-xl shadow border overflow-hidden">
-        
+    <div
+      className="container-fluid py-3"
+      style={{ background: "#f4f6f9" }}
+    >
+      {/* CARD */}
+      <div className="card border-0 shadow-sm">
         {/* HEADER */}
-        <div className="bg-blue-600 px-5 py-4 flex justify-between items-center">
-          <h1 className="text-white text-lg font-semibold">
-            👥 Data Pegawai
-          </h1>
+        <div className="card-header bg-white d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center gap-2">
+            <RiTeamLine size={22} />
+
+            <h5 className="mb-0 fw-bold">
+              Data Pegawai
+            </h5>
+          </div>
 
           <button
+            className="btn btn-primary btn-sm"
             onClick={() => {
               resetForm();
+
               setShowModal(true);
             }}
-            className="bg-white text-blue-600 font-medium px-4 py-2 rounded-lg shadow hover:bg-gray-100 transition"
           >
-            + Tambah Pegawai
+            <RiAddLine /> Tambah Pegawai
           </button>
         </div>
 
-        {/* TABLE */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-           <thead className="bg-blue-100 text-gray-700 text-xs">
-  <tr>
-    <th className="px-3 py-2">No</th>
-    <th className="px-3 py-2">Nama</th>
-    <th className="px-3 py-2">NIP</th>
-    <th className="px-3 py-2">Pendidikan</th>
-    <th className="px-3 py-2">Golongan</th>
-    <th className="px-3 py-2">Status Pegawai</th>
-    <th className="px-3 py-2">Tanggal SK</th>
-    <th className="px-3 py-2">Masa Kerja</th>
-    <th className="px-3 py-2">Jabatan</th>
-    <th className="px-3 py-2">No HP</th>
-    <th className="px-3 py-2">Email</th>
-    <th className="px-3 py-2">Jenis</th>
-    <th className="px-3 py-2">Unit</th>
-    <th className="px-3 py-2">Index</th>
-    <th className="px-3 py-2">Status</th>
-    <th className="px-3 py-2">Aksi</th>
-  </tr>
-</thead>
+        {/* BODY */}
+        <div className="card-body">
+          {/* SEARCH */}
+          <div className="d-flex justify-content-end mb-3">
+            <div
+              className="input-group"
+              style={{ width: 300 }}
+            >
+              <span className="input-group-text bg-white">
+                <RiSearchLine />
+              </span>
 
-            <tbody>
-  {dataPegawai.map((item, i) => (
-    <tr key={i} className="border-t text-center text-xs hover:bg-gray-50">
-      <td className="px-2 py-2">{i + 1}</td>
-      <td>{item.nama}</td>
-      <td>{item.nip}</td>
-      <td>{item.pendidikan}</td>
-      <td>{item.golongan}</td>
-      <td>{item.statusPegawai}</td>
-      <td>{item.tanggalSk}</td>
-      <td>{hitungMasaKerja(item.tanggalSk)}</td>
-      <td>{item.jabatan}</td>
-      <td>{item.hp}</td>
-      <td>{item.email}</td>
-      <td>{item.jenis}</td>
-      <td>{item.unit}</td>
-      <td>{item.index}</td>
-      <td>
-        <span
-          className={`px-2 py-1 rounded text-white text-[10px] ${
-            item.status === "Aktif"
-              ? "bg-green-500"
-              : "bg-red-500"
-          }`}
-        >
-          {item.status}
-        </span>
-      </td>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Cari nama / nip..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+              />
+            </div>
+          </div>
 
-      <td className="space-x-1">
-        <button
-          onClick={() => handleEdit(i)}
-          className="bg-yellow-400 px-2 py-1 rounded text-[10px]"
-        >
-          Edit
-        </button>
+          {/* TABLE */}
+          <div className="table-responsive">
+            <table className="table table-bordered table-hover align-middle">
+              <thead className="table-light text-center small">
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>NIP</th>
+                  <th>Pendidikan</th>
+                  <th>Golongan</th>
+                  <th>Status</th>
+                  <th>Tanggal SK</th>
+                  <th>Masa Kerja</th>
+                  <th>Jabatan</th>
+                  <th>No HP</th>
+                  <th>Email</th>
+                  <th>Jenis</th>
+                  <th>Unit</th>
+                  <th>Status</th>
+                  <th width="120">Aksi</th>
+                </tr>
+              </thead>
 
-        <button
-          onClick={() => handleDelete(i)}
-          className="bg-red-500 text-white px-2 py-1 rounded text-[10px]"
-        >
-          Hapus
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-          </table>
+              <tbody className="small">
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={15}
+                      className="text-center py-4"
+                    >
+                      Tidak ada data
+                    </td>
+                  </tr>
+                ) : (
+                  filtered.map((item, i) => (
+                    <tr key={item.id}>
+                      <td className="text-center">
+                        {i + 1}
+                      </td>
+
+                      <td>{item.nama}</td>
+
+                      <td>{item.nip}</td>
+
+                      <td>{item.pendidikan}</td>
+
+                      <td>{item.golongan}</td>
+
+                      <td>
+                        {item.status_pegawai}
+                      </td>
+
+                      <td>{item.tanggal_sk}</td>
+
+                      <td>
+                        {hitungMasaKerja(
+                          item.tanggal_sk
+                        )}
+                      </td>
+
+                      <td>{item.jabatan}</td>
+
+                      <td>{item.no_hp}</td>
+
+                      <td>{item.email}</td>
+
+                      <td>
+                        {item.jenis_pegawai}
+                      </td>
+
+                      <td>{item.unit}</td>
+
+                      <td className="text-center">
+                        <span
+                          className={`badge ${
+                            item.status === "Aktif"
+                              ? "bg-success"
+                              : "bg-danger"
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                      </td>
+
+                      <td className="text-center">
+                        <button
+                          className="btn btn-primary btn-sm me-1"
+                          onClick={() =>
+                            handleEdit(item)
+                          }
+                        >
+                          <RiPencilLine />
+                        </button>
+
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() =>
+                            handleDelete(item.id)
+                          }
+                        >
+                          <RiDeleteBinLine />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {/* MODAL */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-start justify-center overflow-y-auto z-50 py-10 px-4">
-          <div className="bg-white w-full max-w-5xl rounded-xl shadow-xl max-h-[95vh] overflow-y-auto">
+        <div
+          className="modal d-block"
+          style={{
+            background: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <div className="modal-dialog modal-xl modal-dialog-centered">
+            <div className="modal-content border-0 shadow">
+              {/* HEADER */}
+              <div className="modal-header bg-primary text-white">
+                <h5 className="modal-title">
+                  {editId
+                    ? "Edit Pegawai"
+                    : "Tambah Pegawai"}
+                </h5>
 
-            {/* HEADER */}
-            <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50 sticky top-0">
-              <h2 className="text-xl font-semibold text-gray-700">
-                {editIndex !== null
-                  ? "Edit Pegawai"
-                  : "Tambah Pegawai"}
-              </h2>
+                <button
+                  className="btn-close btn-close-white"
+                  onClick={() => {
+                    setShowModal(false);
 
-              <button
-                onClick={() => {
-                  setShowModal(false);
-                  resetForm();
-                }}
-                className="text-gray-500 hover:text-black text-xl"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* BODY */}
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
-
-              <Input
-                label="Nama Lengkap"
-                name="nama"
-                value={form.nama}
-                onChange={handleChange}
-                required
-              />
-
-              <Input
-                label="NIP"
-                name="nip"
-                value={form.nip}
-                onChange={handleChange}
-              />
-
-              <Input
-                label="Pendidikan"
-                name="pendidikan"
-                value={form.pendidikan}
-                onChange={handleChange}
-              />
-
-              <Input
-                label="Golongan"
-                name="golongan"
-                value={form.golongan}
-                onChange={handleChange}
-              />
-
-              <Input
-                label="Status Pegawai"
-                name="statusPegawai"
-                value={form.statusPegawai}
-                onChange={handleChange}
-              />
-
-              <div>
-                <label className="block mb-1 font-medium">
-                  Tanggal SK
-                </label>
-
-                <input
-                  type="date"
-                  name="tanggalSk"
-                  value={form.tanggalSk}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg px-3 py-2"
+                    resetForm();
+                  }}
                 />
               </div>
 
-              <Input
-                label="Jabatan"
-                name="jabatan"
-                value={form.jabatan}
-                onChange={handleChange}
-                required
-              />
+              {/* BODY */}
+              <div className="modal-body">
+                <div className="row g-3">
+                  <Input
+                    label="Nama"
+                    name="nama"
+                    value={form.nama}
+                    onChange={handleChange}
+                  />
 
-              <Input
-                label="No HP"
-                name="hp"
-                value={form.hp}
-                onChange={handleChange}
-                required
-              />
+                  <Input
+                    label="NIP"
+                    name="nip"
+                    value={form.nip}
+                    onChange={handleChange}
+                  />
 
-              <Input
-                label="Email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
+                  <Input
+                    label="Pendidikan"
+                    name="pendidikan"
+                    value={form.pendidikan}
+                    onChange={handleChange}
+                  />
 
-              <Input
-                label="Jenis Pegawai"
-                name="jenis"
-                value={form.jenis}
-                onChange={handleChange}
-              />
+                  <Input
+                    label="Golongan"
+                    name="golongan"
+                    value={form.golongan}
+                    onChange={handleChange}
+                  />
 
-              {/* UNIT */}
-              <div>
-                <label className="block mb-1 font-medium">
-                  Unit <span className="text-red-500">*</span>
-                </label>
+                  <Input
+                    label="Status Pegawai"
+                    name="status_pegawai"
+                    value={form.status_pegawai}
+                    onChange={handleChange}
+                  />
 
-                <select
-                  name="unit"
-                  value={form.unit}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg px-3 py-2"
-                >
-                  <option value="">-- Pilih Unit --</option>
-                  <option value="SD">SD</option>
-                  <option value="SMP">SMP</option>
-                  <option value="SMA">SMA</option>
-                </select>
+                  <Input
+                    type="date"
+                    label="Tanggal SK"
+                    name="tanggal_sk"
+                    value={form.tanggal_sk}
+                    onChange={handleChange}
+                  />
+
+                  <Input
+                    label="Jabatan"
+                    name="jabatan"
+                    value={form.jabatan}
+                    onChange={handleChange}
+                  />
+
+                  <Input
+                    label="No HP"
+                    name="no_hp"
+                    value={form.no_hp}
+                    onChange={handleChange}
+                  />
+
+                  <Input
+                    label="Email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                  />
+
+                  <Input
+                    label="Jenis Pegawai"
+                    name="jenis_pegawai"
+                    value={form.jenis_pegawai}
+                    onChange={handleChange}
+                  />
+
+                  <Input
+                    label="Unit"
+                    name="unit"
+                    value={form.unit}
+                    onChange={handleChange}
+                  />
+
+                  <div className="col-md-6">
+                    <label className="form-label">
+                      Status
+                    </label>
+
+                    <select
+                      className="form-select"
+                      name="status"
+                      value={form.status}
+                      onChange={handleChange}
+                    >
+                      <option value="">
+                        -- Pilih Status --
+                      </option>
+
+                      <option value="Aktif">
+                        Aktif
+                      </option>
+
+                      <option value="Tidak Aktif">
+                        Tidak Aktif
+                      </option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
-              <Input
-                label="Index"
-                name="index"
-                value={form.index}
-                onChange={handleChange}
-              />
+              {/* FOOTER */}
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setShowModal(false);
 
-              {/* STATUS */}
-              <div className="md:col-span-2">
-                <label className="block mb-1 font-medium">
-                  Status <span className="text-red-500">*</span>
-                </label>
-
-                <select
-                  name="status"
-                  value={form.status}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg px-3 py-2"
+                    resetForm();
+                  }}
                 >
-                  <option value="">-- Pilih Status --</option>
-                  <option value="Aktif">Aktif</option>
-                  <option value="Tidak Aktif">Tidak Aktif</option>
-                </select>
+                  Batal
+                </button>
+
+                <button
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
+                  Simpan
+                </button>
               </div>
-            </div>
-
-            {/* FOOTER */}
-            <div className="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50 sticky bottom-0">
-              <button
-                onClick={() => {
-                  setShowModal(false);
-                  resetForm();
-                }}
-                className="px-5 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
-              >
-                Batal
-              </button>
-
-              <button
-                onClick={handleSubmit}
-                className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Simpan
-              </button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
-/* COMPONENT INPUT */
-function Input({
+export default DataPegawai;
+
+// ================= INPUT =================
+const Input = ({
   label,
   name,
   value,
   onChange,
-  required = false,
-}) {
+  type = "text",
+}) => {
   return (
-    <div>
-      <label className="block mb-1 font-medium">
+    <div className="col-md-6">
+      <label className="form-label">
         {label}
-
-        {required && (
-          <span className="text-red-500"> *</span>
-        )}
       </label>
 
       <input
+        type={type}
         name={name}
-        value={value}
+        value={value || ""}
         onChange={onChange}
-        className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="form-control"
       />
     </div>
   );
-}
+};

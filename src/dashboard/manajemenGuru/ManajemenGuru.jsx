@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../utils/api";
+
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,34 +22,116 @@ ChartJS.register(
 );
 
 const ManajemenGuru = () => {
-  // DATA (contoh sesuai gambar)
+  const [jadwal, setJadwal] = useState([]);
+  const [guru, setGuru] = useState([]);
+  const [mapel, setMapel] = useState([]);
+
+  // =========================
+  // FETCH DATA
+  // =========================
+  const fetchData = async () => {
+    try {
+      // jadwal
+      const jadwalRes = await api.get("/jadwal");
+
+      // dropdown
+      const dropdownRes = await api.get("/jadwal/dropdown");
+
+      const jadwalData = jadwalRes.data.data || [];
+      const dropdownData =
+        dropdownRes.data.data || dropdownRes.data;
+
+      setJadwal(jadwalData);
+      setGuru(dropdownData.guru || []);
+      setMapel(dropdownData.mapel || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // =========================
+  // HITUNG TOTAL JAM
+  // =========================
+  const totalJam = jadwal.reduce((acc, item) => {
+    if (!item.jam_mulai || !item.jam_selesai) return acc;
+
+    const mulai = item.jam_mulai.split(":");
+    const selesai = item.jam_selesai.split(":");
+
+    const mulaiMenit =
+      parseInt(mulai[0]) * 60 + parseInt(mulai[1]);
+
+    const selesaiMenit =
+      parseInt(selesai[0]) * 60 + parseInt(selesai[1]);
+
+    return acc + (selesaiMenit - mulaiMenit);
+  }, 0);
+
+  const totalJamFormatted = `${Math.floor(totalJam / 60)} Jam`;
+
+  // =========================
+  // DISTRIBUSI JAM GURU
+  // =========================
+  const distribusiGuru = {};
+
+  jadwal.forEach((item) => {
+    if (!item.guru) return;
+
+    const mulai = item.jam_mulai?.split(":");
+    const selesai = item.jam_selesai?.split(":");
+
+    if (!mulai || !selesai) return;
+
+    const mulaiMenit =
+      parseInt(mulai[0]) * 60 + parseInt(mulai[1]);
+
+    const selesaiMenit =
+      parseInt(selesai[0]) * 60 + parseInt(selesai[1]);
+
+    const durasi = (selesaiMenit - mulaiMenit) / 60;
+
+    distribusiGuru[item.guru] =
+      (distribusiGuru[item.guru] || 0) + durasi;
+  });
+
+  // =========================
+  // CARD STATS
+  // =========================
   const stats = [
     {
       title: "Total Guru",
-      value: 15,
+      value: guru.length,
       icon: <FaUserTie />,
       bg: "bg-blue-600",
     },
     {
       title: "Mata Pelajaran",
-      value: 5,
+      value: mapel.length,
       icon: <FaBookOpen />,
       bg: "bg-green-600",
     },
     {
       title: "Total Jam Mengajar",
-      value: "14 Jam",
+      value: totalJamFormatted,
       icon: <FaClock />,
       bg: "bg-yellow-500",
     },
   ];
 
+  // =========================
+  // CHART DATA
+  // =========================
   const data = {
-    labels: ["Eka Prasetyo", "Fitriani", "Bayu Aji lesmana eka putra"],
+    labels: Object.keys(distribusiGuru),
+
     datasets: [
       {
         label: "Total Jam",
-        data: [5, 5, 4],
+        data: Object.values(distribusiGuru),
         backgroundColor: "#3b82f6",
         borderRadius: 6,
         barThickness: 18,
@@ -58,23 +142,43 @@ const ManajemenGuru = () => {
   const options = {
     indexAxis: "y",
     responsive: true,
+
     plugins: {
-      legend: { display: false },
+      legend: {
+        display: false,
+      },
     },
+
     scales: {
       x: {
         beginAtZero: true,
-        grid: { color: "#e5e7eb" },
+        grid: {
+          color: "#e5e7eb",
+        },
       },
+
       y: {
-        grid: { display: false },
+        grid: {
+          display: false,
+        },
       },
     },
   };
 
+  // =========================
+  // GROUP JADWAL PER HARI
+  // =========================
+  const hariList = [
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-
       {/* HEADER */}
       <div className="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block shadow">
         📁 Manajemen Guru
@@ -88,8 +192,13 @@ const ManajemenGuru = () => {
             className={`${item.bg} text-white rounded-lg p-5 shadow flex justify-between items-center`}
           >
             <div>
-              <p className="text-sm opacity-90">{item.title}</p>
-              <h2 className="text-2xl font-bold mt-1">{item.value}</h2>
+              <p className="text-sm opacity-90">
+                {item.title}
+              </p>
+
+              <h2 className="text-2xl font-bold mt-1">
+                {item.value}
+              </h2>
             </div>
 
             <div className="text-2xl bg-white/20 p-3 rounded-full">
@@ -106,7 +215,13 @@ const ManajemenGuru = () => {
         </div>
 
         <div className="p-4">
-          <Bar data={data} options={options} />
+          {Object.keys(distribusiGuru).length === 0 ? (
+            <p className="text-gray-500 text-sm">
+              Tidak ada data chart
+            </p>
+          ) : (
+            <Bar data={data} options={options} />
+          )}
         </div>
       </div>
 
@@ -122,70 +237,69 @@ const ManajemenGuru = () => {
               <tr>
                 <th className="p-2 border">Hari</th>
                 <th className="p-2 border">Jam</th>
-                <th className="p-2 border">Mata Pelajaran</th>
+                <th className="p-2 border">
+                  Mata Pelajaran
+                </th>
                 <th className="p-2 border">Guru</th>
                 <th className="p-2 border">Kelas</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr className="hover:bg-gray-50">
-                <td className="p-2 border">Senin</td>
-                <td className="p-2 border">12:00 - 17:00</td>
-                <td className="p-2 border">Bahasa Jawa</td>
-                <td className="p-2 border">Eka Prasetyo</td>
-                <td className="p-2 border">VII A</td>
-              </tr>
+              {hariList.map((hari, index) => {
+                const jadwalHari = jadwal.filter(
+                  (j) => j.hari === hari
+                );
 
-              <tr className="hover:bg-gray-50">
-                <td className="p-2 border">Selasa</td>
-                <td className="p-2 border italic text-gray-400">
-                  Tidak ada jadwal
-                </td>
-                <td className="p-2 border"></td>
-                <td className="p-2 border"></td>
-                <td className="p-2 border"></td>
-              </tr>
+                if (jadwalHari.length === 0) {
+                  return (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50"
+                    >
+                      <td className="p-2 border">
+                        {hari}
+                      </td>
 
-              <tr className="hover:bg-gray-50">
-                <td className="p-2 border">Rabu</td>
-                <td className="p-2 border">08:00 - 10:00</td>
-                <td className="p-2 border">Bahasa Jepang</td>
-                <td className="p-2 border">
-                  Bayu Aji lesmana eka putra
-                </td>
-                <td className="p-2 border">VII A</td>
-              </tr>
+                      <td className="p-2 border italic text-gray-400">
+                        Tidak ada jadwal
+                      </td>
 
-              <tr className="hover:bg-gray-50">
-                <td className="p-2 border">Kamis</td>
-                <td className="p-2 border">07:00 - 12:00</td>
-                <td className="p-2 border">Bahasa Jawa</td>
-                <td className="p-2 border">Fitriani</td>
-                <td className="p-2 border">VII B</td>
-              </tr>
+                      <td className="p-2 border"></td>
+                      <td className="p-2 border"></td>
+                      <td className="p-2 border"></td>
+                    </tr>
+                  );
+                }
 
-              <tr className="hover:bg-gray-50">
-                <td className="p-2 border">Jumat</td>
-                <td className="p-2 border">10:00 - 12:00</td>
-                <td className="p-2 border">
-                  Pendidikan Agama Islam
-                </td>
-                <td className="p-2 border">
-                  Bayu Aji lesmana eka putra
-                </td>
-                <td className="p-2 border">VII A</td>
-              </tr>
+                return jadwalHari.map((item, i) => (
+                  <tr
+                    key={`${hari}-${i}`}
+                    className="hover:bg-gray-50"
+                  >
+                    <td className="p-2 border">
+                      {i === 0 ? hari : ""}
+                    </td>
 
-              <tr className="hover:bg-gray-50">
-                <td className="p-2 border">Sabtu</td>
-                <td className="p-2 border italic text-gray-400">
-                  Tidak ada jadwal
-                </td>
-                <td className="p-2 border"></td>
-                <td className="p-2 border"></td>
-                <td className="p-2 border"></td>
-              </tr>
+                    <td className="p-2 border">
+                      {item.jam_mulai} -{" "}
+                      {item.jam_selesai}
+                    </td>
+
+                    <td className="p-2 border">
+                      {item.mapel}
+                    </td>
+
+                    <td className="p-2 border">
+                      {item.guru}
+                    </td>
+
+                    <td className="p-2 border">
+                      {item.kelas}
+                    </td>
+                  </tr>
+                ));
+              })}
             </tbody>
           </table>
         </div>
