@@ -153,7 +153,7 @@ const Sidebar = () => {
               { title: "jenis Pembayaran", path: "/dashboard/JenisPembayaran" },
               { title: "tarif pembayaran", path: "/dashboard/TarifPembayaranSiswa" },
               { title: "Rekap Pembayaran Bulanan", path: "/dashboard/RekapPembayaran" },
-              { title: "Data Transaksi", path: "/dashboard/walikelas" },
+              { title: "Data Transaksi", path: "/dashboard/DataTransaksi" },
               { title: "Rekap Persiswa", path: "/dashboard/RekapSiswa" },
               { title: "Presensi", path: "/dashboard/presensi" },
               { title: "Rekap Pertanggal", path: "/dashboard/RekapTanggal" },
@@ -375,7 +375,7 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
     menu = menuConfig.keuangan;
-  } else if (location.pathname.startsWith("/dashboard/NeracaSaldo")) {
+  
   } else if (location.pathname.startsWith("/dashboard/RekapPembayaran")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
@@ -392,6 +392,12 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/Teller")) {
     menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/NeracaSaldo")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/JenisPenerimaan")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/JenisPengeluaran")) {
+    menu = menuConfig.keuangan;
 
   } else if (location.pathname.startsWith("/dashboard/TransaksiPenerimaan")) {
     menu = menuConfig.keuangan;
@@ -405,7 +411,12 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/RiwayatTabunganSiswa")) {
     menu = menuConfig.keuangan;
+ 
+  } else if (location.pathname.startsWith("/dashboard/LaporanPenerimaan")) {
+    menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/LaporanPengeluaran")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/DataTransaksi")) {
     menu = menuConfig.keuangan;
   }
   else if (location.pathname.startsWith("/dashboard/kepegawaian")) {
@@ -501,7 +512,7 @@ bg-[#2f436e]
                       }`}
                   >
                     {item.children && (
-                      <div className="ml-3 space-y-1 border-l border-blue-700 pl-3">
+                      <div className="ml-3 space-y- pl-3">
                         {item.children.map((child, k) => {
                           const activeChild =
                             location.pathname === child.path;
@@ -543,7 +554,7 @@ bg-[#2f436e]
 
       {/* FOOTER */}
       <div className="px-4 py-4 border-t border-blue-800">
-        <div className="bg-blue-800/60 rounded-xl p-3 text-center text-xs text-blue-200">
+        <div className="bg-[#2f436e] rounded-xl p-3 text-center text-xs text-blue-200">
           © 2026 Aduca
         </div>
       </div>
