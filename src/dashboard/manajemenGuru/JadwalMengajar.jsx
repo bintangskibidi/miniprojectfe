@@ -176,12 +176,156 @@ const JadwalMengajar = () => {
                   </select>
                 </div>
 
-                <div className="mb-2">
-                  <label>Mapel</label>
-                  <select className="form-select" name="mapel" value={form.mapel} onChange={(e) => setForm({...form, mapel: e.target.value})}>
-                    <option value="">-- Pilih Mapel --</option>
-                    {dropdown.mapel.map(m => <option key={m.id} value={m.id}>{m.nama}</option>)}
-                  </select>
+            {/* ── Baris 2: Tombol Export ──────────────────────────── */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 6,
+                marginBottom: 12,
+              }}
+            >
+              {[
+                { label: "Salin", icon: <RiFileCopyLine />, fn: handleCopy },
+                { label: "CSV", icon: <RiFileExcel2Line />, fn: handleCSV },
+                { label: "Excel", icon: <RiFileExcel2Line />, fn: handleExcel },
+                { label: "PDF", icon: <RiFilePdf2Line />, fn: handlePDF },
+                { label: "Print", icon: <RiPrinterLine />, fn: handlePrint },
+              ].map(({ label, icon, fn }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={fn}
+                  style={exportBtnStyle}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#f8f9fa";
+                    e.currentTarget.style.color = "#343a40";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "#ffffff";
+                    e.currentTarget.style.color = "#495057";
+                  }}
+                >
+                  {icon} {label}
+                </button>
+              ))}
+            </div>
+
+            {/* ── Tabel ───────────────────────────────────────────── */}
+            <div className="table-responsive">
+              <table
+                className="table table-bordered table-hover align-middle mb-0"
+                style={{ fontSize: "0.83rem" }}
+              >
+                <thead className="table-light text-center">
+                  <tr>
+                    <th style={{ width: 45 }}>No</th>
+                    <th>Guru</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Kelas</th>
+                    <th>Hari</th>
+                    <th>Jam</th>
+                    <th style={{ width: 120 }}>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentData.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="text-center text-muted py-4">
+                        Tidak ada data
+                      </td>
+                    </tr>
+                  ) : (
+                    currentData.map((item, i) => (
+                      <tr key={item.id}>
+                        <td className="text-center">{start + i + 1}</td>
+                        <td>{item.guru}</td>
+                        <td>{item.mapel}</td>
+                        <td>{item.kelas}</td>
+                        <td>{item.hari}</td>
+                        <td className="text-nowrap">
+                          {item.jam_mulai} - {item.jam_selesai}
+                        </td>
+                        <td className="text-center text-nowrap">
+                          <button
+                            type="button"
+                            className="btn btn-warning btn-sm me-1"
+                            title="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <RiPencilLine /> Edit
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm"
+                            title="Hapus"
+                            onClick={() => handleHapus(item.id)}
+                          >
+                            <RiDeleteBinLine /> Hapus
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* ── Pagination ──────────────────────────────────────── */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 8,
+                marginTop: 12,
+                fontSize: "0.83rem",
+              }}
+            >
+              <span className="text-muted">
+                {filtered.length === 0
+                  ? "No entries to show"
+                  : `Showing ${start + 1} to ${Math.min(start + perPage, filtered.length)} of ${filtered.length} entries`}
+              </span>
+
+              {totalPage > 1 && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-light"
+                    disabled={safePage === 1}
+                    onClick={() => setPage(safePage - 1)}
+                  >
+                    Previous
+                  </button>
+                  {buildPageNumbers().map((p, idx) =>
+                    p === "…" ? (
+                      <span
+                        key={`e${idx}`}
+                        className="btn btn-sm btn-light disabled"
+                      >
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={p}
+                        type="button"
+                        className={`btn btn-sm ${safePage === p ? "btn-primary" : "btn-light"}`}
+                        onClick={() => setPage(p)}
+                      >
+                        {p}
+                      </button>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-light"
+                    disabled={safePage === totalPage}
+                    onClick={() => setPage(safePage + 1)}
+                  >
+                    Next
+                  </button>
                 </div>
 
                 <div className="mb-2">

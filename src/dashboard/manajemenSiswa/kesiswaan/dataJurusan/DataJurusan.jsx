@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import api from "../../../../utils/api"; // Sesuaikan path api kamu
+import api from "../../../../utils/api";
 
 const DataJurusan = () => {
   const [data, setData] = useState([]);
@@ -11,11 +11,10 @@ const DataJurusan = () => {
     nama_jurusan: "",
   });
 
-  // ================= GET DATA (Ambil dari Backend) =================
+  // ================= GET DATA =================
   const getData = async () => {
     try {
       const res = await api.get("/jurusan");
-      // Pastikan mengambil data dari res.data.data sesuai format Apidog
       setData(res.data.data || []);
     } catch (error) {
       console.error("Gagal load data jurusan:", error);
@@ -28,7 +27,11 @@ const DataJurusan = () => {
 
   // ================= TAMBAH =================
   const handleTambah = () => {
-    setForm({ id: null, kode_jurusan: "", nama_jurusan: "" });
+    setForm({
+      id: null,
+      kode_jurusan: "",
+      nama_jurusan: "",
+    });
     setShowModal(true);
   };
 
@@ -57,7 +60,14 @@ const DataJurusan = () => {
         try {
           await api.delete(`/jurusan/${id}`);
           getData();
-          Swal.fire("Berhasil", "Data dihapus", "success");
+
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Data berhasil dihapus",
+            timer: 1500,
+            showConfirmButton: false,
+          });
         } catch (error) {
           Swal.fire("Error", "Gagal menghapus data", "error");
         }
@@ -65,7 +75,7 @@ const DataJurusan = () => {
     });
   };
 
-  // ================= SIMPAN (POST/PUT) =================
+  // ================= SIMPAN =================
   const handleSubmit = async () => {
     if (!form.kode_jurusan || !form.nama_jurusan) {
       Swal.fire("Warning", "Semua field wajib diisi!", "warning");
@@ -74,83 +84,169 @@ const DataJurusan = () => {
 
     try {
       if (form.id) {
-        // Mode Update
         await api.put(`/jurusan/${form.id}`, form);
-        Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil diupdate",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       } else {
-        // Mode Tambah Baru
         await api.post("/jurusan", form);
-        Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil ditambahkan",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       }
+
       setShowModal(false);
       getData();
     } catch (error) {
-      Swal.fire("Error", "Gagal simpan data (Cek Kode Jurusan)", "error");
+      Swal.fire("Error", "Gagal menyimpan data", "error");
     }
   };
 
   return (
-    <div className="p-4 min-h-screen bg-gray-100">
-      {/* HEADER SESUAI GAMBAR */}
-      <div className="flex justify-between items-center mb-4">
-        <h5 className="font-semibold text-lg flex items-center gap-2 text-gray-700">
-          <i className="bi bi-building text-blue-500"></i> Data Jurusan
-        </h5>
+    <div
+      className="container-fluid py-3"
+      style={{
+        background: "#f4f6f9",
+        minHeight: "100vh",
+      }}
+    >
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4
+          className="fw-semibold mb-0"
+          style={{
+            color: "#212529",
+            fontSize: "1.5rem",
+          }}
+        >
+          <i className="bi bi-building me-2 text-primary"></i>
+          Data Jurusan
+        </h4>
+
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded shadow-sm"
+          type="button"
+          className="btn btn-primary btn-sm px-3 shadow-sm"
           onClick={handleTambah}
         >
           + Tambah
         </button>
       </div>
 
-      {/* CARD TABEL */}
-      <div className="bg-white border border-gray-300 rounded-md shadow-sm">
-        <div className="px-4 py-3 border-b border-gray-300 bg-gray-50">
-          <div className="font-semibold text-gray-700 flex items-center gap-2">
-            <i className="bi bi-list-ul text-blue-400"></i> Daftar Jurusan
-          </div>
+      {/* CARD */}
+      <div
+        className="card border-0 shadow-sm"
+        style={{
+          borderRadius: "8px",
+        }}
+      >
+        {/* HEADER CARD */}
+        <div
+          className="card-header bg-white d-flex align-items-center"
+          style={{
+            borderBottom: "1px solid #dee2e6",
+            padding: "12px 16px",
+          }}
+        >
+          <span
+            className="fw-semibold"
+            style={{
+              fontSize: "0.95rem",
+              color: "#212529",
+            }}
+          >
+            <i className="bi bi-list-ul me-2 text-primary"></i>
+            Daftar Jurusan
+          </span>
         </div>
 
+        {/* BODY */}
         <div className="card-body p-0">
           <div className="table-responsive">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100 text-gray-700">
+            <table
+              className="table table-bordered align-middle mb-0"
+              style={{
+                fontSize: "0.88rem",
+              }}
+            >
+              <thead
+                style={{
+                  background: "#f8f9fa",
+                }}
+              >
                 <tr className="text-center">
-                  <th className="border px-3 py-2 w-16">No</th>
-                  <th className="border px-3 py-2 text-left">Kode Jurusan</th>
-                  <th className="border px-3 py-2 text-left">Nama Jurusan</th>
-                  <th className="border px-3 py-2 w-32">Aksi</th>
+                  <th style={{ width: "70px" }}>#</th>
+                  <th>Kode Jurusan</th>
+                  <th>Nama Jurusan</th>
+                  <th style={{ width: "130px" }}>Aksi</th>
                 </tr>
               </thead>
+
               <tbody>
                 {data.length === 0 ? (
                   <tr>
-                    <td colSpan="4" className="text-center py-4 text-muted small">
+                    <td colSpan="4" className="text-center text-muted py-4">
                       Data tidak tersedia
                     </td>
                   </tr>
                 ) : (
                   data.map((item, index) => (
-                    <tr key={item.id} className="small border-bottom">
-                      <td className="text-center text-muted">{index + 1}</td>
-                      <td className="ps-4 fw-medium">{item.kode_jurusan}</td>
-                      <td className="ps-4">{item.nama_jurusan}</td>
+                    <tr key={item.id}>
+                      <td className="text-center">{index + 1}</td>
+
+                      <td>{item.kode_jurusan}</td>
+
+                      <td>{item.nama_jurusan}</td>
+
                       <td className="text-center">
-                        <div className="btn-group gap-1">
+                        <div className="d-flex justify-content-center gap-1">
+                          {/* EDIT */}
                           <button
-                            className="btn btn-sm border text-primary bg-white"
-                            style={{ borderColor: '#0d6efd' }}
+                            type="button"
                             onClick={() => handleEdit(item)}
+                            className="btn btn-sm"
+                            style={{
+                              border: "1px solid #0d6efd",
+                              color: "#0d6efd",
+                              background: "#fff",
+                              width: "32px",
+                              height: "32px",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
                           >
-                            <i className="bi bi-pencil-square"></i>
+                            <i className="ri-pencil-line"></i>
                           </button>
+
+                          {/* DELETE */}
                           <button
-                            className="btn btn-sm border text-danger bg-white"
-                            style={{ borderColor: '#dc3545' }}
+                            type="button"
                             onClick={() => handleHapus(item.id)}
+                            className="btn btn-sm"
+                            style={{
+                              border: "1px solid #dc3545",
+                              color: "#dc3545",
+                              background: "#fff",
+                              width: "32px",
+                              height: "32px",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
                           >
-                            <i className="bi bi-trash"></i>
+                            <i className="ri-delete-bin-6-line"></i>
                           </button>
                         </div>
                       </td>
@@ -163,40 +259,88 @@ const DataJurusan = () => {
         </div>
       </div>
 
-      {/* ================= MODAL TAMBAH/EDIT ================= */}
+      {/* ================= MODAL ================= */}
       {showModal && (
-        <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered" style={{ width: "400px" }}>
+        <div
+          className="modal d-block"
+          tabIndex="-1"
+          style={{
+            backgroundColor: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(3px)",
+          }}
+        >
+          <div
+            className="modal-dialog modal-dialog-centered"
+            style={{
+              maxWidth: "420px",
+            }}
+          >
             <div className="modal-content border-0 shadow">
+              {/* HEADER */}
               <div className="modal-header bg-primary text-white">
                 <h6 className="modal-title fw-bold">
                   {form.id ? "Edit" : "Tambah"} Jurusan
                 </h6>
-                <button type="button" className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
+
+                <button
+                  type="button"
+                  className="btn-close btn-close-white"
+                  onClick={() => setShowModal(false)}
+                ></button>
               </div>
+
+              {/* BODY */}
               <div className="modal-body p-4">
                 <div className="mb-3">
                   <label className="small fw-bold mb-1">Kode Jurusan</label>
+
                   <input
+                    type="text"
                     className="form-control shadow-sm"
                     placeholder="Contoh: J3"
                     value={form.kode_jurusan}
-                    onChange={(e) => setForm({ ...form, kode_jurusan: e.target.value })}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        kode_jurusan: e.target.value,
+                      })
+                    }
                   />
                 </div>
+
                 <div className="mb-3">
                   <label className="small fw-bold mb-1">Nama Jurusan</label>
+
                   <input
+                    type="text"
                     className="form-control shadow-sm"
                     placeholder="Contoh: Jurusan Fisika"
                     value={form.nama_jurusan}
-                    onChange={(e) => setForm({ ...form, nama_jurusan: e.target.value })}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        nama_jurusan: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
-              <div className="modal-footer bg-light border-0">
-                <button className="btn btn-sm btn-secondary px-3" onClick={() => setShowModal(false)}>Batal</button>
-                <button className="btn btn-sm btn-primary px-3 shadow-sm" onClick={handleSubmit}>Simpan</button>
+
+              {/* FOOTER */}
+              <div className="modal-footer border-0 bg-light">
+                <button
+                  className="btn btn-secondary btn-sm px-3"
+                  onClick={() => setShowModal(false)}
+                >
+                  Batal
+                </button>
+
+                <button
+                  className="btn btn-primary btn-sm px-3 shadow-sm"
+                  onClick={handleSubmit}
+                >
+                  Simpan
+                </button>
               </div>
             </div>
           </div>

@@ -8,6 +8,12 @@ import {
   RiPencilLine,
   RiSearchLine,
   RiTeamLine,
+  RiFileExcel2Line,
+  RiFilePdf2Line,
+  RiPrinterLine,
+  RiFileCopyLine,
+  RiFileExcelLine,
+  RiUpload2Line,
 } from "react-icons/ri";
 
 const initialForm = {
@@ -44,7 +50,11 @@ const DataPegawai = () => {
     } catch (err) {
       console.error(err);
 
-      Swal.fire("Error", "Gagal mengambil data", "error");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Gagal mengambil data",
+      });
     }
   };
 
@@ -75,30 +85,35 @@ const DataPegawai = () => {
         !form.unit ||
         !form.status
       ) {
-        Swal.fire(
-          "Warning",
-          "Field wajib belum diisi",
-          "warning"
-        );
+        Swal.fire({
+          icon: "warning",
+          title: "Warning",
+          text: "Field wajib belum diisi",
+        });
+
         return;
       }
 
       if (editId) {
         await api.put(`/pegawai/${editId}`, form);
 
-        Swal.fire(
-          "Berhasil",
-          "Data berhasil diupdate",
-          "success"
-        );
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil diupdate",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       } else {
         await api.post("/pegawai", form);
 
-        Swal.fire(
-          "Berhasil",
-          "Data berhasil ditambahkan",
-          "success"
-        );
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil ditambahkan",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       }
 
       getData();
@@ -109,7 +124,11 @@ const DataPegawai = () => {
     } catch (err) {
       console.error(err);
 
-      Swal.fire("Error", "Terjadi kesalahan", "error");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Terjadi kesalahan",
+      });
     }
   };
 
@@ -126,28 +145,34 @@ const DataPegawai = () => {
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Yakin hapus data?",
+      text: "Data akan dihapus permanen!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Ya",
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Ya, hapus",
+      cancelButtonText: "Batal",
     });
 
     if (result.isConfirmed) {
       try {
         await api.delete(`/pegawai/${id}`);
 
-        Swal.fire(
-          "Berhasil",
-          "Data berhasil dihapus",
-          "success"
-        );
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil dihapus",
+          timer: 1500,
+          showConfirmButton: false,
+        });
 
         getData();
       } catch (err) {
-        Swal.fire(
-          "Error",
-          "Gagal menghapus data",
-          "error"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Gagal menghapus data",
+        });
       }
     }
   };
@@ -181,54 +206,125 @@ const DataPegawai = () => {
       bulan += 12;
     }
 
-    return `${tahun} th ${bulan} bln`;
+    return `${tahun} tahun ${bulan} bulan`;
   };
 
   return (
     <div
       className="container-fluid py-3"
-      style={{ background: "#f4f6f9" }}
+      style={{
+        background: "#f4f6f9",
+        minHeight: "100vh",
+      }}
     >
       {/* CARD */}
-      <div className="card border-0 shadow-sm">
+      <div
+        className="card border-0 shadow-sm"
+        style={{
+          borderRadius: "8px",
+        }}
+      >
         {/* HEADER */}
-        <div className="card-header bg-white d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center gap-2">
-            <RiTeamLine size={22} />
+        <div
+          className="card-header d-flex justify-content-between align-items-center"
+          style={{
+            background: "#0d6efd",
+            color: "#fff",
+            padding: "10px 16px",
+          }}
+        >
+          <div className="d-flex align-items-center gap-2 fw-semibold">
+            <RiTeamLine size={18} />
 
-            <h5 className="mb-0 fw-bold">
-              Data Pegawai
-            </h5>
+            <span>Data Pegawai</span>
           </div>
 
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              resetForm();
+          <div className="d-flex gap-2">
+            <button className="btn btn-success btn-sm d-flex align-items-center gap-1">
+              <RiFileExcel2Line />
+              Download Template Excel
+            </button>
 
-              setShowModal(true);
-            }}
-          >
-            <RiAddLine /> Tambah Pegawai
-          </button>
+            <button className="btn btn-info btn-sm d-flex align-items-center gap-1 text-white">
+              <RiUpload2Line />
+              Upload Excel
+            </button>
+
+            <button
+              className="btn btn-light btn-sm d-flex align-items-center gap-1"
+              onClick={() => {
+                resetForm();
+
+                setShowModal(true);
+              }}
+            >
+              <RiAddLine />
+              Tambah Pegawai
+            </button>
+          </div>
         </div>
 
         {/* BODY */}
         <div className="card-body">
-          {/* SEARCH */}
-          <div className="d-flex justify-content-end mb-3">
-            <div
-              className="input-group"
-              style={{ width: 300 }}
-            >
-              <span className="input-group-text bg-white">
-                <RiSearchLine />
-              </span>
+          {/* TOP ACTION */}
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            {/* LEFT */}
+            <div className="d-flex align-items-center gap-2 flex-wrap">
+              <div className="d-flex align-items-center gap-2">
+                <span style={{ fontSize: "14px" }}>
+                  Tampilkan
+                </span>
+
+                <select
+                  className="form-select form-select-sm"
+                  style={{ width: "75px" }}
+                >
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+
+                <span style={{ fontSize: "14px" }}>
+                  data
+                </span>
+              </div>
+
+              <button className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                <RiFileCopyLine />
+                Salin
+              </button>
+
+              <button className="btn btn-sm btn-outline-success d-flex align-items-center gap-1">
+                <RiFileExcelLine />
+                CSV
+              </button>
+
+              <button className="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                <RiFileExcel2Line />
+                Excel
+              </button>
+
+              <button className="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
+                <RiFilePdf2Line />
+                PDF
+              </button>
+
+              <button className="btn btn-sm btn-outline-dark d-flex align-items-center gap-1">
+                <RiPrinterLine />
+                Print
+              </button>
+            </div>
+
+            {/* RIGHT */}
+            <div className="d-flex align-items-center gap-2">
+              <label className="small fw-semibold mb-0">
+                Cari:
+              </label>
 
               <input
                 type="text"
-                className="form-control"
-                placeholder="Cari nama / nip..."
+                className="form-control form-control-sm"
+                style={{ width: "220px" }}
                 value={search}
                 onChange={(e) =>
                   setSearch(e.target.value)
@@ -239,15 +335,25 @@ const DataPegawai = () => {
 
           {/* TABLE */}
           <div className="table-responsive">
-            <table className="table table-bordered table-hover align-middle">
-              <thead className="table-light text-center small">
-                <tr>
+            <table
+              className="table table-bordered align-middle mb-0"
+              style={{
+                fontSize: "0.85rem",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <thead
+                style={{
+                  background: "#e9f1ff",
+                }}
+              >
+                <tr className="text-center">
                   <th>No</th>
                   <th>Nama</th>
                   <th>NIP</th>
                   <th>Pendidikan</th>
                   <th>Golongan</th>
-                  <th>Status</th>
+                  <th>Status Pegawai</th>
                   <th>Tanggal SK</th>
                   <th>Masa Kerja</th>
                   <th>Jabatan</th>
@@ -260,12 +366,12 @@ const DataPegawai = () => {
                 </tr>
               </thead>
 
-              <tbody className="small">
+              <tbody>
                 {filtered.length === 0 ? (
                   <tr>
                     <td
                       colSpan={15}
-                      className="text-center py-4"
+                      className="text-center py-4 text-muted"
                     >
                       Tidak ada data
                     </td>
@@ -281,17 +387,19 @@ const DataPegawai = () => {
 
                       <td>{item.nip}</td>
 
-                      <td>{item.pendidikan}</td>
+                      <td>{item.pendidikan || "-"}</td>
 
-                      <td>{item.golongan}</td>
+                      <td>{item.golongan || "-"}</td>
 
                       <td>
-                        {item.status_pegawai}
+                        {item.status_pegawai || "-"}
                       </td>
 
-                      <td>{item.tanggal_sk}</td>
+                      <td className="text-center">
+                        {item.tanggal_sk || "-"}
+                      </td>
 
-                      <td>
+                      <td className="text-center">
                         {hitungMasaKerja(
                           item.tanggal_sk
                         )}
@@ -299,12 +407,12 @@ const DataPegawai = () => {
 
                       <td>{item.jabatan}</td>
 
-                      <td>{item.no_hp}</td>
+                      <td>{item.no_hp || "-"}</td>
 
-                      <td>{item.email}</td>
+                      <td>{item.email || "-"}</td>
 
                       <td>
-                        {item.jenis_pegawai}
+                        {item.jenis_pegawai || "-"}
                       </td>
 
                       <td>{item.unit}</td>
@@ -322,29 +430,81 @@ const DataPegawai = () => {
                       </td>
 
                       <td className="text-center">
-                        <button
-                          className="btn btn-primary btn-sm me-1"
-                          onClick={() =>
-                            handleEdit(item)
-                          }
-                        >
-                          <RiPencilLine />
-                        </button>
+                        <div className="d-flex justify-content-center gap-1">
+                          {/* EDIT */}
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleEdit(item)
+                            }
+                            className="btn btn-sm"
+                            style={{
+                              border:
+                                "1px solid #0d6efd",
+                              color: "#0d6efd",
+                              background: "#fff",
+                              width: "32px",
+                              height: "32px",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <RiPencilLine />
+                          </button>
 
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={() =>
-                            handleDelete(item.id)
-                          }
-                        >
-                          <RiDeleteBinLine />
-                        </button>
+                          {/* DELETE */}
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDelete(item.id)
+                            }
+                            className="btn btn-sm"
+                            style={{
+                              border:
+                                "1px solid #dc3545",
+                              color: "#dc3545",
+                              background: "#fff",
+                              width: "32px",
+                              height: "32px",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <RiDeleteBinLine />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* FOOTER */}
+          <div className="d-flex justify-content-between align-items-center mt-3 small text-muted">
+            <div>
+              Menampilkan 1 sampai {filtered.length} dari{" "}
+              {data.length} data
+            </div>
+
+            <div className="d-flex gap-2">
+              <button className="btn btn-sm btn-light border">
+                Sebelumnya
+              </button>
+
+              <button className="btn btn-sm btn-primary">
+                1
+              </button>
+
+              <button className="btn btn-sm btn-light border">
+                Berikutnya
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -355,13 +515,14 @@ const DataPegawai = () => {
           className="modal d-block"
           style={{
             background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(3px)",
           }}
         >
           <div className="modal-dialog modal-xl modal-dialog-centered">
             <div className="modal-content border-0 shadow">
               {/* HEADER */}
               <div className="modal-header bg-primary text-white">
-                <h5 className="modal-title">
+                <h5 className="modal-title fw-bold">
                   {editId
                     ? "Edit Pegawai"
                     : "Tambah Pegawai"}
@@ -486,9 +647,9 @@ const DataPegawai = () => {
               </div>
 
               {/* FOOTER */}
-              <div className="modal-footer">
+              <div className="modal-footer border-0 bg-light">
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-secondary btn-sm px-3"
                   onClick={() => {
                     setShowModal(false);
 
@@ -499,7 +660,7 @@ const DataPegawai = () => {
                 </button>
 
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-sm px-3 shadow-sm"
                   onClick={handleSubmit}
                 >
                   Simpan
@@ -525,7 +686,7 @@ const Input = ({
 }) => {
   return (
     <div className="col-md-6">
-      <label className="form-label">
+      <label className="form-label fw-semibold small">
         {label}
       </label>
 
@@ -534,7 +695,7 @@ const Input = ({
         name={name}
         value={value || ""}
         onChange={onChange}
-        className="form-control"
+        className="form-control shadow-sm"
       />
     </div>
   );

@@ -5,19 +5,20 @@ import api from "../../../utils/api";
 const AspekPenilaian = () => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
   const [form, setForm] = useState({
     id: null,
     kode_aspek: "",
     nama_aspek: "",
   });
 
+  // ================= GET DATA =================
   const getData = async () => {
     try {
       const res = await api.get("/aspek-penilaian");
       setData(res.data.data || []);
     } catch (error) {
-      console.error("Gagal mengambil data aspek penilaian:", error);
-      Swal.fire("Error", "Gagal memuat data", "error");
+      console.error("Gagal load data aspek penilaian:", error);
     }
   };
 
@@ -25,24 +26,29 @@ const AspekPenilaian = () => {
     getData();
   }, []);
 
+  // ================= TAMBAH =================
   const handleTambah = () => {
     setForm({
       id: null,
       kode_aspek: "",
       nama_aspek: "",
     });
+
     setShowModal(true);
   };
 
+  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm({
       id: item.id,
       kode_aspek: item.kode_aspek,
       nama_aspek: item.nama_aspek,
     });
+
     setShowModal(true);
   };
 
+  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -56,15 +62,24 @@ const AspekPenilaian = () => {
       if (result.isConfirmed) {
         try {
           await api.delete(`/aspek-penilaian/${id}`);
+
           getData();
-          Swal.fire("Berhasil", "Data dihapus", "success");
-        } catch {
+
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Data berhasil dihapus",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        } catch (error) {
           Swal.fire("Error", "Gagal menghapus data", "error");
         }
       }
     });
   };
 
+  // ================= SIMPAN =================
   const handleSubmit = async () => {
     if (!form.kode_aspek || !form.nama_aspek) {
       Swal.fire("Warning", "Semua field wajib diisi!", "warning");
@@ -74,87 +89,168 @@ const AspekPenilaian = () => {
     try {
       if (form.id) {
         await api.put(`/aspek-penilaian/${form.id}`, form);
-        Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil diupdate",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       } else {
         await api.post("/aspek-penilaian", form);
-        Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil ditambahkan",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       }
 
       setShowModal(false);
       getData();
-    } catch {
+    } catch (error) {
       Swal.fire("Error", "Gagal menyimpan data", "error");
     }
   };
 
   return (
     <div
-      className="p-4"
-      style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}
+      className="container-fluid py-3"
+      style={{
+        background: "#f4f6f9",
+        minHeight: "100vh",
+      }}
     >
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5 className="fw-bold mb-0">
-          <i className="bi bi-clipboard-data text-primary me-2"></i>
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4
+          className="fw-semibold mb-0"
+          style={{
+            color: "#212529",
+            fontSize: "1.5rem",
+          }}
+        >
+          <i className="bi bi-clipboard-data me-2 text-primary"></i>
           Data Aspek Penilaian
-        </h5>
+        </h4>
+
         <button
-          className="btn btn-primary shadow-sm fw-bold px-3"
+          type="button"
+          className="btn btn-primary btn-sm px-3 shadow-sm"
           onClick={handleTambah}
         >
           + Tambah
         </button>
       </div>
 
-      <div className="card shadow-sm border-0" style={{ borderRadius: "10px" }}>
-        <div className="card-header bg-white py-3 border-bottom">
-          <div className="fw-bold text-dark d-flex align-items-center">
-            <i className="bi bi-list-ul text-info me-2"></i>
+      {/* CARD */}
+      <div
+        className="card border-0 shadow-sm"
+        style={{
+          borderRadius: "8px",
+        }}
+      >
+        {/* HEADER CARD */}
+        <div
+          className="card-header bg-white d-flex align-items-center"
+          style={{
+            borderBottom: "1px solid #dee2e6",
+            padding: "12px 16px",
+          }}
+        >
+          <span
+            className="fw-semibold"
+            style={{
+              fontSize: "0.95rem",
+              color: "#212529",
+            }}
+          >
+            <i className="bi bi-list-ul me-2 text-primary"></i>
             Daftar Aspek Penilaian
-          </div>
+          </span>
         </div>
 
+        {/* BODY */}
         <div className="card-body p-0">
           <div className="table-responsive">
-            <table className="table table-hover mb-0 align-middle">
-              <thead className="table-light">
-                <tr className="small fw-bold text-center border-bottom">
-                  <th width="80">#</th>
-                  <th className="text-start ps-4">Kode Aspek</th>
-                  <th className="text-start ps-4">Nama Aspek</th>
-                  <th width="150">Aksi</th>
+            <table
+              className="table table-bordered align-middle mb-0"
+              style={{
+                fontSize: "0.88rem",
+              }}
+            >
+              <thead
+                style={{
+                  background: "#f8f9fa",
+                }}
+              >
+                <tr className="text-center">
+                  <th style={{ width: "70px" }}>#</th>
+                  <th>Kode Aspek</th>
+                  <th>Nama Aspek</th>
+                  <th style={{ width: "130px" }}>Aksi</th>
                 </tr>
               </thead>
+
               <tbody>
                 {data.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan="4"
-                      className="text-center py-4 text-muted small"
-                    >
+                    <td colSpan="4" className="text-center text-muted py-4">
                       Data tidak tersedia
                     </td>
                   </tr>
                 ) : (
                   data.map((item, index) => (
-                    <tr key={item.id} className="small border-bottom">
-                      <td className="text-center text-muted">{index + 1}</td>
-                      <td className="ps-4 fw-medium">{item.kode_aspek}</td>
-                      <td className="ps-4">{item.nama_aspek}</td>
+                    <tr key={item.id}>
+                      <td className="text-center">{index + 1}</td>
+
+                      <td>{item.kode_aspek}</td>
+
+                      <td>{item.nama_aspek}</td>
+
                       <td className="text-center">
-                        <div className="btn-group gap-1">
+                        <div className="d-flex justify-content-center gap-1">
+                          {/* EDIT */}
                           <button
-                            className="btn btn-sm border text-primary bg-white"
-                            style={{ borderColor: "#0d6efd" }}
+                            type="button"
                             onClick={() => handleEdit(item)}
+                            className="btn btn-sm"
+                            style={{
+                              border: "1px solid #0d6efd",
+                              color: "#0d6efd",
+                              background: "#fff",
+                              width: "32px",
+                              height: "32px",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
                           >
-                            <i className="bi bi-pencil-square"></i>
+                            <i className="ri-pencil-line"></i>
                           </button>
+
+                          {/* DELETE */}
                           <button
-                            className="btn btn-sm border text-danger bg-white"
-                            style={{ borderColor: "#dc3545" }}
+                            type="button"
                             onClick={() => handleHapus(item.id)}
+                            className="btn btn-sm"
+                            style={{
+                              border: "1px solid #dc3545",
+                              color: "#dc3545",
+                              background: "#fff",
+                              width: "32px",
+                              height: "32px",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
                           >
-                            <i className="bi bi-trash"></i>
+                            <i className="ri-delete-bin-6-line"></i>
                           </button>
                         </div>
                       </td>
@@ -167,21 +263,29 @@ const AspekPenilaian = () => {
         </div>
       </div>
 
+      {/* ================= MODAL ================= */}
       {showModal && (
         <div
           className="modal d-block"
           tabIndex="-1"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          style={{
+            backgroundColor: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(3px)",
+          }}
         >
           <div
             className="modal-dialog modal-dialog-centered"
-            style={{ width: "400px" }}
+            style={{
+              maxWidth: "420px",
+            }}
           >
             <div className="modal-content border-0 shadow">
+              {/* HEADER */}
               <div className="modal-header bg-primary text-white">
                 <h6 className="modal-title fw-bold">
                   {form.id ? "Edit" : "Tambah"} Aspek Penilaian
                 </h6>
+
                 <button
                   type="button"
                   className="btn-close btn-close-white"
@@ -189,41 +293,58 @@ const AspekPenilaian = () => {
                 ></button>
               </div>
 
+              {/* BODY */}
               <div className="modal-body p-4">
                 <div className="mb-3">
-                  <label className="small fw-bold mb-1">Kode Aspek</label>
+                  <label className="small fw-bold mb-1">
+                    Kode Aspek
+                  </label>
+
                   <input
+                    type="text"
                     className="form-control shadow-sm"
                     placeholder="Contoh: AP001"
                     value={form.kode_aspek}
                     onChange={(e) =>
-                      setForm({ ...form, kode_aspek: e.target.value })
+                      setForm({
+                        ...form,
+                        kode_aspek: e.target.value,
+                      })
                     }
                   />
                 </div>
 
                 <div className="mb-3">
-                  <label className="small fw-bold mb-1">Nama Aspek</label>
+                  <label className="small fw-bold mb-1">
+                    Nama Aspek
+                  </label>
+
                   <input
+                    type="text"
                     className="form-control shadow-sm"
                     placeholder="Contoh: Kehadiran"
                     value={form.nama_aspek}
                     onChange={(e) =>
-                      setForm({ ...form, nama_aspek: e.target.value })
+                      setForm({
+                        ...form,
+                        nama_aspek: e.target.value,
+                      })
                     }
                   />
                 </div>
               </div>
 
-              <div className="modal-footer bg-light border-0">
+              {/* FOOTER */}
+              <div className="modal-footer border-0 bg-light">
                 <button
-                  className="btn btn-sm btn-secondary px-3"
+                  className="btn btn-secondary btn-sm px-3"
                   onClick={() => setShowModal(false)}
                 >
                   Batal
                 </button>
+
                 <button
-                  className="btn btn-sm btn-primary px-3 shadow-sm"
+                  className="btn btn-primary btn-sm px-3 shadow-sm"
                   onClick={handleSubmit}
                 >
                   Simpan
