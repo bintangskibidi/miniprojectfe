@@ -16,6 +16,10 @@ import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
 import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
 import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
 import Teller from "./dashboard/manajemenKeuangan/Teller";
+import LaporanPenerimaan from "./dashboard/manajemenKeuangan/LaporanPenerimaan";
+import JenisPenerimaan from "./dashboard/manajemenKeuangan/JenisPenerimaan";
+import JenisPengeluaran from "./dashboard/manajemenKeuangan/JenisPengeluaran";
+import DataTransaksi from "./dashboard/manajemenKeuangan/DataTransaksi";
 import DataPegawai from "./dashboard/kepegawaian/DataPegawai";
 import TransaksiJurnal from "./dashboard/manajemenKeuangan/TransaksiJurnal";
 import TransaksiPenerimaan from "./dashboard/manajemenKeuangan/TransaksiPenerimaan";
@@ -93,6 +97,9 @@ function App() {
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
           <Route path="Teller" element={<Teller />} />
+          <Route path="JenisPenerimaan" element={<JenisPenerimaan />} />
+          <Route path="JenisPengeluaran" element={<JenisPengeluaran />} />
+          <Route path="DataTransaksi" element={<DataTransaksi />} />
           <Route path="DataPegawai" element={<DataPegawai />} />
           <Route path="TransaksiJurnal" element={<TransaksiJurnal />} />
           <Route path="TransaksiPenerimaan" element={<TransaksiPenerimaan />} />
@@ -108,6 +115,7 @@ function App() {
           <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
           <Route path="RiwayatTabunganSiswa" element={<RiwayatTabunganSiswa />} />
           <Route path="LaporanPengeluaran" element={<LaporanPengeluaran />} />
+          <Route path="LaporanPenerimaan" element={<LaporanPenerimaan />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="profileSekolah" element={<ProfileSekolah />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />
