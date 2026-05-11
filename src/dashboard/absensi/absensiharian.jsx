@@ -16,14 +16,11 @@ const AbsensiHarian = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedSiswa, setSelectedSiswa] = useState(null);
 
-  // --- FETCH DATA DARI API /presensi ---
+  // --- FETCH DATA ---
   const fetchDataPresensi = async () => {
     setLoading(true);
     try {
-      // GANTI KE /presensi
       const response = await api.get("/presensi");
-      
-      // Karena backend kita mengirim { status: true, data: [...] }
       setData(response.data.data || []);
     } catch (error) {
       console.error("Gagal mengambil data presensi:", error);
@@ -38,7 +35,6 @@ const AbsensiHarian = () => {
   }, []);
 
   // --- LOGIKA FILTER ---
-  // Kita sesuaikan filter dengan field yang dikirim dari Backend (nama, nis, nama_kelas)
   const filtered = data.filter(
     (item) =>
       item.nama?.toLowerCase().includes(search.toLowerCase()) ||
@@ -63,7 +59,6 @@ const AbsensiHarian = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Endpoint hapus ke /presensi/{id}
           await api.delete(`/presensi/${id}`); 
           setData(data.filter((item) => item.id !== id));
           Swal.fire("Berhasil", "Data dihapus.", "success");
@@ -85,6 +80,7 @@ const AbsensiHarian = () => {
   const getKeteranganBadge = (ket) => {
     switch (ket?.toLowerCase()) {
       case "hadir": return "bg-success";
+      case "pulang": return "bg-primary";
       case "sakit": return "bg-info text-white";
       case "ijin": return "bg-warning text-dark";
       case "alfa": return "bg-danger";
@@ -105,7 +101,6 @@ const AbsensiHarian = () => {
         </div>
 
         <div className="card-body">
-          {/* Toolbar */}
           <div className="d-flex flex-column flex-md-row justify-content-between mb-3 gap-2">
             <div className="btn-group btn-group-sm">
               <button className="btn btn-outline-secondary">Excel</button>
@@ -127,7 +122,6 @@ const AbsensiHarian = () => {
             />
           </div>
 
-          {/* Table */}
           <div className="table-responsive">
             <table className="table table-bordered table-hover align-middle">
               <thead className="table-light small text-center text-uppercase">
@@ -153,13 +147,13 @@ const AbsensiHarian = () => {
                       <td>{item.nis}</td>
                       <td className="text-center">{item.nama}</td>
                       <td>{item.nama_kelas || "-"}</td>
-                      <td className="">{item.jam_masuk || "-"}</td>
+                      <td>{item.jam_masuk || "-"}</td>
                       <td className="text-center">
                         <small className={item.status_masuk === "Terlambat" ? "text-danger fw-bold" : "text-success"}>
                           {item.status_masuk || "Tepat Waktu"}
                         </small>
                       </td>
-                      <td className="fw-bold">{item.jam_pulang || "-"}</td>
+                      <td className="fw-bold text-primary">{item.jam_pulang || "-"}</td>
                       <td className="text-center">
                         <span className={`badge ${getKeteranganBadge(item.keterangan)}`} style={{ minWidth: "60px" }}>
                           {item.keterangan}
@@ -189,7 +183,6 @@ const AbsensiHarian = () => {
             </table>
           </div>
 
-          {/* Pagination (Tetap Sama) */}
           <div className="d-flex justify-content-between align-items-center mt-3">
             <small className="text-muted">
               Menampilkan {currentData.length} dari {filtered.length} data
@@ -218,7 +211,7 @@ const AbsensiHarian = () => {
                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
               </div>
               <div className="modal-body p-4 text-center">
-                 <img
+                  <img
                     src={`https://ui-avatars.com/api/?name=${selectedSiswa.nama}&background=0D6EFD&color=fff&size=100`}
                     className="rounded-circle shadow-sm mb-2"
                     alt="pfp"
