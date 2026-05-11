@@ -286,7 +286,7 @@ const Sidebar = () => {
             path: "/dashboard/kepegawaian",
           },
           {
-            title: "DataPegawai",
+            title: "Data Pegawai",
             path: "/dashboard/DataPegawai",
           },
         ]
