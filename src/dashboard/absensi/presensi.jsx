@@ -8,31 +8,22 @@ function Presensi() {
   const [nisInput, SetNisInput] = useState("");
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // simpan status presensi hari ini
   const [todayPresensi, setTodayPresensi] = useState(null);
 
   const kategoriIjinList = [
     { KategoriIjin: "Ijin" },
     { KategoriIjin: "Sakit" },
+    { KategoriIjin: "Alfa" },
   ];
 
   const nisRef = useRef(null);
   const navigate = useNavigate();
 
-  // ===============================
-  // HELPER WIB
-  // ===============================
   const nowWIB = () => {
     const d = new Date();
     return {
-      time: d.toLocaleTimeString("en-GB", {
-        timeZone: "Asia/Jakarta",
-        hour12: false,
-      }),
-      date: d.toLocaleDateString("en-CA", {
-        timeZone: "Asia/Jakarta",
-      }),
+      time: d.toLocaleTimeString("en-GB", { timeZone: "Asia/Jakarta", hour12: false }),
+      date: d.toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" }),
     };
   };
 
@@ -40,108 +31,59 @@ function Presensi() {
     setTimeout(() => nisRef.current?.focus(), 300);
   }, []);
 
-  // ===============================
-  // FETCH SISWA
-  // ===============================
   const fetchUserBynis = async (nis) => {
     if (!nis) return;
-
     setLoading(true);
-
     try {
-      // ambil semua siswa
       const siswaRes = await api.get("/siswa");
       const allSiswa = siswaRes.data.data || siswaRes.data;
-
-      const user = allSiswa.find(
-        (u) => String(u.nis) === String(nis)
-      );
+      const user = allSiswa.find((u) => String(u.nis) === String(nis));
 
       if (!user) {
-        Swal.fire(
-          "Gagal",
-          "Kartu NIS tidak terdaftar!",
-          "error"
-        );
+        Swal.fire("Gagal", "Kartu NIS tidak terdaftar!", "error");
         SetNisInput("");
         return;
       }
 
       setUserData(user);
-
-      // cek presensi hari ini
       const { date } = nowWIB();
-
       const presensiRes = await api.get("/presensi");
-
-      const allPresensi =
-        presensiRes.data.data || presensiRes.data;
+      const allPresensi = presensiRes.data.data || presensiRes.data;
 
       const presensiHariIni = allPresensi.find(
-        (p) =>
-          String(p.nis) === String(user.nis) &&
-          p.tanggal === date
+        (p) => String(p.nis) === String(user.nis) && p.tanggal === date
       );
 
       setTodayPresensi(presensiHariIni || null);
-
     } catch (error) {
-      Swal.fire(
-        "Error",
-        "Gagal mengambil data",
-        "error"
-      );
+      Swal.fire("Error", "Gagal mengambil data", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  // ===============================
-  // ABSEN MASUK / PULANG
-  // ===============================
   const handleAbsenAction = async (type) => {
     if (!userData) return;
-
     const { time, date } = nowWIB();
     const hour = parseInt(time.split(":")[0]);
 
+    // Pengecekan Status
+    const isSudahPulang = todayPresensi && (todayPresensi.keterangan === "Pulang" || (todayPresensi.jamPulang && todayPresensi.jamPulang !== "-"));
+    const isSudahIjin = todayPresensi && ["Ijin", "Sakit", "Alfa"].includes(todayPresensi.keterangan);
+
+    // 1. Jika sudah pulang, kunci semua aksi
+    if (isSudahPulang) {
+      return Swal.fire("Ditolak", "Anda sudah absen pulang, silahkan kembali besok", "warning");
+    }
+
+    // 2. Jika sudah ijin/sakit/alfa, kunci semua aksi
+    if (isSudahIjin) {
+      return Swal.fire("Ditolak", `Anda sudah berstatus ${todayPresensi.keterangan}, silahkan kembali besok`, "warning");
+    }
+
+    // 3. Validasi Jam Buka Operasional
     if (hour < 6) {
-      return Swal.fire(
-        "Peringatan",
-        "Presensi dibuka jam 06:00",
-        "warning"
-      );
-    }
-
-    // ===============================
-    // VALIDASI SUDAH IJIN
-    // ===============================
-    if (
-      todayPresensi &&
-      (todayPresensi.keterangan === "Ijin" ||
-        todayPresensi.keterangan === "Sakit")
-    ) {
-      return Swal.fire(
-        "Ditolak",
-        "Anda sudah mengajukan ijin/sakit hari ini",
-        "warning"
-      );
-    }
-
-    // ===============================
-    // VALIDASI SUDAH MASUK
-    // ===============================
-    if (
-      type === "MASUK" &&
-      todayPresensi &&
-      todayPresensi.jamMasuk &&
-      todayPresensi.jamMasuk !== "-"
-    ) {
-      return Swal.fire(
-        "Ditolak",
-        "Anda sudah melakukan absen masuk hari ini",
-        "warning"
-      );
+      return Swal.fire("Peringatan", "Presensi dibuka jam 06:00", "warning");
     }
 
     let postData = {
@@ -153,175 +95,91 @@ function Presensi() {
     };
 
     try {
-      // ===============================
-      // ABSEN MASUK
-      // ===============================
-    // ===============================
-// ABSEN MASUK
-// ===============================
-if (type === "MASUK") {
-  const masukPayload = {
-    ...postData,
-    jamMasuk: time,
-    jamPulang: "-",
-    statusMasuk: hour >= 7 ? "Terlambat" : "Tepat Waktu",
-    keterangan: "Hadir",
-  };
+      // --- LOGIKA ABSEN MASUK ---
+      if (type === "MASUK") {
+        const jamMasukField = todayPresensi?.jamMasuk || todayPresensi?.jam_masuk;
+        if (todayPresensi && jamMasukField && jamMasukField !== "-") {
+          return Swal.fire("Ditolak", "Anda sudah absen masuk hari ini", "warning");
+        }
 
-  // AMBIL RESPONS DARI API (Karena API mengembalikan object yang ada ID-nya)
-  const response = await api.post("/presensi", masukPayload);
-  
-  // Pastikan state diupdate dengan data lengkap dari server (termasuk ID)
-  // Sesuaikan response.data.data dengan struktur API kamu
-  const dataTerbaru = response.data.data || response.data; 
-  setTodayPresensi(dataTerbaru); 
+        const masukPayload = {
+          ...postData,
+          jamMasuk: time,
+          jamPulang: "-",
+          statusMasuk: hour >= 7 ? "Terlambat" : "Tepat Waktu",
+          keterangan: "Hadir",
+        };
 
-  Swal.fire(
-    "Berhasil",
-    "Absen masuk berhasil",
-    "success"
-  );
-}
-
-      // ===============================
-      // ABSEN PULANG
-      // ===============================
+        const response = await api.post("/presensi", masukPayload);
+        setTodayPresensi(response.data.data || response.data);
+        Swal.fire("Berhasil", "Absen masuk berhasil", "success");
+      } 
+      
+      // --- LOGIKA ABSEN PULANG ---
       else if (type === "PULANG") {
-
         if (hour < 10) {
-          return Swal.fire(
-            "Ditolak",
-            "Belum waktunya pulang",
-            "warning"
-          );
+          return Swal.fire("Ditolak", "Belum waktunya pulang (Min. Jam 10)", "warning");
         }
 
-        // harus sudah absen masuk
-        if (
-          !todayPresensi ||
-          (!todayPresensi.jamMasuk && !todayPresensi.jam_masuk) ||
-          ((todayPresensi.jamMasuk ?? todayPresensi.jam_masuk) === "-" ||
-            (todayPresensi.jamMasuk ?? todayPresensi.jam_masuk) == null)
-        ) {
-          return Swal.fire(
-            "Ditolak",
-            "Anda belum absen masuk",
-            "warning"
-          );
-        }
-
-        // sudah pulang
-        if (
-          todayPresensi.jamPulang &&
-          todayPresensi.jamPulang !== "-"
-        ) {
-          return Swal.fire(
-            "Ditolak",
-            "Anda sudah absen pulang",
-            "warning"
-          );
+        const jamMasukField = todayPresensi?.jamMasuk || todayPresensi?.jam_masuk;
+        if (!todayPresensi || !jamMasukField || jamMasukField === "-") {
+          return Swal.fire("Ditolak", "Anda belum absen masuk", "warning");
         }
 
         const updateData = {
           ...todayPresensi,
           jamPulang: time,
+          keterangan: "Pulang",
         };
 
-        // sesuaikan endpoint update milik backend kamu
-        await api.put(
-          `/presensi/${todayPresensi.id}`,
-          updateData
-        );
-
-        Swal.fire(
-          "Berhasil",
-          "Absen pulang berhasil",
-          "success"
-        );
-
+        await api.put(`/presensi/${todayPresensi.id}`, updateData);
         setTodayPresensi(updateData);
+        Swal.fire("Berhasil", "Absen pulang berhasil. Hati-hati di jalan!", "success");
       }
 
       resetForm();
-
     } catch (error) {
-      Swal.fire(
-        "Gagal",
-        "Gagal mengirim data",
-        "error"
-      );
+      Swal.fire("Gagal", "Terjadi kesalahan koneksi", "error");
     }
   };
 
-  // ===============================
-  // IJIN / SAKIT
-  // ===============================
   const handleIjin = async () => {
     if (!userData) return;
 
-    // kalau sudah absen masuk
-    if (
-      todayPresensi &&
-      todayPresensi.jamMasuk &&
-      todayPresensi.jamMasuk !== "-"
-    ) {
-      return Swal.fire(
-        "Ditolak",
-        "Anda sudah absen masuk hari ini",
-        "warning"
-      );
+    // Pengecekan Status Sebelum Membuka Modal
+    const isSudahPulang = todayPresensi && (todayPresensi.keterangan === "Pulang" || (todayPresensi.jamPulang && todayPresensi.jamPulang !== "-"));
+    const isSudahIjin = todayPresensi && ["Ijin", "Sakit", "Alfa"].includes(todayPresensi.keterangan);
+    const isSudahMasuk = todayPresensi && (todayPresensi.jamMasuk || todayPresensi.jam_masuk) && (todayPresensi.jamMasuk || todayPresensi.jam_masuk) !== "-";
+
+    if (isSudahPulang) {
+      return Swal.fire("Ditolak", "Anda sudah absen pulang, silahkan kembali besok", "warning");
     }
 
-    // kalau sudah ijin
-    if (
-      todayPresensi &&
-      (todayPresensi.keterangan === "Ijin" ||
-        todayPresensi.keterangan === "Sakit")
-    ) {
-      return Swal.fire(
-        "Ditolak",
-        "Anda sudah mengajukan ijin hari ini",
-        "warning"
-      );
+    if (isSudahIjin) {
+      return Swal.fire("Ditolak", `Anda sudah berstatus ${todayPresensi.keterangan}, silahkan kembali besok`, "warning");
+    }
+
+    if (isSudahMasuk) {
+        return Swal.fire("Ditolak", "Anda sudah absen masuk, tidak bisa mengajukan ijin", "warning");
     }
 
     const { value: form } = await Swal.fire({
-      title: "Masukan Alasan Ijin / Sakit",
-    html: `
-  <div style="display:flex; flex-direction:column; gap:12px; width:100%;">
-    
-    <select id="alasan" class="swal2-select">
-      ${kategoriIjinList
-        .map(
-          (i) =>
-            `<option value="${i.KategoriIjin}">
-              ${i.KategoriIjin}
-            </option>`
-        )
-        .join("")}
-    </select>
-
-    <textarea
-      id="keterangan"
-      class="swal2-textarea"
-      placeholder="Masukkan keterangan..."
-      style="margin:0; width:100%;"
-    ></textarea>
-
-  </div>
-`,
+      title: "Masukan Alasan",
+      html: `
+        <select id="alasan" class="swal2-select">
+          ${kategoriIjinList.map(i => `<option value="${i.KategoriIjin}">${i.KategoriIjin}</option>`).join("")}
+        </select>
+        <textarea id="keterangan" class="swal2-textarea" placeholder="Masukkan keterangan..."></textarea>
+      `,
       showCancelButton: true,
       confirmButtonText: "Simpan",
       preConfirm: () => ({
-        alasan:
-          document.getElementById("alasan").value,
-        ket:
-          document.getElementById("keterangan").value,
+        alasan: document.getElementById("alasan").value,
+        ket: document.getElementById("keterangan").value,
       }),
     });
 
     if (!form) return;
-
     const { date } = nowWIB();
 
     try {
@@ -339,41 +197,19 @@ if (type === "MASUK") {
       };
 
       await api.post("/presensi", postData);
-
       setTodayPresensi(postData);
-
-      // tampilkan alert alasan & keterangan
-      Swal.fire({
-        icon: "success",
-        title: "Ijin Berhasil",
-        html: `
-          <div style="text-align:left">
-            <b>Status:</b> ${form.alasan}<br/>
-            <b>Keterangan:</b> ${form.ket || "-"}
-          </div>
-        `,
-      });
-
+      Swal.fire("Berhasil", `Data ${form.alasan} tersimpan`, "success");
       resetForm();
-
     } catch (error) {
-  console.log(error.response?.data);
-
-  Swal.fire(
-    "Gagal",
-    error.response?.data?.message ||
-      "Terjadi kesalahan",
-    "error"
-  );
-}
+      Swal.fire("Gagal", "Gagal menyimpan data", "error");
+    }
   };
+
   const resetForm = () => {
     setUserData(null);
     SetNisInput("");
-
-    setTimeout(() => {
-      nisRef.current?.focus();
-    }, 300);
+    setTodayPresensi(null);
+    setTimeout(() => nisRef.current?.focus(), 300);
   };
 
   return (
@@ -383,118 +219,63 @@ if (type === "MASUK") {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg text-center relative"
       >
-        <button
-          onClick={() => navigate(-1)}
-          className="absolute left-5 top-5 btn btn-sm btn-outline-secondary"
-        >
+        <button onClick={() => navigate(-1)} className="absolute left-5 top-5 btn btn-sm btn-outline-secondary">
           ← Kembali
         </button>
 
-        <h3 className="fw-bold text-primary mb-4">
-          Presensi Digital
-        </h3>
+        <h3 className="fw-bold text-primary mb-4">Presensi Digital</h3>
 
-        {/* INFO SISWA */}
-        <div
-          className={`p-4 rounded-xl mb-4 transition-all ${
-            userData
-              ? "bg-blue-50 border border-blue-200"
-              : "bg-gray-50"
-          }`}
-        >
+        <div className={`p-4 rounded-xl mb-4 transition-all ${userData ? "bg-blue-50 border border-blue-200" : "bg-gray-50"}`}>
           <img
-            src={`https://ui-avatars.com/api/?name=${
-              userData?.nama || "User"
-            }&background=0D6EFD&color=fff&size=128`}
+            src={`https://ui-avatars.com/api/?name=${userData?.nama || "User"}&background=0D6EFD&color=fff&size=128`}
             className="w-24 h-24 rounded-full mx-auto mb-3 shadow-sm"
             alt="pfp"
           />
 
           {userData ? (
             <div className="text-center">
-              <h5 className="fw-bold mb-0">
-                {userData.nama ||
-                  userData.namaSiswa}
-              </h5>
-
-              <p className="text-muted small mb-0">
-                {userData.nis || userData.nisn} |
-                {" "}
-                {userData.kelas ||
-                  userData.namaKelas}
-              </p>
-
+              <h5 className="fw-bold mb-0">{userData.nama || userData.namaSiswa}</h5>
+              <p className="text-muted small mb-0">{userData.nis || userData.nisn} | {userData.kelas || userData.namaKelas}</p>
               {todayPresensi && (
                 <div className="mt-2">
-                  <span className="badge bg-info">
-                    Status Hari Ini :
-                    {" "}
-                    {todayPresensi.keterangan}
+                  <span className={`badge ${todayPresensi.keterangan === 'Pulang' ? 'bg-primary' : 'bg-info'}`}>
+                    Status Hari Ini : {todayPresensi.keterangan}
                   </span>
                 </div>
               )}
             </div>
           ) : (
-            <p className="text-muted italic">
-              Silahkan Scan Kartu NIS Anda
-            </p>
+            <p className="text-muted italic">Silahkan Scan Kartu NIS Anda</p>
           )}
         </div>
 
-        {/* INPUT */}
         <input
           ref={nisRef}
           type="text"
           value={nisInput}
-          onChange={(e) =>
-            SetNisInput(e.target.value)
-          }
-          onKeyDown={(e) =>
-            e.key === "Enter" &&
-            fetchUserBynis(nisInput)
-          }
+          onChange={(e) => SetNisInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && fetchUserBynis(nisInput)}
           placeholder="Tap kartu pada reader..."
           className="form-control form-control-lg text-center border-2 mb-4"
         />
 
-        {loading && (
-          <div
-            className="spinner-border text-primary mb-3"
-            role="status"
-          ></div>
-        )}
+        {loading && <div className="spinner-border text-primary mb-3"></div>}
 
-        {/* BUTTON */}
         {userData && (
           <div className="row g-2">
             <div className="col-6">
-              <button
-                onClick={() =>
-                  handleAbsenAction("MASUK")
-                }
-                className="btn btn-success w-100 py-3 fw-bold"
-              >
+              <button onClick={() => handleAbsenAction("MASUK")} className="btn btn-success w-100 py-3 fw-bold">
                 ABSEN MASUK
               </button>
             </div>
-
             <div className="col-6">
-              <button
-                onClick={() =>
-                  handleAbsenAction("PULANG")
-                }
-                className="btn btn-primary w-100 py-3 fw-bold"
-              >
+              <button onClick={() => handleAbsenAction("PULANG")} className="btn btn-primary w-100 py-3 fw-bold">
                 ABSEN PULANG
               </button>
             </div>
-
             <div className="col-12 mt-2">
-              <button
-                onClick={handleIjin}
-                className="btn btn-warning w-100 py-2 fw-bold text-dark"
-              >
-                IJIN / SAKIT
+              <button onClick={handleIjin} className="btn btn-warning w-100 py-2 fw-bold text-dark">
+                IJIN / SAKIT / ALFA
               </button>
             </div>
           </div>
