@@ -5,6 +5,7 @@ import api from "../../../utils/api";
 const TahunAjaran = () => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
   const [form, setForm] = useState({
     id: null,
     tahun_ajaran: "",
@@ -12,13 +13,14 @@ const TahunAjaran = () => {
     status: true,
   });
 
+  // ================= GET DATA =================
   const getData = async () => {
     try {
       const res = await api.get("/tahun-ajaran");
       setData(res.data.data || []);
     } catch (error) {
-      console.error("Gagal mengambil data tahun ajaran:", error);
-      Swal.fire("Error", "Gagal memuat data", "error");
+      console.error(error);
+      Swal.fire("Error", "Gagal mengambil data", "error");
     }
   };
 
@@ -26,6 +28,7 @@ const TahunAjaran = () => {
     getData();
   }, []);
 
+  // ================= TAMBAH =================
   const handleTambah = () => {
     setForm({
       id: null,
@@ -33,9 +36,11 @@ const TahunAjaran = () => {
       tahun: "",
       status: true,
     });
+
     setShowModal(true);
   };
 
+  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm({
       id: item.id,
@@ -43,56 +48,66 @@ const TahunAjaran = () => {
       tahun: item.tahun,
       status: item.status,
     });
+
     setShowModal(true);
   };
 
+  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
       text: "Data akan dihapus permanen!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      confirmButtonText: "Ya, hapus",
+      confirmButtonColor: "#dc3545",
       cancelButtonText: "Batal",
+      confirmButtonText: "Ya, hapus",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await api.delete(`/tahun-ajaran/${id}`);
+
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Data berhasil dihapus",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+
           getData();
-          Swal.fire("Berhasil", "Data dihapus", "success");
-        } catch {
+        } catch (error) {
           Swal.fire("Error", "Gagal menghapus data", "error");
         }
       }
     });
   };
 
+  // ================= TOGGLE STATUS =================
   const toggleStatus = async (item) => {
     try {
       const res = await api.patch(`/tahun-ajaran/${item.id}`);
-
-      await getData();
 
       Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: res.data.message,
+        title: res.data.message || "Status berhasil diubah",
         showConfirmButton: false,
         timer: 1500,
       });
-    } catch (error) {
-      console.error("Toggle error:", error.response?.data || error);
 
+      getData();
+    } catch (error) {
       Swal.fire(
         "Error",
         error.response?.data?.message || "Gagal mengubah status",
-        "error",
+        "error"
       );
     }
   };
 
+  // ================= SIMPAN =================
   const handleSubmit = async () => {
     if (!form.tahun_ajaran || !form.tahun) {
       Swal.fire("Warning", "Semua field wajib diisi!", "warning");
@@ -102,93 +117,197 @@ const TahunAjaran = () => {
     try {
       if (form.id) {
         await api.put(`/tahun-ajaran/${form.id}`, form);
-        Swal.fire("Berhasil", "Data berhasil diupdate", "success");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil diupdate",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       } else {
         await api.post("/tahun-ajaran", form);
-        Swal.fire("Berhasil", "Data berhasil ditambahkan", "success");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil ditambahkan",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       }
 
       setShowModal(false);
       getData();
-    } catch {
+    } catch (error) {
       Swal.fire("Error", "Gagal menyimpan data", "error");
     }
   };
 
   return (
-    <div className="p-4 min-h-screen bg-gray-100">
-      <div className="flex justify-between items-center mb-4">
-        <h5 className="flex items-center gap-2 text-lg font-semibold text-gray-700">
-          <i className="bi bi-calendar-event text-blue-500"></i>
+    <div
+      className="container-fluid py-3"
+      style={{
+        background: "#f4f6f9",
+        minHeight: "100vh",
+      }}
+    >
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4
+          className="fw-semibold mb-0"
+          style={{
+            color: "#212529",
+            fontSize: "1.5rem",
+          }}
+        >
+          <i className="bi bi-calendar-event me-2 text-primary"></i>
           Data Tahun Ajaran
-        </h5>
+        </h4>
+
         <button
+          type="button"
+          className="btn btn-primary btn-sm px-3 shadow-sm"
           onClick={handleTambah}
-          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded shadow-sm"
         >
           + Tambah
         </button>
       </div>
 
-      <div className="card shadow-sm border-0" style={{ borderRadius: "10px" }}>
-        <div className="card-header bg-white py-3 border-bottom">
-          <div className="fw-bold text-dark d-flex align-items-center">
-            <i className="bi bi-list-ul text-info me-2"></i>
+      {/* CARD */}
+      <div
+        className="card border-0 shadow-sm"
+        style={{
+          borderRadius: "8px",
+        }}
+      >
+        {/* CARD HEADER */}
+        <div
+          className="card-header bg-white d-flex align-items-center"
+          style={{
+            borderBottom: "1px solid #dee2e6",
+            padding: "12px 16px",
+          }}
+        >
+          <span
+            className="fw-semibold"
+            style={{
+              fontSize: "0.95rem",
+              color: "#212529",
+            }}
+          >
+            <i className="bi bi-list-ul me-2 text-primary"></i>
             Daftar Tahun Ajaran
-          </div>
+          </span>
         </div>
 
+        {/* TABLE */}
         <div className="card-body p-0">
           <div className="table-responsive">
-            <table className="table table-hover mb-0 align-middle">
-              <thead className="table-light">
-                <tr className="small fw-bold text-center border-bottom">
-                  <th width="80">#</th>
-                  <th className="text-start ps-4">Tahun Ajaran</th>
-                  <th className="text-start ps-4">Tahun</th>
-                  <th width="180">Status</th>
-                  <th width="150">Aksi</th>
+            <table
+              className="table table-bordered align-middle mb-0"
+              style={{
+                fontSize: "0.88rem",
+              }}
+            >
+              <thead
+                style={{
+                  background: "#f8f9fa",
+                }}
+              >
+                <tr className="text-center">
+                  <th style={{ width: "70px" }}>#</th>
+                  <th>Tahun Ajaran</th>
+                  <th>Tahun</th>
+                  <th style={{ width: "170px" }}>Status</th>
+                  <th style={{ width: "170px" }}>Aksi</th>
                 </tr>
               </thead>
+
               <tbody>
                 {data.length === 0 ? (
                   <tr>
                     <td
                       colSpan="5"
-                      className="text-center py-4 text-muted small"
+                      className="text-center text-muted py-4"
                     >
                       Data tidak tersedia
                     </td>
                   </tr>
                 ) : (
                   data.map((item, index) => (
-                    <tr key={item.id} className="small border-bottom">
-                      <td className="text-center text-muted">{index + 1}</td>
-                      <td className="ps-4 fw-medium">{item.tahun_ajaran}</td>
-                      <td className="ps-4">{item.tahun}</td>
+                    <tr key={item.id}>
                       <td className="text-center">
-                        <button
-                          onClick={() => toggleStatus(item)}
-                          className={`btn btn-sm ${item.status ? "btn-warning" : "btn-success"}`}
-                        >
-                          {item.status ? "Non-Aktifkan" : "Aktifkan"}
-                        </button>
+                        {index + 1}
                       </td>
+
+                      <td>{item.tahun_ajaran}</td>
+
+                      <td>{item.tahun}</td>
+
+                      {/* STATUS RADIO */}
                       <td className="text-center">
-                        <div className="btn-group gap-1">
+                        <div className="d-flex justify-content-center align-items-center gap-2">
+                          <div className="form-check form-switch m-0">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              checked={item.status}
+                              onChange={() => toggleStatus(item)}
+                              style={{
+                                cursor: "pointer",
+                              }}
+                            />
+                          </div>
+
+                          <span
+                            style={{
+                              fontSize: "0.9rem",
+                              color: item.status
+                                ? "#212529"
+                                : "#6c757d",
+                            }}
+                          >
+                            {item.status ? "Aktif" : "Nonaktif"}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* AKSI */}
+                      <td className="text-center">
+                        <div className="d-flex justify-content-center gap-2">
+                          {/* EDIT */}
                           <button
-                            className="btn btn-sm border text-primary bg-white"
-                            style={{ borderColor: "#0d6efd" }}
+                            type="button"
+                            className="btn btn-sm"
                             onClick={() => handleEdit(item)}
+                            style={{
+                              border: "1px solid #ffc107",
+                              color: "#ffc107",
+                              background: "#fff",
+                              fontSize: "0.8rem",
+                              padding: "4px 10px",
+                            }}
                           >
-                            <i className="bi bi-pencil-square"></i>
+                            <i className="bi bi-pencil-square me-1"></i>
+                            Edit
                           </button>
+
+                          {/* HAPUS */}
                           <button
-                            className="btn btn-sm border text-danger bg-white"
-                            style={{ borderColor: "#dc3545" }}
+                            type="button"
+                            className="btn btn-sm"
                             onClick={() => handleHapus(item.id)}
+                            style={{
+                              border: "1px solid #dc3545",
+                              color: "#dc3545",
+                              background: "#fff",
+                              fontSize: "0.8rem",
+                              padding: "4px 10px",
+                            }}
                           >
-                            <i className="bi bi-trash"></i>
+                            <i className="bi bi-trash me-1"></i>
+                            Hapus
                           </button>
                         </div>
                       </td>
@@ -201,21 +320,29 @@ const TahunAjaran = () => {
         </div>
       </div>
 
+      {/* ================= MODAL ================= */}
       {showModal && (
         <div
           className="modal d-block"
           tabIndex="-1"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          style={{
+            backgroundColor: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(3px)",
+          }}
         >
           <div
             className="modal-dialog modal-dialog-centered"
-            style={{ width: "400px" }}
+            style={{
+              maxWidth: "420px",
+            }}
           >
             <div className="modal-content border-0 shadow">
+              {/* HEADER */}
               <div className="modal-header bg-primary text-white">
                 <h6 className="modal-title fw-bold">
                   {form.id ? "Edit" : "Tambah"} Tahun Ajaran
                 </h6>
+
                 <button
                   type="button"
                   className="btn-close btn-close-white"
@@ -223,41 +350,58 @@ const TahunAjaran = () => {
                 ></button>
               </div>
 
+              {/* BODY */}
               <div className="modal-body p-4">
                 <div className="mb-3">
-                  <label className="small fw-bold mb-1">Tahun Ajaran</label>
+                  <label className="small fw-bold mb-1">
+                    Tahun Ajaran
+                  </label>
+
                   <input
+                    type="text"
                     className="form-control shadow-sm"
                     placeholder="Contoh: 2025/2026"
                     value={form.tahun_ajaran}
                     onChange={(e) =>
-                      setForm({ ...form, tahun_ajaran: e.target.value })
+                      setForm({
+                        ...form,
+                        tahun_ajaran: e.target.value,
+                      })
                     }
                   />
                 </div>
 
                 <div className="mb-3">
-                  <label className="small fw-bold mb-1">Tahun</label>
+                  <label className="small fw-bold mb-1">
+                    Tahun
+                  </label>
+
                   <input
+                    type="text"
                     className="form-control shadow-sm"
                     placeholder="Contoh: 2025"
                     value={form.tahun}
                     onChange={(e) =>
-                      setForm({ ...form, tahun: e.target.value })
+                      setForm({
+                        ...form,
+                        tahun: e.target.value,
+                      })
                     }
                   />
                 </div>
               </div>
 
-              <div className="modal-footer bg-light border-0">
+              {/* FOOTER */}
+              <div className="modal-footer border-0 bg-light">
                 <button
-                  className="btn btn-sm btn-secondary px-3"
+                  className="btn btn-secondary btn-sm px-3"
                   onClick={() => setShowModal(false)}
                 >
                   Batal
                 </button>
+
                 <button
-                  className="btn btn-sm btn-primary px-3 shadow-sm"
+                  className="btn btn-primary btn-sm px-3 shadow-sm"
                   onClick={handleSubmit}
                 >
                   Simpan

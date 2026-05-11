@@ -508,7 +508,7 @@ const JadwalMengajar = () => {
                 className="table table-bordered table-hover align-middle mb-0"
                 style={{ fontSize: "0.83rem" }}
               >
-                <thead className="table-primary text-center">
+                <thead className="table-light text-center">
                   <tr>
                     <th style={{ width: 45 }}>No</th>
                     <th>Guru</th>
