@@ -8,6 +8,8 @@ import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
 import ManajemenKeuangan from "./dashboard/manajemenKeuangan/ManajemenKeuangan";
 import LaporanBukuBesar from "./dashboard/manajemenKeuangan/LaporanBukuBesar";
+import LaporanJurnal from "./dashboard/manajemenKeuangan/LaporanJurnal";
+import LaporanKomprehensif from "./dashboard/manajemenKeuangan/LaporanKomprehensif";
 import NeracaSaldo from "./dashboard/manajemenKeuangan/NeracaSaldo";
 import JurnalUmum from "./dashboard/manajemenKeuangan/JurnalUmum";
 import TunggakanSiswa from "./dashboard/manajemenKeuangan/TunggakanSiswa";
@@ -16,6 +18,12 @@ import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
 import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
 import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
 import Teller from "./dashboard/manajemenKeuangan/Teller";
+import RealisasiAnggaran from "./dashboard/manajemenKeuangan/RealisasiAnggaran";
+import EvaluasiAnggaran from "./dashboard/manajemenKeuangan/EvaluasiAnggaran";
+import PerubahanAsetNeto from "./dashboard/manajemenKeuangan/PerubahanAsetNeto";
+ 
+import PosisiKeuangan from "./dashboard/manajemenKeuangan/PosisiKeuangan";
+import ArusKas from "./dashboard/manajemenKeuangan/ArusKas";
 import LaporanPenerimaan from "./dashboard/manajemenKeuangan/LaporanPenerimaan";
 import JenisPenerimaan from "./dashboard/manajemenKeuangan/JenisPenerimaan";
 import JenisPengeluaran from "./dashboard/manajemenKeuangan/JenisPengeluaran";
@@ -31,6 +39,15 @@ import RekapPerSiswa from "./dashboard/manajemenKeuangan/RekapPerSiswa";
 import TarifPembayaranSiswa from "./dashboard/manajemenKeuangan/TarifPembayaranSiswa";
 import RiwayatTabunganSiswa from "./dashboard/manajemenKeuangan/RiwayatTabunganSiswa";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan";
+import LaporanBuku from "./dashboard/perpustakaanDigital/LaporanBuku";
+import LaporanDenda from "./dashboard/perpustakaanDigital/LaporanDenda";
+import LaporanPeminjamanBuku from "./dashboard/perpustakaanDigital/LaporanPeminjamanBuku";
+import LaporanPengembalianbuku from "./dashboard/perpustakaanDigital/LaporanPengembalianBuku";
+import DataBuku from "./dashboard/perpustakaanDigital/DataBuku";
+import PeminjamanBuku from "./dashboard/perpustakaanDigital/PeminjamanBuku";
+import PengembalianBuku from "./dashboard/perpustakaanDigital/PengembalianBuku";
+import SettingDenda from "./dashboard/perpustakaanDigital/SettingDenda";
+ 
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
 import DataSiswa from "./dashboard/manajemenSiswa/kesiswaan/dataSiswa/DataSiswa";
@@ -56,6 +73,7 @@ import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian"
 import Presensi from "./dashboard/absensi/presensi";
+
 
  
 
@@ -96,7 +114,15 @@ function App() {
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
+          <Route path="LaporanJurnal" element={<LaporanJurnal />} />
+          <Route path="LaporanKomprehensif" element={<LaporanKomprehensif />} />
           <Route path="Teller" element={<Teller />} />
+          <Route path="ArusKas" element={<ArusKas />} />
+          <Route path="RealisasiAnggaran" element={<RealisasiAnggaran/>} />
+          <Route path="EvaluasiAnggaran" element={<EvaluasiAnggaran />} />
+          <Route path="PosisiKeuangan" element={<PosisiKeuangan />} />
+          <Route path="LaporanKomprehensif" element={<LaporanKomprehensif />} />
+          <Route path="PerubahanAsetNeto" element={<PerubahanAsetNeto />} />
           <Route path="JenisPenerimaan" element={<JenisPenerimaan />} />
           <Route path="JenisPengeluaran" element={<JenisPengeluaran />} />
           <Route path="DataTransaksi" element={<DataTransaksi />} />
@@ -114,9 +140,18 @@ function App() {
           <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />
           <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
           <Route path="RiwayatTabunganSiswa" element={<RiwayatTabunganSiswa />} />
-          <Route path="LaporanPengeluaran" element={<LaporanPengeluaran />} />
+          <Route path="TransaksiPengeluaran" element={<LaporanPengeluaran />} />
           <Route path="LaporanPenerimaan" element={<LaporanPenerimaan />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
+          <Route path="databuku" element={<DataBuku />} />
+          <Route path="LaporanBuku" element={<LaporanBuku />} />
+          <Route path="LaporanDenda" element={<LaporanDenda />} />
+          <Route path="LaporanPeminjamanBuku" element={<LaporanPeminjamanBuku />} />
+          <Route path="LaporanPengembalianBuku" element={<LaporanPengembalianbuku />} />
+          <Route path="PeminjamanBuku" element={<PeminjamanBuku />} />
+          <Route path="PengembalianBuku" element={<PengembalianBuku />} />
+          <Route path="SettingDenda" element={<SettingDenda />} />
+          <Route path="PeminjamanBuku" element={<PeminjamanBuku />} />
           <Route path="profileSekolah" element={<ProfileSekolah />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />
           <Route path="datakelas" element={<DataKelas />} />

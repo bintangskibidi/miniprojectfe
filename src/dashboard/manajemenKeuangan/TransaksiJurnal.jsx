@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function TransaksiJurnal() {
-  const [tanggal, setTanggal] = useState("2026-06-05");
+  const [tanggal, setTanggal] = useState("2026-05-11");
   const [keperluan, setKeperluan] = useState("");
 
   const [rows, setRows] = useState([
@@ -13,6 +13,20 @@ export default function TransaksiJurnal() {
     { akun: "", debit: 0, kredit: 0 },
   ]);
 
+  // LIST AKUN
+  const akunOptions = [
+    "Beban Gaji Guru dan Karyawan",
+    "Beban Lainnya",
+    "Beban Operasional Guru",
+    "Kas",
+    "Kas di Bank",
+    "Pendapatan BOS",
+    "Pendapatan Kegiatan",
+    "Pendapatan SPP",
+    "Pendapatan Tunggakan",
+    "Utang Bank",
+  ];
+
   const handleChange = (index, field, value) => {
     const updated = [...rows];
 
@@ -22,6 +36,7 @@ export default function TransaksiJurnal() {
     setRows(updated);
   };
 
+  // TOTAL
   const totalDebit = rows.reduce(
     (acc, item) => acc + Number(item.debit),
     0
@@ -52,20 +67,26 @@ export default function TransaksiJurnal() {
   };
 
   return (
-    <div className="container-fluid p-3">
-      <h2 className="mb-3">Transaksi Jurnal</h2>
+    <div className="container-fluid p-2 bg-light min-vh-100">
+      <h2 className="mb-2">Transaksi Jurnal</h2>
 
       <form onSubmit={handleSubmit}>
-        {/* FORM ATAS */}
-        <div className="card mb-3 shadow-sm">
-          <div className="card-header bg-white fs-4">
+        {/* CARD FORM */}
+        <div className="card shadow-sm">
+          
+          {/* HEADER */}
+          <div className="card-header bg-white">
             Form Transaksi
           </div>
 
+          {/* BODY */}
           <div className="card-body">
-            <div className="row">
+            
+            {/* FORM ATAS */}
+            <div className="row mb-3">
+              
               {/* TANGGAL */}
-              <div className="col-md-6 mb-3">
+              <div className="col-md-6">
                 <label className="form-label">
                   Tanggal Transaksi
                 </label>
@@ -81,7 +102,7 @@ export default function TransaksiJurnal() {
               </div>
 
               {/* KEPERLUAN */}
-              <div className="col-md-6 mb-3">
+              <div className="col-md-6">
                 <label className="form-label">
                   Keperluan
                 </label>
@@ -97,22 +118,26 @@ export default function TransaksiJurnal() {
                 />
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* TABEL JURNAL */}
-        <div className="card shadow-sm">
-          <div className="card-body">
-            {/* HEADER */}
+            {/* HEADER TABEL */}
             <div className="row fw-bold mb-2">
-              <div className="col-md-4">Akun</div>
-              <div className="col-md-4">Debit</div>
-              <div className="col-md-4">Kredit</div>
+              <div className="col-md-4">
+                Akun
+              </div>
+
+              <div className="col-md-4">
+                Debit
+              </div>
+
+              <div className="col-md-4">
+                Kredit
+              </div>
             </div>
 
-            {/* ROW DATA */}
+            {/* ROW */}
             {rows.map((row, index) => (
               <div className="row mb-2" key={index}>
+                
                 {/* AKUN */}
                 <div className="col-md-4">
                   <select
@@ -130,14 +155,14 @@ export default function TransaksiJurnal() {
                       -- Pilih Akun --
                     </option>
 
-                    <option value="Kas">Kas</option>
-                    <option value="Bank">Bank</option>
-                    <option value="Pendapatan">
-                      Pendapatan
-                    </option>
-                    <option value="Beban">
-                      Beban
-                    </option>
+                    {akunOptions.map((akun, i) => (
+                      <option
+                        key={i}
+                        value={akun}
+                      >
+                        {akun}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -175,24 +200,11 @@ export default function TransaksiJurnal() {
               </div>
             ))}
 
-            {/* TOTAL */}
-            <div className="mt-4 text-end">
-              <h5>
-                Total Debit :{" "}
-                <span className="text-primary">
-                  {totalDebit}
-                </span>
-              </h5>
-
-              <h5>
-                Total Kredit :{" "}
-                <span className="text-success">
-                  {totalKredit}
-                </span>
-              </h5>
-
+            {/* FOOTER */}
+            <div className="border-top pt-3 mt-3 text-end">
+              
               {!isBalanced && (
-                <p className="text-danger fw-semibold">
+                <p className="text-danger mb-2">
                   * Total debit dan kredit harus
                   seimbang.
                 </p>
@@ -200,7 +212,7 @@ export default function TransaksiJurnal() {
 
               <button
                 type="submit"
-                className="btn btn-primary px-4"
+                className="btn btn-primary"
               >
                 Submit
               </button>
