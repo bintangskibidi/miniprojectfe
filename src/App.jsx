@@ -3,6 +3,15 @@ import LandingPage from "./pages/landingPage/LandingPage";
 import Login from "./pages/login/Login";
 import Dashboard from "./dashboard/Dashboard";
 import ProfileSekolah from "./dashboard/manajemenSekolah/ProfileSekolah";
+import DataAset from "./dashboard/manajemenSekolah/DataAset";
+import PeminjamanAset from "./dashboard/manajemenSekolah/PeminjamanAset";
+import RiwayatPeminjaman from "./dashboard/manajemenSekolah/RiwayatPeminjaman";
+import MaintenanceAset from "./dashboard/manajemenSekolah/MaintenanceAset";
+import DepresiasiAset from "./dashboard/manajemenSekolah/DepresiasiAset";
+import SuratMenyurat from "./dashboard/manajemenSekolah/SuratMenyurat";
+import KegiatanSekolah from "./dashboard/manajemenSekolah/KegiatanSekolah";
+import DokumenSekolah from "./dashboard/manajemenSekolah/DokumenSekolah";
+import LaporanAset from "./dashboard/manajemenSekolah/LaporanAset";
 import DataWaliKelas from "./dashboard/manajemenSiswa/kesiswaan/DataWaliKelas";
 import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
@@ -29,6 +38,18 @@ import JenisPenerimaan from "./dashboard/manajemenKeuangan/JenisPenerimaan";
 import JenisPengeluaran from "./dashboard/manajemenKeuangan/JenisPengeluaran";
 import DataTransaksi from "./dashboard/manajemenKeuangan/DataTransaksi";
 import DataPegawai from "./dashboard/kepegawaian/DataPegawai";
+import KelolaIndikator from "./dashboard/kepegawaian/KelolaIndikator";
+import RekapKinerja from "./dashboard/kepegawaian/RekapKinerja";
+import KelolaKegiatan from "./dashboard/kepegawaian/KelolaKegiatan";
+import AbsenKegiatan from "./dashboard/kepegawaian/AbsenKegiatan";
+import RekapAbsenKegiatan from "./dashboard/kepegawaian/RekapAbsenKegiatan";
+import Cuti from "./dashboard/kepegawaian/Cuti";
+import AbsensiHarianPegawai from "./dashboard/kepegawaian/AbsensiHarianPegawai";
+import SettingGajiPegawai from "./dashboard/kepegawaian/SettingGajiPegawai";
+import Izin from "./dashboard/kepegawaian/Izin";
+import Lembur from "./dashboard/kepegawaian/Lembur";
+
+import InputNilaiKinerja from "./dashboard/kepegawaian/InputNilaiKinerja";
 import TransaksiJurnal from "./dashboard/manajemenKeuangan/TransaksiJurnal";
 import TransaksiPenerimaan from "./dashboard/manajemenKeuangan/TransaksiPenerimaan";
 import JenisPembayaran from "./dashboard/manajemenKeuangan/JenisPembayaran";
@@ -121,10 +142,30 @@ function App() {
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
           <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
+          <Route path="AbsenKegiatan" element={<AbsenKegiatan />} />
+          <Route path="Cuti" element={<Cuti />} />
+          <Route path="RekapAbsensiHarian" element={<AbsensiHarianPegawai />} />
+          <Route path="SettingGajiPegawai" element={<SettingGajiPegawai />} />
+          <Route path="Izin" element={<Izin />} />
+          <Route path="Lembur" element={<Lembur />} />
+          <Route path="RekapAbsenKegiatan" element={<RekapAbsenKegiatan />} />
+          <Route path="KelolaKegiatan" element={<KelolaKegiatan />} />
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
           <Route path="aplikasi" element={<Aplikasi />} />
+          <Route path="kegiatansekolah" element={<KegiatanSekolah />} />
+          <Route path="SuratMenyurat" element={<SuratMenyurat />} />
+          <Route path="DokumenSekolah" element={<DokumenSekolah />} />
+          <Route path="DepresiasiAset" element={<DepresiasiAset />} />
+          <Route path="LaporanAset" element={<LaporanAset />} />
+          <Route path="DataAset" element={<DataAset />} />
+          <Route path="RekapKinerja" element={<RekapKinerja />} />
+          <Route path="KelolaIndikator" element={<KelolaIndikator />} />
+          <Route path="InputNilaiKinerja" element={<InputNilaiKinerja />} />
+          <Route path="PeminjamanAset" element={<PeminjamanAset />} />
+          <Route path="MaintenanceAset" element={<MaintenanceAset />} />
+          <Route path="RiwayatPeminjaman" element={<RiwayatPeminjaman />} />
           <Route path="BannerAplikasi" element={<BannerAplikasi />} />
           <Route path="InformasiLembaga" element={<InformasiLembaga />} />
           <Route path="SettingUser" element={<SettingUser />} />
