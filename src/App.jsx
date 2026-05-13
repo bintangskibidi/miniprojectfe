@@ -36,6 +36,11 @@ import RekapPembayaran from "./dashboard/manajemenKeuangan/RekapPembayaran";
 import RekapTagihan from "./dashboard/manajemenKeuangan/RekapTagihan";
 import RekapPerTanggal from "./dashboard/manajemenKeuangan/RekapPerTanggal";
 import RekapPerSiswa from "./dashboard/manajemenKeuangan/RekapPerSiswa";
+import RealisasiPenerimaan from "./dashboard/manajemenKeuangan/RealisasiPenerimaan";
+import RealisasiBelanja from "./dashboard/manajemenKeuangan/RealisasiBelanja";
+import SettingPagu from "./dashboard/manajemenKeuangan/SettingPagu";
+import APBSinduk from "./dashboard/manajemenKeuangan/APBSinduk";
+import APBSDetail from "./dashboard/manajemenKeuangan/APBSDetail";
 import TarifPembayaranSiswa from "./dashboard/manajemenKeuangan/TarifPembayaranSiswa";
 import RiwayatTabunganSiswa from "./dashboard/manajemenKeuangan/RiwayatTabunganSiswa";
 import ManajemenPerputakaan from "./dashboard/perpustakaanDigital/ManajemenPerpustkaan";
@@ -74,7 +79,12 @@ import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian"
 import Presensi from "./dashboard/absensi/presensi";
 
-
+import Aplikasi from "./dashboard/aplikasi/Aplikasi"
+import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga"
+import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi"
+import SettingUser from "./dashboard/aplikasi/SettingUser"
+import BackupData from "./dashboard/aplikasi/BackupData"
+import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
  
 
 function App() {
@@ -114,9 +124,20 @@ function App() {
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
+          <Route path="aplikasi" element={<Aplikasi />} />
+          <Route path="BannerAplikasi" element={<BannerAplikasi />} />
+          <Route path="InformasiLembaga" element={<InformasiLembaga />} />
+          <Route path="SettingUser" element={<SettingUser />} />
+          <Route path="SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
+          <Route path="BackupData" element={<BackupData />} />
           <Route path="LaporanJurnal" element={<LaporanJurnal />} />
           <Route path="LaporanKomprehensif" element={<LaporanKomprehensif />} />
           <Route path="Teller" element={<Teller />} />
+          <Route path="RealisasiPenerimaan" element={<RealisasiPenerimaan />} />
+          <Route path="RealisasiBelanja" element={<RealisasiBelanja />} />
+          <Route path="SettingPagu" element={<SettingPagu />} />
+          <Route path="APBSinduk" element={<APBSinduk />} />
+          <Route path="APBSDetail" element={<APBSDetail />} />
           <Route path="ArusKas" element={<ArusKas />} />
           <Route path="RealisasiAnggaran" element={<RealisasiAnggaran/>} />
           <Route path="EvaluasiAnggaran" element={<EvaluasiAnggaran />} />

@@ -23,6 +23,11 @@ import {
   FaHome,
   FaArrowLeft,
   FaSchool,
+  FaInfoCircle,
+  FaImage,
+  FaUsersCog,
+  FaDatabase,
+  FaMapMarkedAlt,
 } from "react-icons/fa";
 import { useState } from "react";
 
@@ -468,6 +473,54 @@ const Sidebar = () => {
   },
 ],
 
+
+aplikasi: [
+  {
+    group: "",
+    items: [
+      {
+        title: "Dashboard",
+        path: "/dashboard/aplikasi",
+        icon: <FaTachometerAlt />,
+      },
+    ],
+  },
+
+  {
+    group: "MENU",
+    items: [
+      {
+        title: "Informasi Lembaga",
+        path: "/dashboard/InformasiLembaga",
+        icon: <FaInfoCircle />,
+      },
+
+      {
+        title: "Banner Aplikasi",
+        path: "/dashboard/BannerAplikasi",
+        icon: <FaImage />,
+      },
+
+      {
+        title: "Setting User",
+        path: "/dashboard/SettingUser",
+        icon: <FaUsersCog />,
+      },
+
+      {
+        title: "Backup Data",
+        path: "/dashboard/BackupData",
+        icon: <FaDatabase />,
+      },
+
+      {
+        title: "Setting Absensi GPS",
+        path: "/dashboard/SettingAbsensiGPS",
+        icon: <FaMapMarkedAlt />,
+      },
+    ],
+  },
+],
     sekolah: [
       {
         group: "Manajemen Sekolah",
@@ -543,6 +596,16 @@ const Sidebar = () => {
   
   } else if (location.pathname.startsWith("/dashboard/RekapPembayaran")) {
     menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RealisasiPenerimaan")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/RealisasiBelanja")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/APBSInduk")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/APBSDetail")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/SettingPagu")) {
+    menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/JurnalUmum")) {
@@ -603,6 +666,24 @@ const Sidebar = () => {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/DataTransaksi")) {
     menu = menuConfig.keuangan;
+
+
+
+  } else if (location.pathname.startsWith("/dashboard/aplikasi")) {
+    menu = menuConfig.aplikasi;
+  } else if (location.pathname.startsWith("/dashboard/InformasiLembaga")) {
+    menu = menuConfig.aplikasi;
+  } else if (location.pathname.startsWith("/dashboard/BannerAplikasi")) {
+    menu = menuConfig.aplikasi;
+  } else if (location.pathname.startsWith("/dashboard/SettingUser")) {
+    menu = menuConfig.aplikasi;
+  } else if (location.pathname.startsWith("/dashboard/SettingAbsensiGPS")) {
+    menu = menuConfig.aplikasi;
+  } else if (location.pathname.startsWith("/dashboard/BackupData")) {
+    menu = menuConfig.aplikasi;
+
+
+
   }
   else if (location.pathname.startsWith("/dashboard/kepegawaian")) {
     menu = menuConfig.Kepegawaian;
@@ -621,14 +702,14 @@ const Sidebar = () => {
   else if (
   location.pathname.startsWith("/dashboard/perpustakaan") ||
   location.pathname.startsWith("/dashboard/databuku") ||
-  location.pathname.startsWith("/dashboard/LaporanBuku") ||
-  location.pathname.startsWith("/dashboard/LaporanDenda") ||
-  location.pathname.startsWith("/dashboard/LaporanPeminjamanBuku") ||
-  location.pathname.startsWith("/dashboard/LaporanPengembalianBuku") ||
-  location.pathname.startsWith("/dashboard/Pengembalianbuku") ||
+  location.pathname.startsWith("/dashboard/laporanbuku") ||
+  location.pathname.startsWith("/dashboard/laporandenda") ||
+  location.pathname.startsWith("/dashboard/laporanpeminjamanbuku") ||
+  location.pathname.startsWith("/dashboard/laporanpengembalianbuku") ||
+  location.pathname.startsWith("/dashboard/pengembalianbuku") ||
   location.pathname.startsWith("/dashboard/PeminjamanBuku") ||
  
-  location.pathname.startsWith("/dashboard/SettingDenda") ||
+  location.pathname.startsWith("/dashboard/settingdenda") ||
   location.pathname.startsWith("/dashboard/peminjamanbuku")
 ) {
   menu = menuConfig.perpustakaan;
