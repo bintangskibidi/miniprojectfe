@@ -15,6 +15,7 @@ import {
 import Aduca from "../../src/assets/Aduca.png";
 import Swal from "sweetalert2";
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -48,8 +49,13 @@ const Dashboard = () => {
     { icon: <FaChalkboardTeacher />, title: "Manajemen Guru", path: "/dashboard/guru" },
     { icon: <FaMoneyBillWave />, title: "Keuangan", path: "/dashboard/keuangan" },
     { icon: <FaBookOpen />, title: "Perpustakaan", path: "/dashboard/perpustakaan" },
-    { icon: <FaLaptop />, title: "Aplikasi", path: "/aplikasi" },
-    { icon: <FaClipboardList />, title: "PPDB", path: "/ppdb" },
+    { icon: <FaLaptop />, title: "Aplikasi", path: "/dashboard/aplikasi" },
+  {
+  icon: <FaClipboardList />,
+  title: "PPDB",
+  path: "/ppdb",
+  blocked: true,
+},
     { icon: <FaSchool />, title: "Manajemen Sekolah", path: "/dashboard/profilesekolah" },
     { icon: <FaIdCard />, title: "Kepegawaian", path: "/dashboard/kepegawaian" },
   ];
@@ -86,25 +92,39 @@ const Dashboard = () => {
         </div>
 
         <div className="max-w-6xl w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 z-10">
-          {menu.map((item, i) => (
-            <div
-              key={i}
-              onClick={() => navigate(item.path)}
-              className="group relative bg-white p-8 rounded-[32px] shadow-sm border border-slate-200 hover:border-orange-400 hover:shadow-2xl hover:shadow-blue-200 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center overflow-hidden"
-            >
-              {/* Hover Background Accent */}
-              <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-50 rounded-full group-hover:scale-[5] transition-transform duration-500 ease-in-out -z-0"></div>
+         {menu.map((item, i) => (
+  <div
+    key={i}
+    onClick={() => {
+      if (item.title === "PPDB") {
+        Swal.fire({
+          title: "Akses Ditolak",
+          text: "Anda tidak diizinkan mengakses PPDB     verifikasi Gagal😥",
+          icon: "warning",
+          confirmButtonText: "Tutup",
+          confirmButtonColor: "#6b7280",
+          background: "#ffffff",
+        });
+      } else {
+        navigate(item.path);
+      }
+    }}
+    className="group relative bg-white p-8 rounded-[32px] shadow-sm border border-slate-200 hover:border-orange-400 hover:shadow-2xl hover:shadow-blue-200 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center overflow-hidden"
+  >
+    {/* Hover Background Accent */}
+    <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-50 rounded-full group-hover:scale-[5] transition-transform duration-500 ease-in-out -z-0"></div>
 
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="text-5xl text-blue-900 mb-5 group-hover:text-orange-500 group-hover:scale-110 transition-all duration-300">
-                  {item.icon}
-                </div>
-                <h2 className="text-sm font-black text-slate-700 text-center uppercase tracking-tight group-hover:text-blue-900">
-                  {item.title}
-                </h2>
-              </div>
-            </div>
-          ))}
+    <div className="relative z-10 flex flex-col items-center">
+      <div className="text-5xl text-blue-900 mb-5 group-hover:text-orange-500 group-hover:scale-110 transition-all duration-300">
+        {item.icon}
+      </div>
+
+      <h2 className="text-sm font-black text-slate-700 text-center uppercase tracking-tight group-hover:text-blue-900">
+        {item.title}
+      </h2>
+    </div>
+  </div>
+))}
         </div>
       </main>
 
