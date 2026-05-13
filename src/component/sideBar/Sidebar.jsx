@@ -22,7 +22,13 @@ import {
   FaCog,
   FaHome,
   FaArrowLeft,
-  FaSchool,
+  FaSchool, 
+  FaBoxes,  
+  FaTools, 
+  FaChartLine, 
+  FaFileInvoice,
+  FaEnvelopeOpenText,
+  FaFolderOpen,
   FaInfoCircle,
   FaImage,
   FaUsersCog,
@@ -270,7 +276,7 @@ const Sidebar = () => {
           },
           {
             title: "Laporan Pengeluaran",
-            path: "/dashboard/LaporanPengeluaran",
+            path: "/dashboard/TransaksiPengeluaran",
           },
         ],
       },
@@ -400,8 +406,49 @@ const Sidebar = () => {
             title: "Data Pegawai",
             path: "/dashboard/DataPegawai",
           },
+          {
+          title: "Kinerja Pegawai",
+          icon: <FaSchool />,
+          children: [
+            { title: "Kelola Indikator", path: "/dashboard/KelolaIndikator", icon: <FaUserTie /> },
+            { title: "Input Nilai Kinerja", path: "/dashboard/InputNilaiKinerja", icon: <FaUserTie /> },
+            { title: "RekapKinerja", path: "/dashboard/RekapKinerja", icon: <FaUserTie /> },
+          ],
+        },
+        {
+          title: "Absen Kegiatan",
+          icon: <FaSchool />,
+          children: [
+            { title: "Kegiatan", path: "/dashboard/KelolaKegiatan", icon: <FaUserTie /> },
+            { title: "Absen Kegiatan", path: "/dashboard/AbsenKegiatan", icon: <FaUserTie /> },
+            { title: "Riwayat Absen Kegiatan", path: "/dashboard/RekapAbsenKegiatan", icon: <FaUserTie /> },
+          ],
+        },
+        {
+          title: "Manajemen Cuti/Lembur/izin",
+          icon: <FaSchool />,
+          children: [
+            { title: "Cuti", path: "/dashboard/Cuti", icon: <FaUserTie /> },
+            { title: "Lembur", path: "/dashboard/Lembur", icon: <FaUserTie /> },
+            { title: "Izin", path: "/dashboard/izin", icon: <FaUserTie /> },
+          ],
+        },
+        {
+            title: "Rekap Absensi",
+            path: "/dashboard/RekapAbsensiHarian",
+          },
+          {
+          title: "Payroll",
+          icon: <FaSchool />,
+          children: [
+            { title: "Kelola Gaji", path: "/dashboard/SettingGajiPegawai", icon: <FaUserTie /> },
+            { title: "Lembur", path: "/dashboard/Lembur", icon: <FaUserTie /> },
+            { title: "Izin", path: "/dashboard/izin", icon: <FaUserTie /> },
+          ],
+        },
         ]
-      }
+      },
+      
     ],
 
    perpustakaan: [
@@ -522,26 +569,52 @@ aplikasi: [
   },
 ],
     sekolah: [
-      {
-        group: "Manajemen Sekolah",
-        items: [
-          {
-            title: "Data Sekolah",
-            icon: <FaSchool />,
-            children: [
-              { title: "Profile sekolah", path: "/dashboard/profilesekolah" },
-            ],
-          },
-        ],
-      },
-      {
-        group: "",
-        items: [
-          { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
-        ],
-      },
-    ],
-
+    {
+      group: "Manajemen Sekolah",
+      items: [
+        {
+          title: "Data Sekolah",
+          icon: <FaSchool />,
+          children: [
+            { title: "Profile sekolah", path: "/dashboard/profilesekolah", icon: <FaUserTie /> },
+          ],
+        },
+        {
+          title: "Inventaris",
+          icon: <FaBoxes />,
+          children: [
+            { title: "Data Aset", path: "/dashboard/DataAset", icon: <FaClipboardList /> },
+            { title: "Peminjaman Aset", path: "/dashboard/PeminjamanAset", icon: <FaFileAlt /> },
+            { title: "Riwayat Peminjaman", path: "/dashboard/RiwayatPeminjaman", icon: <FaHistory /> },
+            { title: "Maintenance Asset", path: "/dashboard/MaintenanceAset", icon: <FaTools /> },
+            { title: "Depresiasi Asset", path: "/dashboard/DepresiasiAset", icon: <FaChartLine /> },
+            { title: "Laporan Asset", path: "/dashboard/LaporanAset", icon: <FaFileInvoice /> },
+          ],
+        },
+        {
+          title: "Administrasi",
+          icon: <FaFileAlt />,
+          children: [
+            { title: "Surat-Menyurat", path: "/dashboard/SuratMenyurat", icon: <FaEnvelopeOpenText /> },
+            { title: "Dokumen Sekolah", path: "/dashboard/DokumenSekolah", icon: <FaFolderOpen /> },
+          ],
+        },
+        {
+          title: "Kegiatan",
+          icon: <FaCalendarAlt />,
+          children: [
+            { title: "Kegiatan Sekolah", path: "/dashboard/kegiatansekolah", icon: <FaCalendarAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      group: "Pengaturan",
+      items: [
+        { title: "Setting Lokasi", path: "/dashboard/settinglokasi", icon: <FaMapMarkedAlt /> },
+      ],
+    },
+  ],
     default: [
       {
         group: "Menu Utama",
@@ -608,8 +681,10 @@ aplikasi: [
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
     menu = menuConfig.keuangan;
-  } else if (location.pathname.startsWith("/dashboard/JurnalUmum")) {
+  
   } else if (location.pathname.startsWith("/dashboard/LaporanJurnal")) {
+    menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/JurnalUmum")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/TunggakanSiswa")) {
     menu = menuConfig.keuangan;
@@ -664,6 +739,8 @@ aplikasi: [
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/LaporanKomprehensif")) {
     menu = menuConfig.keuangan;
+  } else if (location.pathname.startsWith("/dashboard/presensi")) {
+    menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/DataTransaksi")) {
     menu = menuConfig.keuangan;
 
@@ -687,6 +764,28 @@ aplikasi: [
   }
   else if (location.pathname.startsWith("/dashboard/kepegawaian")) {
     menu = menuConfig.Kepegawaian;
+   } else if (location.pathname.startsWith("/dashboard/RekapAbsenKegiatan")) {
+    menu = menuConfig.Kepegawaian;
+   } else if (location.pathname.startsWith("/dashboard/Cuti")) {
+    menu = menuConfig.Kepegawaian;
+   } else if (location.pathname.startsWith("/dashboard/RekapAbsensiHarian")) {
+    menu = menuConfig.Kepegawaian;
+   } else if (location.pathname.startsWith("/dashboard/SettingGajiPegawai")) {
+    menu = menuConfig.Kepegawaian;
+   } else if (location.pathname.startsWith("/dashboard/Lembur")) {
+    menu = menuConfig.Kepegawaian;
+   } else if (location.pathname.startsWith("/dashboard/izin")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/KelolaKegiatan")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/AbsenKegiatan")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/KelolaIndikator")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/InputNilaiKinerja")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/RekapKinerja")) {
+    menu = menuConfig.Kepegawaian;
   }
   else if (location.pathname.startsWith("/dashboard/DataPegawai")) {
     menu = menuConfig.Kepegawaian;
@@ -695,6 +794,15 @@ aplikasi: [
     menu = menuConfig.perpustakaan;
   } else if (
     location.pathname.startsWith("/dashboard/profilesekolah") ||
+    location.pathname.startsWith("/dashboard/DataAset") ||
+    location.pathname.startsWith("/dashboard/PeminjamanAset") ||
+    location.pathname.startsWith("/dashboard/RiwayatPeminjaman") ||
+    location.pathname.startsWith("/dashboard/MaintenanceAset") ||
+    location.pathname.startsWith("/dashboard/DepresiasiAset") ||
+    location.pathname.startsWith("/dashboard/LaporanAset") ||
+    location.pathname.startsWith("/dashboard/SuratMenyurat") ||
+    location.pathname.startsWith("/dashboard/DokumenSekolah") ||
+      location.pathname.startsWith("/dashboard/kegiatansekolah") ||
     location.pathname.startsWith("/dashboard/settinglokasi")
   ) {
     menu = menuConfig.sekolah;
@@ -708,6 +816,7 @@ aplikasi: [
   location.pathname.startsWith("/dashboard/laporanpengembalianbuku") ||
   location.pathname.startsWith("/dashboard/pengembalianbuku") ||
   location.pathname.startsWith("/dashboard/PeminjamanBuku") ||
+
  
   location.pathname.startsWith("/dashboard/settingdenda") ||
   location.pathname.startsWith("/dashboard/peminjamanbuku")

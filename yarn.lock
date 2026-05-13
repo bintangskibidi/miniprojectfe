@@ -1968,7 +1968,12 @@ svg-pathdata@^6.0.3:
   resolved "https://registry.npmjs.org/svg-pathdata/-/svg-pathdata-6.0.3.tgz"
   integrity sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==
 
-sweetalert2@^11.26.24:
+sweetalert2-react-content@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.npmjs.org/sweetalert2-react-content/-/sweetalert2-react-content-5.1.2.tgz"
+  integrity sha512-7s4JSqqw2OOSKxX+NjVkHwNmN2fGliulJYwjDYlYZ/yc9Gfslxd2XlYFFveEp7pXHVXpQHOAth+vnIKDpHAJNA==
+
+sweetalert2@^11.0.0, sweetalert2@^11.26.24:
   version "11.26.24"
   resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.26.24.tgz"
   integrity sha512-SLgukW4wicewpW5VOukSXY5Z6DL/z7HCOK2ODSjmQPiSphCN8gJAmh9npoceXOtBRNoDN0xIz+zHYthtfiHmjg==
