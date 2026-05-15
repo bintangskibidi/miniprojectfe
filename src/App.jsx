@@ -99,6 +99,8 @@ import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian"
 import Presensi from "./dashboard/absensi/presensi";
+import RiwayatGaji from "./dashboard/kepegawaian/RiwayatGaji";
+import KriteriaKehadiran from "./dashboard/kepegawaian/KriteriaKehadiran";
 
 import Aplikasi from "./dashboard/aplikasi/Aplikasi"
 import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga"
@@ -106,7 +108,9 @@ import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi"
 import SettingUser from "./dashboard/aplikasi/SettingUser"
 import BackupData from "./dashboard/aplikasi/BackupData"
 import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
- 
+ import SettingKomponenGaji from "./dashboard/kepegawaian/SettingKomponenGaji";
+ import ManajemenTanggal from "./dashboard/kepegawaian/ManajemenTanggal";
+import DanaPensiunPegawai from "./dashboard/kepegawaian/DanaPensiunPegawai";
 
 function App() {
   return (
@@ -160,6 +164,11 @@ function App() {
           <Route path="DepresiasiAset" element={<DepresiasiAset />} />
           <Route path="LaporanAset" element={<LaporanAset />} />
           <Route path="DataAset" element={<DataAset />} />
+          <Route path="RiwayatGaji" element={<RiwayatGaji />} />
+          <Route path="DanaPensiunPegawai" element={<DanaPensiunPegawai />} />
+          <Route path="ManajemenTanggal" element={<ManajemenTanggal />} />
+          <Route path="KriteriaKehadiran" element={<KriteriaKehadiran />} />
+          <Route path="SettingKomponenGaji" element={<SettingKomponenGaji />} />
           <Route path="RekapKinerja" element={<RekapKinerja />} />
           <Route path="KelolaIndikator" element={<KelolaIndikator />} />
           <Route path="InputNilaiKinerja" element={<InputNilaiKinerja />} />
