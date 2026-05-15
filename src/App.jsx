@@ -121,6 +121,12 @@ function App() {
          <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/dashboard" element={<Layout />}>
+        <Route path="aplikasi" element={<Aplikasi />} />
+<Route path="aplikasi/InformasiLembaga" element={<InformasiLembaga />} />
+<Route path="aplikasi/BannerAplikasi" element={<BannerAplikasi />} />
+<Route path="aplikasi/SettingUser" element={<SettingUser />} />
+<Route path="aplikasi/SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
+<Route path="aplikasi/BackupData" element={<BackupData />} />
         
 
           <Route path="datasiswa" element={<DataSiswa />} />

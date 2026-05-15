@@ -398,6 +398,54 @@ const Sidebar = () => {
         ],
       },
     ],
+aplikasi: [
+  {
+    group: "",
+    items: [
+      {
+        title: "Dashboard",
+        path: "/dashboard/aplikasi",
+        icon: <FaTachometerAlt />,
+      },
+    ],
+  },
+
+  {
+    group: "MENU",
+    items: [
+      {
+        title: "Informasi Lembaga",
+        path: "/dashboard/aplikasi/InformasiLembaga",
+        icon: <FaInfoCircle />,
+      },
+
+      {
+        title: "Banner Aplikasi",
+        path: "/dashboard/aplikasi/BannerAplikasi",
+        icon: <FaImage />,
+      },
+
+      {
+        title: "Setting User",
+        path: "/dashboard/aplikasi/SettingUser",
+        icon: <FaUsersCog />,
+      },
+
+      {
+        title: "Backup Data",
+        path: "/dashboard/aplikasi/BackupData",
+        icon: <FaDatabase />,
+      },
+
+      {
+        title: "Setting Absensi GPS",
+        path: "/dashboard/aplikasi/SettingAbsensiGPS",
+        icon: <FaMapMarkedAlt />,
+      },
+    ],
+  },
+],
+
 Kepegawaian: [
   // DASHBOARD
   {
@@ -675,53 +723,8 @@ Kepegawaian: [
     ],
 
 
-    aplikasi: [
-      {
-        group: "",
-        items: [
-          {
-            title: "Dashboard",
-            path: "/dashboard/aplikasi",
-            icon: <FaTachometerAlt />,
-          },
-        ],
-      },
+   
 
-      {
-        group: "MENU",
-        items: [
-          {
-            title: "Informasi Lembaga",
-            path: "/dashboard/InformasiLembaga",
-            icon: <FaInfoCircle />,
-          },
-
-          {
-            title: "Banner Aplikasi",
-            path: "/dashboard/BannerAplikasi",
-            icon: <FaImage />,
-          },
-
-          {
-            title: "Setting User",
-            path: "/dashboard/SettingUser",
-            icon: <FaUsersCog />,
-          },
-
-          {
-            title: "Backup Data",
-            path: "/dashboard/BackupData",
-            icon: <FaDatabase />,
-          },
-
-          {
-            title: "Setting Absensi GPS",
-            path: "/dashboard/SettingAbsensiGPS",
-            icon: <FaMapMarkedAlt />,
-          },
-        ],
-      },
-    ],
     sekolah: [
       {
         group: "Manajemen Sekolah",
@@ -812,8 +815,8 @@ Kepegawaian: [
     location.pathname.startsWith("/dashboard/guru") ||
     location.pathname.startsWith("/dashboard/mapel") ||
     location.pathname.startsWith("/dashboard/RiwayatMengajar") ||
-    + location.pathname.startsWith("/dashboard/JadwalMengajar") ||
-    + location.pathname.startsWith("/dashboard/distribusijam")
+    location.pathname.startsWith("/dashboard/JadwalMengajar") ||
+    location.pathname.startsWith("/dashboard/distribusijam")
   ) {
     menu = menuConfig.guru;
   } else if (location.pathname.startsWith("/dashboard/keuangan")) {
@@ -900,62 +903,44 @@ Kepegawaian: [
 
 
 
-  } else if (location.pathname.startsWith("/dashboard/aplikasi")) {
-    menu = menuConfig.aplikasi;
-  } else if (location.pathname.startsWith("/dashboard/InformasiLembaga")) {
-    menu = menuConfig.aplikasi;
-  } else if (location.pathname.startsWith("/dashboard/BannerAplikasi")) {
-    menu = menuConfig.aplikasi;
-  } else if (location.pathname.startsWith("/dashboard/SettingUser")) {
-    menu = menuConfig.aplikasi;
-  } else if (location.pathname.startsWith("/dashboard/SettingAbsensiGPS")) {
-    menu = menuConfig.aplikasi;
-  } else if (location.pathname.startsWith("/dashboard/BackupData")) {
-    menu = menuConfig.aplikasi;
+  } else if (
+  location.pathname.startsWith("/dashboard/aplikasi")
+) {
+  menu = menuConfig.aplikasi
 
+// ==========================
+// KEPEGAWAIAN
+// ==========================
+} else if (
+  location.pathname.startsWith("/dashboard/kepegawaian") ||
+  location.pathname.startsWith("/dashboard/DataPegawai") ||
+  location.pathname.startsWith("/dashboard/KelolaIndikator") ||
+  location.pathname.startsWith("/dashboard/InputNilaiKinerja") ||
+  location.pathname.startsWith("/dashboard/RekapKinerja") ||
+  location.pathname.startsWith("/dashboard/KelolaKegiatan") ||
+  location.pathname.startsWith("/dashboard/AbsenKegiatan") ||
+  location.pathname.startsWith("/dashboard/RekapAbsenKegiatan") ||
+  location.pathname.startsWith("/dashboard/Cuti") ||
+  location.pathname.startsWith("/dashboard/Lembur") ||
+  location.pathname.startsWith("/dashboard/Izin") ||
+  location.pathname.startsWith("/dashboard/RekapAbsensiHarian") ||
+  location.pathname.startsWith("/dashboard/SettingGajiPegawai") ||
+  location.pathname.startsWith("/dashboard/RiwayatGaji") ||
+  location.pathname.startsWith("/dashboard/KriteriaKehadiran") ||
+  location.pathname.startsWith("/dashboard/SettingKomponenGaji") ||
+  location.pathname.startsWith("/dashboard/DanaPensiunPegawai") ||
+  location.pathname.startsWith("/dashboard/ManajemenTanggal") ||
 
-
-  }
-  else if (location.pathname.startsWith("/dashboard/kepegawaian")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/RekapAbsenKegiatan")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/Cuti")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/Izin")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/RiwayatGaji")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/SettingKomponenGaji")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/ManajemenTanggal")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/DanaPensiunPegawai")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/KriteriaKehadiran")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/RekapAbsensiHarian")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/SettingGajiPegawai")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/Lembur")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/izin")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/KelolaKegiatan")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/AbsenKegiatan")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/KelolaIndikator")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/InputNilaiKinerja")) {
-    menu = menuConfig.Kepegawaian;
-  } else if (location.pathname.startsWith("/dashboard/RekapKinerja")) {
-    menu = menuConfig.Kepegawaian;
-  }
-  else if (location.pathname.startsWith("/dashboard/DataPegawai")) {
-    menu = menuConfig.Kepegawaian;
-  }
+  // PENGATURAN
+  location.pathname.startsWith("/dashboard/InformasiLembaga") ||
+  location.pathname.startsWith("/dashboard/BannerAplikasi") ||
+  location.pathname.startsWith("/dashboard/SettingUser") ||
+  location.pathname.startsWith("/dashboard/BackupData") ||
+  location.pathname.startsWith("/dashboard/SettingAbsensiGPS")
+) {
+  menu = menuConfig.Kepegawaian;
+}
+  
   else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
   } else if (
