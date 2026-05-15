@@ -22,7 +22,7 @@ import LaporanKomprehensif from "./dashboard/manajemenKeuangan/LaporanKomprehens
 import NeracaSaldo from "./dashboard/manajemenKeuangan/NeracaSaldo";
 import JurnalUmum from "./dashboard/manajemenKeuangan/JurnalUmum";
 import TunggakanSiswa from "./dashboard/manajemenKeuangan/TunggakanSiswa";
-import  BayarTagihan from "./dashboard/manajemenKeuangan/BayarTagihan";
+import BayarTagihan from "./dashboard/manajemenKeuangan/BayarTagihan";
 import TagihanBulanIni from "./dashboard/manajemenKeuangan/TagihanBulanIni";
 import RiwayatTransaksi from "./dashboard/manajemenKeuangan/RiwayatTransaksi";
 import LaporanPengeluaran from "./dashboard/manajemenKeuangan/LaporanPengeluaran";
@@ -30,7 +30,7 @@ import Teller from "./dashboard/manajemenKeuangan/Teller";
 import RealisasiAnggaran from "./dashboard/manajemenKeuangan/RealisasiAnggaran";
 import EvaluasiAnggaran from "./dashboard/manajemenKeuangan/EvaluasiAnggaran";
 import PerubahanAsetNeto from "./dashboard/manajemenKeuangan/PerubahanAsetNeto";
- 
+
 import PosisiKeuangan from "./dashboard/manajemenKeuangan/PosisiKeuangan";
 import ArusKas from "./dashboard/manajemenKeuangan/ArusKas";
 import LaporanPenerimaan from "./dashboard/manajemenKeuangan/LaporanPenerimaan";
@@ -73,7 +73,7 @@ import DataBuku from "./dashboard/perpustakaanDigital/DataBuku";
 import PeminjamanBuku from "./dashboard/perpustakaanDigital/PeminjamanBuku";
 import PengembalianBuku from "./dashboard/perpustakaanDigital/PengembalianBuku";
 import SettingDenda from "./dashboard/perpustakaanDigital/SettingDenda";
- 
+
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
 import DataSiswa from "./dashboard/manajemenSiswa/kesiswaan/dataSiswa/DataSiswa";
@@ -97,16 +97,15 @@ import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
 
-import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian"
+import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian";
 import Presensi from "./dashboard/absensi/presensi";
 
-import Aplikasi from "./dashboard/aplikasi/Aplikasi"
-import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga"
-import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi"
-import SettingUser from "./dashboard/aplikasi/SettingUser"
-import BackupData from "./dashboard/aplikasi/BackupData"
-import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
- 
+import Aplikasi from "./dashboard/aplikasi/Aplikasi";
+import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga";
+import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi";
+import SettingUser from "./dashboard/aplikasi/SettingUser";
+import BackupData from "./dashboard/aplikasi/BackupData";
+import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS";
 
 function App() {
   return (
@@ -114,11 +113,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/dashboard" element={<Layout />}>
-        
-
           <Route path="datasiswa" element={<DataSiswa />} />
           <Route path="walikelas" element={<DataWaliKelas />} />
           <Route path="Semester" element={<Semester />} />
@@ -131,7 +128,10 @@ function App() {
           <Route path="guru" element={<ManajemenGuru />} />
           <Route path="/dashboard/mapel" element={<MataPelajaran />} />
           <Route path="/dashboard/distribusijam" element={<DistribusiJam />} />
-          <Route path="/dashboard/RiwayatMengajar" element={<RiwayatMengajar />} />
+          <Route
+            path="/dashboard/RiwayatMengajar"
+            element={<RiwayatMengajar />}
+          />
           <Route
             path="/dashboard/JadwalMengajar"
             element={<JadwalMengajar />}
@@ -180,7 +180,7 @@ function App() {
           <Route path="APBSinduk" element={<APBSinduk />} />
           <Route path="APBSDetail" element={<APBSDetail />} />
           <Route path="ArusKas" element={<ArusKas />} />
-          <Route path="RealisasiAnggaran" element={<RealisasiAnggaran/>} />
+          <Route path="RealisasiAnggaran" element={<RealisasiAnggaran />} />
           <Route path="EvaluasiAnggaran" element={<EvaluasiAnggaran />} />
           <Route path="PosisiKeuangan" element={<PosisiKeuangan />} />
           <Route path="LaporanKomprehensif" element={<LaporanKomprehensif />} />
@@ -196,20 +196,32 @@ function App() {
           <Route path="RekapSiswa" element={<RekapPerSiswa />} />
           <Route path="RekapPembayaran" element={<RekapPembayaran />} />
           <Route path="RekapTanggal" element={<RekapPerTanggal />} />
-          <Route path="TarifPembayaranSiswa" element={<TarifPembayaranSiswa />} />
+          <Route
+            path="TarifPembayaranSiswa"
+            element={<TarifPembayaranSiswa />}
+          />
           <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
           <Route path="BayarTagihan" element={<BayarTagihan />} />
           <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />
           <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
-          <Route path="RiwayatTabunganSiswa" element={<RiwayatTabunganSiswa />} />
+          <Route
+            path="RiwayatTabunganSiswa"
+            element={<RiwayatTabunganSiswa />}
+          />
           <Route path="TransaksiPengeluaran" element={<LaporanPengeluaran />} />
           <Route path="LaporanPenerimaan" element={<LaporanPenerimaan />} />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="databuku" element={<DataBuku />} />
           <Route path="LaporanBuku" element={<LaporanBuku />} />
           <Route path="LaporanDenda" element={<LaporanDenda />} />
-          <Route path="LaporanPeminjamanBuku" element={<LaporanPeminjamanBuku />} />
-          <Route path="LaporanPengembalianBuku" element={<LaporanPengembalianbuku />} />
+          <Route
+            path="LaporanPeminjamanBuku"
+            element={<LaporanPeminjamanBuku />}
+          />
+          <Route
+            path="LaporanPengembalianBuku"
+            element={<LaporanPengembalianbuku />}
+          />
           <Route path="PeminjamanBuku" element={<PeminjamanBuku />} />
           <Route path="PengembalianBuku" element={<PengembalianBuku />} />
           <Route path="SettingDenda" element={<SettingDenda />} />
