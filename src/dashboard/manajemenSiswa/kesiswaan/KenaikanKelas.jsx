@@ -54,7 +54,6 @@ const handleTampilkan = async () => {
     const res = await api.get("/siswa");
     const allSiswa = res.data.data || [];
 
-    // Debug: lihat struktur data siswa (3 data pertama)
     console.log("=== DEBUG: Data Siswa (3 data pertama) ===");
     allSiswa.slice(0, 3).forEach((s, i) => {
       console.log(`Siswa ${i + 1}:`, {
@@ -65,34 +64,25 @@ const handleTampilkan = async () => {
       });
     });
 
-    // Cari data kelas dan tahun dari dropdown yang dipilih
     const objekKelas = dataKelas.find(k => String(k.id) === String(kelas));
     const objekTahun = dataTahunAjaran.find(t => String(t.id) === String(tahun));
 
-    // Handle: kelas di database siswa bisa "10", "XI", "X IPA 1", dll
-    // Kita cocokkan berdasarkan ANGKA kelas (10, 11, 12) dari nama kelas
     const kelasAngka = objekKelas ? String(objekKelas.nama_kelas).replace(/[^0-9]/g, "") : "";
     const namaKelasDicari = objekKelas ? objekKelas.nama_kelas : "";
     const namaTahunDicari = objekTahun ? objekTahun.tahun_ajaran : "";
 
-    // Debug: lihat apa yang dipilih
     console.log("=== DEBUG: Filter yang dipilih ===");
     console.log("Kelas ID:", kelas, "-> Nama:", namaKelasDicari, "-> Angka:", kelasAngka);
     console.log("Tahun ID:", tahun, "-> Nama:", namaTahunDicari);
     console.log("NOTE: karena tahun_ajaran undefined di database, filter hanya berdasarkan KELAS");
 
-    // Filter - hanya berdasarkan KELAS karena tahun_ajaran tidak ada di database
     const hasilFilter = allSiswa.filter((s) => {
-      // Normalisasi data kelas dari siswa
       const kSiswa = s.kelas ? String(s.kelas).trim() : "";
       
-      // Ambil angka dari kelas siswa juga
       const kSiswaAngka = kSiswa.replace(/[^0-9]/g, "");
 
-      // Cocokkan: bisa berdasarkan angka (10 vs 10) ATAU nama lengkap
       const match = kelasAngka === kSiswaAngka || kSiswa.toLowerCase() === namaKelasDicari.toLowerCase();
 
-      // Debug jika tidak cocok
       if (!match && s.nama) {
         console.log(`Tidak cocok: ${s.nama} | kelas: "${kSiswa}" (${kSiswaAngka}) vs "${kelasAngka}"`);
       }
@@ -103,7 +93,6 @@ const handleTampilkan = async () => {
     console.log("=== Hasil Filter ===");
     console.log("Ditemukan:", hasilFilter.length, "siswa");
 
-    // Update state
     setSiswa(hasilFilter);
 
     if (hasilFilter.length === 0) {
@@ -194,11 +183,9 @@ const handleTampilkan = async () => {
       return;
     }
 
-    // Find class name
     const kelasNama = dataKelas.find(k => k.id === parseInt(kelasTujuan))?.nama_kelas || kelasTujuan;
     const tahunNama = dataTahunAjaran.find(t => t.id === parseInt(tahunTujuan))?.tahun_ajaran || tahunTujuan;
 
-    // Proses kenaikan kelas (langsung update ke API)
     const processKenaikan = async () => {
       try {
         // Update setiap siswa satu per satu

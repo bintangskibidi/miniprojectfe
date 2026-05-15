@@ -11,34 +11,7 @@ import {
   RiPrinterLine,
   RiPencilLine,
   RiDeleteBinLine,
-  RiArrowUpSLine,
-  RiArrowDownSLine,
 } from "react-icons/ri";
-
-/* ── Helper: ikon sort ───────────────────────── */
-const SortIcon = ({ colKey, sortConfig }) => {
-  if (sortConfig.key !== colKey)
-    return <RiArrowUpSLine style={{ opacity: 0.25 }} />;
-
-  return sortConfig.direction === "asc" ? (
-    <RiArrowUpSLine style={{ color: "#0d6efd" }} />
-  ) : (
-    <RiArrowDownSLine style={{ color: "#0d6efd" }} />
-  );
-};
-
-/* ── Helper TH sortable ──────────────────────── */
-const SortTh = ({ label, colKey, sortConfig, onSort, style = {} }) => (
-  <th
-    style={{ cursor: "pointer", userSelect: "none", ...style }}
-    onClick={() => onSort(colKey)}
-  >
-    <div className="d-flex justify-content-between align-items-center gap-1">
-      <span>{label}</span>
-      <SortIcon colKey={colKey} sortConfig={sortConfig} />
-    </div>
-  </th>
-);
 
 const DataKelas = () => {
   const [data, setData] = useState([]);
@@ -52,11 +25,6 @@ const DataKelas = () => {
     id: null,
     kode_kelas: "",
     nama_kelas: "",
-  });
-
-  const [sortConfig, setSortConfig] = useState({
-    key: null,
-    direction: "asc",
   });
 
   /* ── GET DATA ─────────────────────────────── */
@@ -93,57 +61,15 @@ const DataKelas = () => {
     };
   }, [showModal]);
 
-  /* ── SORT ─────────────────────────────────── */
-  const handleSort = (key) => {
-    setSortConfig((prev) => ({
-      key,
-      direction:
-        prev.key === key && prev.direction === "asc"
-          ? "desc"
-          : "asc",
-    }));
+  /* ── FILTER ──────────────────────────────── */
+  const filtered = data.filter((item) => {
+    const q = search.toLowerCase();
 
-    setPage(1);
-  };
-
-  /* ── FILTER + SORT ───────────────────────── */
-  const filtered = [...data]
-    .filter((item) => {
-      const q = search.toLowerCase();
-
-      return (
-        item.kode_kelas?.toLowerCase().includes(q) ||
-        item.nama_kelas?.toLowerCase().includes(q)
-      );
-    })
-    .sort((a, b) => {
-      if (!sortConfig.key) return 0;
-
-      if (sortConfig.key === "__index__") {
-        const indexA = data.findIndex((x) => x.id === a.id);
-        const indexB = data.findIndex((x) => x.id === b.id);
-
-        return sortConfig.direction === "asc"
-          ? indexA - indexB
-          : indexB - indexA;
-      }
-
-      const aVal = (a[sortConfig.key] ?? "")
-        .toString()
-        .toLowerCase();
-
-      const bVal = (b[sortConfig.key] ?? "")
-        .toString()
-        .toLowerCase();
-
-      if (aVal < bVal)
-        return sortConfig.direction === "asc" ? -1 : 1;
-
-      if (aVal > bVal)
-        return sortConfig.direction === "asc" ? 1 : -1;
-
-      return 0;
-    });
+    return (
+      item.kode_kelas?.toLowerCase().includes(q) ||
+      item.nama_kelas?.toLowerCase().includes(q)
+    );
+  });
 
   /* ── PAGINATION ──────────────────────────── */
   const totalPage = Math.ceil(filtered.length / perPage);
@@ -493,7 +419,6 @@ const DataKelas = () => {
           minHeight: "100vh",
         }}
       >
-        {/* CARD */}
         <div className="card">
           {/* HEADER */}
           <div className="card-header d-flex justify-content-between align-items-center">
@@ -625,14 +550,6 @@ const DataKelas = () => {
                     border: "1px solid #6c757d",
                     whiteSpace: "nowrap",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background =
-                      "#f8f9fa";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background =
-                      "#ffffff";
-                  }}
                 >
                   {icon} {label}
                 </button>
@@ -647,28 +564,9 @@ const DataKelas = () => {
               >
                 <thead className="table-light text-center">
                   <tr>
-                    <SortTh
-                      label="#"
-                      colKey="__index__"
-                      sortConfig={sortConfig}
-                      onSort={handleSort}
-                      style={{ width: 50 }}
-                    />
-
-                    <SortTh
-                      label="Kode Kelas"
-                      colKey="kode_kelas"
-                      sortConfig={sortConfig}
-                      onSort={handleSort}
-                    />
-
-                    <SortTh
-                      label="Nama Kelas"
-                      colKey="nama_kelas"
-                      sortConfig={sortConfig}
-                      onSort={handleSort}
-                    />
-
+                    <th style={{ width: 50 }}>#</th>
+                    <th>Kode Kelas</th>
+                    <th>Nama Kelas</th>
                     <th style={{ width: 120 }}>Aksi</th>
                   </tr>
                 </thead>
@@ -684,12 +582,10 @@ const DataKelas = () => {
                       </td>
                     </tr>
                   ) : (
-                    currentData.map((item) => (
+                    currentData.map((item, index) => (
                       <tr key={item.id}>
                         <td className="text-center">
-                          {filtered.findIndex(
-                            (x) => x.id === item.id
-                          ) + 1}
+                          {start + index + 1}
                         </td>
 
                         <td>{item.kode_kelas}</td>

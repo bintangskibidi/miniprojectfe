@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import api from "../../../../utils/api";
 
+import { RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
+
 const DataJurusan = () => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
   const [form, setForm] = useState({
     id: null,
     kode_jurusan: "",
     nama_jurusan: "",
   });
 
-  // ================= GET DATA =================
   const getData = async () => {
     try {
       const res = await api.get("/jurusan");
@@ -25,27 +27,26 @@ const DataJurusan = () => {
     getData();
   }, []);
 
-  // ================= TAMBAH =================
   const handleTambah = () => {
     setForm({
       id: null,
       kode_jurusan: "",
       nama_jurusan: "",
     });
+
     setShowModal(true);
   };
 
-  // ================= EDIT =================
   const handleEdit = (item) => {
     setForm({
       id: item.id,
       kode_jurusan: item.kode_jurusan,
       nama_jurusan: item.nama_jurusan,
     });
+
     setShowModal(true);
   };
 
-  // ================= HAPUS =================
   const handleHapus = (id) => {
     Swal.fire({
       title: "Yakin?",
@@ -59,6 +60,7 @@ const DataJurusan = () => {
       if (result.isConfirmed) {
         try {
           await api.delete(`/jurusan/${id}`);
+
           getData();
 
           Swal.fire({
@@ -75,7 +77,6 @@ const DataJurusan = () => {
     });
   };
 
-  // ================= SIMPAN =================
   const handleSubmit = async () => {
     if (!form.kode_jurusan || !form.nama_jurusan) {
       Swal.fire("Warning", "Semua field wajib diisi!", "warning");
@@ -120,7 +121,6 @@ const DataJurusan = () => {
         minHeight: "100vh",
       }}
     >
-      {/* HEADER */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4
           className="fw-semibold mb-0"
@@ -142,14 +142,12 @@ const DataJurusan = () => {
         </button>
       </div>
 
-      {/* CARD */}
       <div
         className="card border-0 shadow-sm"
         style={{
           borderRadius: "8px",
         }}
       >
-        {/* HEADER CARD */}
         <div
           className="card-header bg-white d-flex align-items-center"
           style={{
@@ -169,7 +167,6 @@ const DataJurusan = () => {
           </span>
         </div>
 
-        {/* BODY */}
         <div className="card-body p-0">
           <div className="table-responsive">
             <table
@@ -207,48 +204,24 @@ const DataJurusan = () => {
 
                       <td>{item.nama_jurusan}</td>
 
-                      <td className="text-center">
-                        <div className="d-flex justify-content-center gap-1">
-                          {/* EDIT */}
-                          <button
-                            type="button"
-                            onClick={() => handleEdit(item)}
-                            className="btn btn-sm"
-                            style={{
-                              border: "1px solid #0d6efd",
-                              color: "#0d6efd",
-                              background: "#fff",
-                              width: "32px",
-                              height: "32px",
-                              padding: 0,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <i className="ri-pencil-line"></i>
-                          </button>
+                      <td className="text-center text-nowrap">
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm me-1"
+                          title="Edit"
+                          onClick={() => handleEdit(item)}
+                        >
+                          <RiPencilLine />
+                        </button>
 
-                          {/* DELETE */}
-                          <button
-                            type="button"
-                            onClick={() => handleHapus(item.id)}
-                            className="btn btn-sm"
-                            style={{
-                              border: "1px solid #dc3545",
-                              color: "#dc3545",
-                              background: "#fff",
-                              width: "32px",
-                              height: "32px",
-                              padding: 0,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <i className="ri-delete-bin-6-line"></i>
-                          </button>
-                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          title="Hapus"
+                          onClick={() => handleHapus(item.id)}
+                        >
+                          <RiDeleteBinLine />
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -259,7 +232,6 @@ const DataJurusan = () => {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
       {showModal && (
         <div
           className="modal d-block"
@@ -276,7 +248,6 @@ const DataJurusan = () => {
             }}
           >
             <div className="modal-content border-0 shadow">
-              {/* HEADER */}
               <div className="modal-header bg-primary text-white">
                 <h6 className="modal-title fw-bold">
                   {form.id ? "Edit" : "Tambah"} Jurusan
@@ -289,7 +260,6 @@ const DataJurusan = () => {
                 ></button>
               </div>
 
-              {/* BODY */}
               <div className="modal-body p-4">
                 <div className="mb-3">
                   <label className="small fw-bold mb-1">Kode Jurusan</label>
@@ -326,7 +296,6 @@ const DataJurusan = () => {
                 </div>
               </div>
 
-              {/* FOOTER */}
               <div className="modal-footer border-0 bg-light">
                 <button
                   className="btn btn-secondary btn-sm px-3"
