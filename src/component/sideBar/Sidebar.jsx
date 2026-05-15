@@ -22,15 +22,19 @@ import {
   FaCog,
   FaHome,
   FaArrowLeft,
-  FaSchool, 
-  FaBoxes,  
-  FaTools, 
-  FaChartLine, 
+  FaSchool,
+  FaBoxes,
+  FaTools,
+  FaChartLine,
   FaFileInvoice,
   FaEnvelopeOpenText,
   FaFolderOpen,
-  FaInfoCircle,
-  FaImage,
+   FaUsers,
+   FaMoneyCheckAlt,
+   FaInfoCircle,
+   FaImage,
+
+  FaBusinessTime,
   FaUsersCog,
   FaDatabase,
   FaMapMarkedAlt,
@@ -151,390 +155,422 @@ const Sidebar = () => {
       },
     ],
 
-   keuangan: [
-  {
-    group: "Manajemen Keuangan",
-    items: [
+    keuangan: [
       {
-        title: "Dashboard",
-        path: "/dashboard/keuangan",
-        icon: <FaTachometerAlt />,
-      },
-
-      // =========================
-      // PEMBAYARAN SISWA
-      // =========================
-      {
-        title: "Pembayaran Siswa",
-        icon: <FaMoneyBillWave />,
-        children: [
-          {
-            title: "Bayar Tagihan",
-            path: "/dashboard/BayarTagihan",
-          },
-          {
-            title: "Tunggakan Siswa",
-            path: "/dashboard/TunggakanSiswa",
-          },
-          {
-            title: "Jenis Pembayaran",
-            path: "/dashboard/JenisPembayaran",
-          },
-          {
-            title: "Tarif Pembayaran",
-            path: "/dashboard/TarifPembayaranSiswa",
-          },
-          {
-            title: "Rekap Pembayaran Bulanan",
-            path: "/dashboard/RekapPembayaran",
-          },
-          {
-            title: "Data Transaksi",
-            path: "/dashboard/DataTransaksi",
-          },
-          {
-            title: "Rekap Per Siswa",
-            path: "/dashboard/RekapSiswa",
-          },
-          {
-            title: "Presensi",
-            path: "/dashboard/presensi",
-          },
-          {
-            title: "Rekap Per Tanggal",
-            path: "/dashboard/RekapTanggal",
-          },
-          {
-            title: "Rekap Tagihan",
-            path: "/dashboard/RekapTagihan",
-          },
-          {
-            title: "Tagihan Bulan Ini",
-            path: "/dashboard/TagihanBulanIni",
-          },
-        ],
-      },
-
-      // =========================
-      // TABUNGAN SISWA
-      // =========================
-      {
-        title: "Tabungan Siswa",
-        icon: <FaPiggyBank />,
-        children: [
-          {
-            title: "Teller",
-            path: "/dashboard/Teller",
-          },
-          {
-            title: "Riwayat Tabungan Siswa",
-            path: "/dashboard/RiwayatTabunganSiswa",
-          },
-          {
-            title: "Riwayat Transaksi",
-            path: "/dashboard/RiwayatTransaksi",
-          },
-        ],
-      },
-
-      // =========================
-      // PENERIMAAN
-      // =========================
-      {
-        title: "Penerimaan",
-        icon: <FaArrowDown />,
-        children: [
-          {
-            title: "Transaksi Penerimaan",
-            path: "/dashboard/TransaksiPenerimaan",
-          },
-          {
-            title: "Jenis Penerimaan",
-            path: "/dashboard/JenisPenerimaan",
-          },
-          {
-            title: "Laporan Penerimaan",
-            path: "/dashboard/LaporanPenerimaan",
-          },
-        ],
-      },
-
-      // =========================
-      // PENGELUARAN
-      // =========================
-      {
-        title: "Pengeluaran",
-        icon: <FaArrowUp />,
-        children: [
-          {
-            title: "Transaksi Pengeluaran",
-            path: "/dashboard/TransaksiPengeluaran",
-          },
-          {
-            title: "Jenis Pengeluaran",
-            path: "/dashboard/JenisPengeluaran",
-          },
-          {
-            title: "Laporan Pengeluaran",
-            path: "/dashboard/TransaksiPengeluaran",
-          },
-        ],
-      },
-
-      // =========================
-      // JURNAL
-      // =========================
-      {
-        title: "Jurnal",
-        icon: <FaBookOpen />,
-        children: [
-          {
-            title: "Transaksi Jurnal",
-            path: "/dashboard/TransaksiJurnal",
-          },
-          {
-            title: "Laporan Jurnal",
-            path: "/dashboard/LaporanJurnal",
-          },
-        ],
-      },
-
-      // =========================
-      // BUKU BESAR
-      // =========================
-      {
-        title: "Buku Besar",
-        icon: <FaBook />,
-        children: [
-          {
-            title: "Laporan Buku Besar",
-            path: "/dashboard/LaporanBukuBesar",
-          },
-          {
-            title: "Neraca Saldo",
-            path: "/dashboard/NeracaSaldo",
-          },
-          {
-            title: "Jurnal Umum",
-            path: "/dashboard/JurnalUmum",
-          },
-        ],
-      },
-
-      // =========================
-      // LAPORAN KEUANGAN
-      // =========================
-      {
-        title: "Laporan Keuangan",
-        icon: <FaChartBar />,
-        children: [
-          {
-            title: "Penghasilan Komprehensif",
-            path: "/dashboard/LaporanKomprehensif",
-          },
-          {
-            title: "Posisi Keuangan",
-            path: "/dashboard/PosisiKeuangan",
-          },
-          {
-            title: "Arus Kas",
-            path: "/dashboard/ArusKas",
-          },
-          {
-            title: "Perubahan Aset Neto",
-            path: "/dashboard/PerubahanAsetNeto",
-          },
-          
-        ],
-      },
-    ],
-  },
-
-  // =========================
-  // MENU APBS
-  // =========================
-  {
-    group: "Menu APBS",
-    items: [
-      {
-        title: "Rencana Anggaran",
-        
-        children: [
-          {
-            title: "Realisasi Penerimaan",
-            path: "/dashboard/RealisasiPenerimaan",
-          },
-          {
-            title: "Realisasi Belanja",
-            path: "/dashboard/RealisasiBelanja",
-          },
-          {
-            title: "Setting Pagu",
-            path: "/dashboard/SettingPagu",
-          },
-          {
-            title: "APBS Induk",
-            path: "/dashboard/APBSInduk",
-          },
-          {
-            title: "APBS Detail",
-            path: "/dashboard/APBSDetail",
-          },
-        
-        ],
-      },
-  {
-            title: "Realisasi Anggaran",
-            path: "/dashboard/RealisasiAnggaran",
-          },
-  {
-            title: "Evaluasi Anggaran",
-            path: "/dashboard/EvaluasiAnggaran",
-          },
-    ],
-  },
-],
-    Kepegawaian: [
-      {
-        group: "MENU",
+        group: "Manajemen Keuangan",
         items: [
           {
             title: "Dashboard",
-            path: "/dashboard/kepegawaian",
+            path: "/dashboard/keuangan",
+            icon: <FaTachometerAlt />,
           },
-          {
-            title: "Data Pegawai",
-            path: "/dashboard/DataPegawai",
-          },
-          {
-          title: "Kinerja Pegawai",
-          icon: <FaSchool />,
-          children: [
-            { title: "Kelola Indikator", path: "/dashboard/KelolaIndikator", icon: <FaUserTie /> },
-            { title: "Input Nilai Kinerja", path: "/dashboard/InputNilaiKinerja", icon: <FaUserTie /> },
-            { title: "RekapKinerja", path: "/dashboard/RekapKinerja", icon: <FaUserTie /> },
-          ],
-        },
-        {
-          title: "Absen Kegiatan",
-          icon: <FaSchool />,
-          children: [
-            { title: "Kegiatan", path: "/dashboard/KelolaKegiatan", icon: <FaUserTie /> },
-            { title: "Absen Kegiatan", path: "/dashboard/AbsenKegiatan", icon: <FaUserTie /> },
-            { title: "Riwayat Absen Kegiatan", path: "/dashboard/RekapAbsenKegiatan", icon: <FaUserTie /> },
-          ],
-        },
-        {
-          title: "Manajemen Cuti/Lembur/izin",
-          icon: <FaSchool />,
-          children: [
-            { title: "Cuti", path: "/dashboard/Cuti", icon: <FaUserTie /> },
-            { title: "Lembur", path: "/dashboard/Lembur", icon: <FaUserTie /> },
-            { title: "Izin", path: "/dashboard/izin", icon: <FaUserTie /> },
-          ],
-        },
-        {
-            title: "Rekap Absensi",
-            path: "/dashboard/RekapAbsensiHarian",
-          },
-          {
-          title: "Payroll",
-          icon: <FaSchool />,
-          children: [
-            { title: "Kelola Gaji", path: "/dashboard/SettingGajiPegawai", icon: <FaUserTie /> },
-            { title: "Lembur", path: "/dashboard/Lembur", icon: <FaUserTie /> },
-            { title: "Izin", path: "/dashboard/izin", icon: <FaUserTie /> },
-          ],
-        },
-        ]
-      },
-      
-    ],
 
-   perpustakaan: [
+          // =========================
+          // PEMBAYARAN SISWA
+          // =========================
+          {
+            title: "Pembayaran Siswa",
+            icon: <FaMoneyBillWave />,
+            children: [
+              {
+                title: "Bayar Tagihan",
+                path: "/dashboard/BayarTagihan",
+              },
+              {
+                title: "Tunggakan Siswa",
+                path: "/dashboard/TunggakanSiswa",
+              },
+              {
+                title: "Jenis Pembayaran",
+                path: "/dashboard/JenisPembayaran",
+              },
+              {
+                title: "Tarif Pembayaran",
+                path: "/dashboard/TarifPembayaranSiswa",
+              },
+              {
+                title: "Rekap Pembayaran Bulanan",
+                path: "/dashboard/RekapPembayaran",
+              },
+              {
+                title: "Data Transaksi",
+                path: "/dashboard/DataTransaksi",
+              },
+              {
+                title: "Rekap Per Siswa",
+                path: "/dashboard/RekapSiswa",
+              },
+              {
+                title: "Presensi",
+                path: "/dashboard/presensi",
+              },
+              {
+                title: "Rekap Per Tanggal",
+                path: "/dashboard/RekapTanggal",
+              },
+              {
+                title: "Rekap Tagihan",
+                path: "/dashboard/RekapTagihan",
+              },
+              {
+                title: "Tagihan Bulan Ini",
+                path: "/dashboard/TagihanBulanIni",
+              },
+            ],
+          },
+
+          // =========================
+          // TABUNGAN SISWA
+          // =========================
+          {
+            title: "Tabungan Siswa",
+            icon: <FaPiggyBank />,
+            children: [
+              {
+                title: "Teller",
+                path: "/dashboard/Teller",
+              },
+              {
+                title: "Riwayat Tabungan Siswa",
+                path: "/dashboard/RiwayatTabunganSiswa",
+              },
+              {
+                title: "Riwayat Transaksi",
+                path: "/dashboard/RiwayatTransaksi",
+              },
+            ],
+          },
+
+          // =========================
+          // PENERIMAAN
+          // =========================
+          {
+            title: "Penerimaan",
+            icon: <FaArrowDown />,
+            children: [
+              {
+                title: "Transaksi Penerimaan",
+                path: "/dashboard/TransaksiPenerimaan",
+              },
+              {
+                title: "Jenis Penerimaan",
+                path: "/dashboard/JenisPenerimaan",
+              },
+              {
+                title: "Laporan Penerimaan",
+                path: "/dashboard/LaporanPenerimaan",
+              },
+            ],
+          },
+
+          // =========================
+          // PENGELUARAN
+          // =========================
+          {
+            title: "Pengeluaran",
+            icon: <FaArrowUp />,
+            children: [
+              {
+                title: "Transaksi Pengeluaran",
+                path: "/dashboard/TransaksiPengeluaran",
+              },
+              {
+                title: "Jenis Pengeluaran",
+                path: "/dashboard/JenisPengeluaran",
+              },
+              {
+                title: "Laporan Pengeluaran",
+                path: "/dashboard/TransaksiPengeluaran",
+              },
+            ],
+          },
+
+          // =========================
+          // JURNAL
+          // =========================
+          {
+            title: "Jurnal",
+            icon: <FaBookOpen />,
+            children: [
+              {
+                title: "Transaksi Jurnal",
+                path: "/dashboard/TransaksiJurnal",
+              },
+              {
+                title: "Laporan Jurnal",
+                path: "/dashboard/LaporanJurnal",
+              },
+            ],
+          },
+
+          // =========================
+          // BUKU BESAR
+          // =========================
+          {
+            title: "Buku Besar",
+            icon: <FaBook />,
+            children: [
+              {
+                title: "Laporan Buku Besar",
+                path: "/dashboard/LaporanBukuBesar",
+              },
+              {
+                title: "Neraca Saldo",
+                path: "/dashboard/NeracaSaldo",
+              },
+              {
+                title: "Jurnal Umum",
+                path: "/dashboard/JurnalUmum",
+              },
+            ],
+          },
+
+          // =========================
+          // LAPORAN KEUANGAN
+          // =========================
+          {
+            title: "Laporan Keuangan",
+            icon: <FaChartBar />,
+            children: [
+              {
+                title: "Penghasilan Komprehensif",
+                path: "/dashboard/LaporanKomprehensif",
+              },
+              {
+                title: "Posisi Keuangan",
+                path: "/dashboard/PosisiKeuangan",
+              },
+              {
+                title: "Arus Kas",
+                path: "/dashboard/ArusKas",
+              },
+              {
+                title: "Perubahan Aset Neto",
+                path: "/dashboard/PerubahanAsetNeto",
+              },
+
+            ],
+          },
+        ],
+      },
+
+      // =========================
+      // MENU APBS
+      // =========================
+      {
+        group: "Menu APBS",
+        items: [
+          {
+            title: "Rencana Anggaran",
+
+            children: [
+              {
+                title: "Realisasi Penerimaan",
+                path: "/dashboard/RealisasiPenerimaan",
+              },
+              {
+                title: "Realisasi Belanja",
+                path: "/dashboard/RealisasiBelanja",
+              },
+              {
+                title: "Setting Pagu",
+                path: "/dashboard/SettingPagu",
+              },
+              {
+                title: "APBS Induk",
+                path: "/dashboard/APBSInduk",
+              },
+              {
+                title: "APBS Detail",
+                path: "/dashboard/APBSDetail",
+              },
+
+            ],
+          },
+          {
+            title: "Realisasi Anggaran",
+            path: "/dashboard/RealisasiAnggaran",
+          },
+          {
+            title: "Evaluasi Anggaran",
+            path: "/dashboard/EvaluasiAnggaran",
+          },
+        ],
+      },
+    ],
+Kepegawaian: [
   // DASHBOARD
   {
     group: "",
     items: [
       {
         title: "Dashboard",
-       icon: <FaHome />,
-        path: "/dashboard/perpustakaan",
+        path: "/dashboard/kepegawaian",
+        icon: <FaHome />,
       },
     ],
   },
 
-  // MANAJEMEN DATA
-  {
-    group: "Manajemen Data",
-    items: [
-      {
-        title: "Data Buku",
-            icon: <FaBook />, 
-        path: "/dashboard/databuku",
-      },
-      {
-        title: "Peminjaman Buku",
-          icon: <FaClipboardList />,
-
-        path: "/dashboard/peminjamanbuku",
-      },
-      {
-        title: "Pengembalian Buku",
-          icon: <FaUndo />,
-        path: "/dashboard/pengembalianbuku",
-      },
-      {
-        title: "Setting Denda",
-          icon: <FaCog />,
-        path: "/dashboard/settingdenda",
-      },
-    ],
-  },
-
-  // LAPORAN
-  {
-    group: "Laporan",
-    items: [
-      {
-        title: "Laporan Buku",
-          icon: <FaBookOpen />,
-        path: "/dashboard/laporanbuku",
-      },
-      {
-        title: "Laporan Peminjaman",
-          icon: <FaFileAlt />,
-        path: "/dashboard/laporanpeminjamanbuku",
-      },
-      {
-        title: "Laporan Pengembalian",
-         icon: <FaChartBar />,
-        path: "/dashboard/laporanpengembalianbuku",
-      },
-      {
-        title: "Laporan Denda",
-         icon: <FaMoneyBillWave />,
-        path: "/dashboard/laporandenda",
-      },
-    ],
-  },
-],
-
-
-aplikasi: [
-  {
-    group: "",
-    items: [
-      {
-        title: "Dashboard",
-        path: "/dashboard/aplikasi",
-        icon: <FaTachometerAlt />,
-      },
-    ],
-  },
-
+  // =====================
+  // MENU
+  // =====================
   {
     group: "MENU",
+    items: [
+      {
+        title: "Data Pegawai",
+        path: "/dashboard/DataPegawai",
+        icon: <FaUsers />,
+      },
+
+      // =====================
+      // KINERJA PEGAWAI
+      // =====================
+      {
+        title: "Kinerja Pegawai",
+        icon: <FaChartLine />,
+        children: [
+          {
+            title: "Kelola Indikator",
+            path: "/dashboard/KelolaIndikator",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Input Nilai Kinerja",
+            path: "/dashboard/InputNilaiKinerja",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Rekap Kinerja",
+            path: "/dashboard/RekapKinerja",
+            icon: <FaUserTie />,
+          },
+        ],
+      },
+
+      // =====================
+      // ABSEN KEGIATAN
+      // =====================
+      {
+        title: "Absen Kegiatan",
+        icon: <FaCalendarCheck />,
+        children: [
+          {
+            title: "Kegiatan",
+            path: "/dashboard/KelolaKegiatan",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Absen Kegiatan",
+            path: "/dashboard/AbsenKegiatan",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Riwayat Absen Kegiatan",
+            path: "/dashboard/RekapAbsenKegiatan",
+            icon: <FaUserTie />,
+          },
+        ],
+      },
+
+      // =====================
+      // CUTI / LEMBUR / IZIN
+      // =====================
+      {
+        title: "Manajemen Cuti/Lembur/Izin",
+        icon: <FaBusinessTime />,
+        children: [
+          {
+            title: "Cuti",
+            path: "/dashboard/Cuti",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Lembur",
+            path: "/dashboard/Lembur",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Izin",
+            path: "/dashboard/Izin",
+            icon: <FaUserTie />,
+          },
+        ],
+      },
+
+      // =====================
+      // REKAP ABSENSI
+      // =====================
+      {
+        title: "Rekap Absensi",
+        path: "/dashboard/RekapAbsensiHarian",
+        icon: <FaClipboardCheck />,
+      },
+
+      // =====================
+      // PAYROLL
+      // =====================
+      {
+        title: "Payroll",
+        icon: <FaMoneyCheckAlt />,
+        children: [
+          {
+            title: "Kelola Gaji",
+            path: "/dashboard/SettingGajiPegawai",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Riwayat Gaji",
+            path: "/dashboard/RiwayatGaji",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Setting Kehadiran",
+            path: "/dashboard/KriteriaKehadiran",
+            icon: <FaUserTie />,
+          },
+
+          {
+            title: "Setting Komponen Gaji",
+            path: "/dashboard/SettingKomponenGaji",
+            icon: <FaUserTie />,
+          },
+        ],
+      },
+
+      // =====================
+      // DANA PENSIUN
+      // =====================
+      {
+        title: "Dana Pensiun",
+        path: "/dashboard/DanaPensiunPegawai",
+        icon: <FaPiggyBank />,
+      },
+
+      // =====================
+      // PERIODE
+      // =====================
+      {
+        title: "Periode",
+        path: "/dashboard/ManajemenTanggal",
+        icon: <FaCalendarAlt />,
+      },
+    ],
+  },
+
+  // =====================
+  // PENGATURAN
+  // =====================
+  {
+    group: "Pengaturan",
     items: [
       {
         title: "Informasi Lembaga",
@@ -568,53 +604,171 @@ aplikasi: [
     ],
   },
 ],
+
+    perpustakaan: [
+      // DASHBOARD
+      {
+        group: "",
+        items: [
+          {
+            title: "Dashboard",
+            icon: <FaHome />,
+            path: "/dashboard/perpustakaan",
+          },
+        ],
+      },
+
+      // MANAJEMEN DATA
+      {
+        group: "Manajemen Data",
+        items: [
+          {
+            title: "Data Buku",
+            icon: <FaBook />,
+            path: "/dashboard/databuku",
+          },
+          {
+            title: "Peminjaman Buku",
+            icon: <FaClipboardList />,
+
+            path: "/dashboard/peminjamanbuku",
+          },
+          {
+            title: "Pengembalian Buku",
+            icon: <FaUndo />,
+            path: "/dashboard/pengembalianbuku",
+          },
+          {
+            title: "Setting Denda",
+            icon: <FaCog />,
+            path: "/dashboard/settingdenda",
+          },
+        ],
+      },
+
+      // LAPORAN
+      {
+        group: "Laporan",
+        items: [
+          {
+            title: "Laporan Buku",
+            icon: <FaBookOpen />,
+            path: "/dashboard/laporanbuku",
+          },
+          {
+            title: "Laporan Peminjaman",
+            icon: <FaFileAlt />,
+            path: "/dashboard/laporanpeminjamanbuku",
+          },
+          {
+            title: "Laporan Pengembalian",
+            icon: <FaChartBar />,
+            path: "/dashboard/laporanpengembalianbuku",
+          },
+          {
+            title: "Laporan Denda",
+            icon: <FaMoneyBillWave />,
+            path: "/dashboard/laporandenda",
+          },
+        ],
+      },
+    ],
+
+
+    aplikasi: [
+      {
+        group: "",
+        items: [
+          {
+            title: "Dashboard",
+            path: "/dashboard/aplikasi",
+            icon: <FaTachometerAlt />,
+          },
+        ],
+      },
+
+      {
+        group: "MENU",
+        items: [
+          {
+            title: "Informasi Lembaga",
+            path: "/dashboard/InformasiLembaga",
+            icon: <FaInfoCircle />,
+          },
+
+          {
+            title: "Banner Aplikasi",
+            path: "/dashboard/BannerAplikasi",
+            icon: <FaImage />,
+          },
+
+          {
+            title: "Setting User",
+            path: "/dashboard/SettingUser",
+            icon: <FaUsersCog />,
+          },
+
+          {
+            title: "Backup Data",
+            path: "/dashboard/BackupData",
+            icon: <FaDatabase />,
+          },
+
+          {
+            title: "Setting Absensi GPS",
+            path: "/dashboard/SettingAbsensiGPS",
+            icon: <FaMapMarkedAlt />,
+          },
+        ],
+      },
+    ],
     sekolah: [
-    {
-      group: "Manajemen Sekolah",
-      items: [
-        {
-          title: "Data Sekolah",
-          icon: <FaSchool />,
-          children: [
-            { title: "Profile sekolah", path: "/dashboard/profilesekolah", icon: <FaUserTie /> },
-          ],
-        },
-        {
-          title: "Inventaris",
-          icon: <FaBoxes />,
-          children: [
-            { title: "Data Aset", path: "/dashboard/DataAset", icon: <FaClipboardList /> },
-            { title: "Peminjaman Aset", path: "/dashboard/PeminjamanAset", icon: <FaFileAlt /> },
-            { title: "Riwayat Peminjaman", path: "/dashboard/RiwayatPeminjaman", icon: <FaHistory /> },
-            { title: "Maintenance Asset", path: "/dashboard/MaintenanceAset", icon: <FaTools /> },
-            { title: "Depresiasi Asset", path: "/dashboard/DepresiasiAset", icon: <FaChartLine /> },
-            { title: "Laporan Asset", path: "/dashboard/LaporanAset", icon: <FaFileInvoice /> },
-          ],
-        },
-        {
-          title: "Administrasi",
-          icon: <FaFileAlt />,
-          children: [
-            { title: "Surat-Menyurat", path: "/dashboard/SuratMenyurat", icon: <FaEnvelopeOpenText /> },
-            { title: "Dokumen Sekolah", path: "/dashboard/DokumenSekolah", icon: <FaFolderOpen /> },
-          ],
-        },
-        {
-          title: "Kegiatan",
-          icon: <FaCalendarAlt />,
-          children: [
-            { title: "Kegiatan Sekolah", path: "/dashboard/kegiatansekolah", icon: <FaCalendarAlt /> },
-          ],
-        },
-      ],
-    },
-    {
-      group: "Pengaturan",
-      items: [
-        { title: "Setting Lokasi", path: "/dashboard/settinglokasi", icon: <FaMapMarkedAlt /> },
-      ],
-    },
-  ],
+      {
+        group: "Manajemen Sekolah",
+        items: [
+          {
+            title: "Data Sekolah",
+            icon: <FaSchool />,
+            children: [
+              { title: "Profile sekolah", path: "/dashboard/profilesekolah", icon: <FaUserTie /> },
+            ],
+          },
+          {
+            title: "Inventaris",
+            icon: <FaBoxes />,
+            children: [
+              { title: "Data Aset", path: "/dashboard/DataAset", icon: <FaClipboardList /> },
+              { title: "Peminjaman Aset", path: "/dashboard/PeminjamanAset", icon: <FaFileAlt /> },
+              { title: "Riwayat Peminjaman", path: "/dashboard/RiwayatPeminjaman", icon: <FaHistory /> },
+              { title: "Maintenance Asset", path: "/dashboard/MaintenanceAset", icon: <FaTools /> },
+              { title: "Depresiasi Asset", path: "/dashboard/DepresiasiAset", icon: <FaChartLine /> },
+              { title: "Laporan Asset", path: "/dashboard/LaporanAset", icon: <FaFileInvoice /> },
+            ],
+          },
+          {
+            title: "Administrasi",
+            icon: <FaFileAlt />,
+            children: [
+              { title: "Surat-Menyurat", path: "/dashboard/SuratMenyurat", icon: <FaEnvelopeOpenText /> },
+              { title: "Dokumen Sekolah", path: "/dashboard/DokumenSekolah", icon: <FaFolderOpen /> },
+            ],
+          },
+          {
+            title: "Kegiatan",
+            icon: <FaCalendarAlt />,
+            children: [
+              { title: "Kegiatan Sekolah", path: "/dashboard/kegiatansekolah", icon: <FaCalendarAlt /> },
+            ],
+          },
+        ],
+      },
+      {
+        group: "Pengaturan",
+        items: [
+          { title: "Setting Lokasi", path: "/dashboard/settinglokasi", icon: <FaMapMarkedAlt /> },
+        ],
+      },
+    ],
     default: [
       {
         group: "Menu Utama",
@@ -666,7 +820,7 @@ aplikasi: [
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/LaporanBukuBesar")) {
     menu = menuConfig.keuangan;
-  
+
   } else if (location.pathname.startsWith("/dashboard/RekapPembayaran")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/RealisasiPenerimaan")) {
@@ -681,7 +835,7 @@ aplikasi: [
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/JenisPembayaran")) {
     menu = menuConfig.keuangan;
-  
+
   } else if (location.pathname.startsWith("/dashboard/LaporanJurnal")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/JurnalUmum")) {
@@ -696,7 +850,7 @@ aplikasi: [
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/Teller")) {
     menu = menuConfig.keuangan;
- 
+
   } else if (location.pathname.startsWith("/dashboard/RealisasiAnggaran")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/EvaluasiAnggaran")) {
@@ -732,7 +886,7 @@ aplikasi: [
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/RiwayatTabunganSiswa")) {
     menu = menuConfig.keuangan;
- 
+
   } else if (location.pathname.startsWith("/dashboard/LaporanPenerimaan")) {
     menu = menuConfig.keuangan;
   } else if (location.pathname.startsWith("/dashboard/LaporanPengeluaran")) {
@@ -764,17 +918,29 @@ aplikasi: [
   }
   else if (location.pathname.startsWith("/dashboard/kepegawaian")) {
     menu = menuConfig.Kepegawaian;
-   } else if (location.pathname.startsWith("/dashboard/RekapAbsenKegiatan")) {
+  } else if (location.pathname.startsWith("/dashboard/RekapAbsenKegiatan")) {
     menu = menuConfig.Kepegawaian;
-   } else if (location.pathname.startsWith("/dashboard/Cuti")) {
+  } else if (location.pathname.startsWith("/dashboard/Cuti")) {
     menu = menuConfig.Kepegawaian;
-   } else if (location.pathname.startsWith("/dashboard/RekapAbsensiHarian")) {
+  } else if (location.pathname.startsWith("/dashboard/Izin")) {
     menu = menuConfig.Kepegawaian;
-   } else if (location.pathname.startsWith("/dashboard/SettingGajiPegawai")) {
+  } else if (location.pathname.startsWith("/dashboard/RiwayatGaji")) {
     menu = menuConfig.Kepegawaian;
-   } else if (location.pathname.startsWith("/dashboard/Lembur")) {
+  } else if (location.pathname.startsWith("/dashboard/SettingKomponenGaji")) {
     menu = menuConfig.Kepegawaian;
-   } else if (location.pathname.startsWith("/dashboard/izin")) {
+  } else if (location.pathname.startsWith("/dashboard/ManajemenTanggal")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/DanaPensiunPegawai")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/KriteriaKehadiran")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/RekapAbsensiHarian")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/SettingGajiPegawai")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/Lembur")) {
+    menu = menuConfig.Kepegawaian;
+  } else if (location.pathname.startsWith("/dashboard/izin")) {
     menu = menuConfig.Kepegawaian;
   } else if (location.pathname.startsWith("/dashboard/KelolaKegiatan")) {
     menu = menuConfig.Kepegawaian;
@@ -790,7 +956,7 @@ aplikasi: [
   else if (location.pathname.startsWith("/dashboard/DataPegawai")) {
     menu = menuConfig.Kepegawaian;
   }
-    else if (location.pathname.startsWith("/dashboard/databuku")) {
+  else if (location.pathname.startsWith("/dashboard/databuku")) {
     menu = menuConfig.perpustakaan;
   } else if (
     location.pathname.startsWith("/dashboard/profilesekolah") ||
@@ -802,27 +968,27 @@ aplikasi: [
     location.pathname.startsWith("/dashboard/LaporanAset") ||
     location.pathname.startsWith("/dashboard/SuratMenyurat") ||
     location.pathname.startsWith("/dashboard/DokumenSekolah") ||
-      location.pathname.startsWith("/dashboard/kegiatansekolah") ||
+    location.pathname.startsWith("/dashboard/kegiatansekolah") ||
     location.pathname.startsWith("/dashboard/settinglokasi")
   ) {
     menu = menuConfig.sekolah;
   }
   else if (
-  location.pathname.startsWith("/dashboard/perpustakaan") ||
-  location.pathname.startsWith("/dashboard/databuku") ||
-  location.pathname.startsWith("/dashboard/laporanbuku") ||
-  location.pathname.startsWith("/dashboard/laporandenda") ||
-  location.pathname.startsWith("/dashboard/laporanpeminjamanbuku") ||
-  location.pathname.startsWith("/dashboard/laporanpengembalianbuku") ||
-  location.pathname.startsWith("/dashboard/pengembalianbuku") ||
-  location.pathname.startsWith("/dashboard/PeminjamanBuku") ||
+    location.pathname.startsWith("/dashboard/perpustakaan") ||
+    location.pathname.startsWith("/dashboard/databuku") ||
+    location.pathname.startsWith("/dashboard/laporanbuku") ||
+    location.pathname.startsWith("/dashboard/laporandenda") ||
+    location.pathname.startsWith("/dashboard/laporanpeminjamanbuku") ||
+    location.pathname.startsWith("/dashboard/laporanpengembalianbuku") ||
+    location.pathname.startsWith("/dashboard/pengembalianbuku") ||
+    location.pathname.startsWith("/dashboard/PeminjamanBuku") ||
 
- 
-  location.pathname.startsWith("/dashboard/settingdenda") ||
-  location.pathname.startsWith("/dashboard/peminjamanbuku")
-) {
-  menu = menuConfig.perpustakaan;
-}
+
+    location.pathname.startsWith("/dashboard/settingdenda") ||
+    location.pathname.startsWith("/dashboard/peminjamanbuku")
+  ) {
+    menu = menuConfig.perpustakaan;
+  }
 
   const toggleMenu = (title) => {
     setOpenMenu((prev) =>
@@ -840,16 +1006,16 @@ bg-[#2f436e]
     >
       {/* LOGO */}
       <div className="px-4 py-4 border-b border-white-800 flex items-center justify-center gap-3">
-  <img
-    src={Aduca}
-    alt="Aduca Logo"
-    className="w-6 h-6 object-contain"
-  />
+        <img
+          src={Aduca}
+          alt="Aduca Logo"
+          className="w-6 h-6 object-contain"
+        />
 
-  <span className="text-sm font-semibold tracking-wide">
-    Aduca
-  </span>
-</div>
+        <span className="text-sm font-semibold tracking-wide">
+          Aduca
+        </span>
+      </div>
 
       {/* MENU */}
       <div className="flex-1 px-3 py-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white-700">
