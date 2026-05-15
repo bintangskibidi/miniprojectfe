@@ -2,8 +2,17 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import api from "../../../utils/api";
 
+import {
+  RiPencilLine,
+  RiDeleteBinLine,
+} from "react-icons/ri";
+
 const DataWaliKelas = () => {
   const [data, setData] = useState([]);
+  const [kelasList, setKelasList] = useState([]);
+  const [pegawaiList, setPegawaiList] = useState([]);
+  const [tahunList, setTahunList] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({
@@ -16,8 +25,18 @@ const DataWaliKelas = () => {
   // ================= GET DATA =================
   const getData = async () => {
     try {
-      const res = await api.get("/walikelas");
-      setData(res.data.data || []);
+      const [waliRes, kelasRes, pegawaiRes, tahunRes] =
+        await Promise.all([
+          api.get("/walikelas"),
+          api.get("/kelas"),
+          api.get("/pegawai"),
+          api.get("/tahun-ajaran"),
+        ]);
+
+      setData(waliRes.data.data || []);
+      setKelasList(kelasRes.data.data || []);
+      setPegawaiList(pegawaiRes.data.data || []);
+      setTahunList(tahunRes.data.data || []);
     } catch (error) {
       console.error("Gagal load data wali kelas:", error);
 
@@ -218,7 +237,7 @@ const DataWaliKelas = () => {
                   <th>Nama Kelas</th>
                   <th>Nama Pegawai</th>
                   <th>Tahun Ajaran</th>
-                  <th style={{ width: "170px" }}>
+                  <th style={{ width: "120px" }}>
                     Aksi
                   </th>
                 </tr>
@@ -247,43 +266,26 @@ const DataWaliKelas = () => {
 
                       <td>{item.tahunAjaran}</td>
 
-                      {/* AKSI */}
-                      <td className="text-center">
-                        <div className="d-flex justify-content-center gap-2">
-                          {/* EDIT */}
-                          <button
-                            type="button"
-                            className="btn btn-sm"
-                            onClick={() => handleEdit(item)}
-                            style={{
-                              border: "1px solid #ffc107",
-                              color: "#ffc107",
-                              background: "#fff",
-                              fontSize: "0.8rem",
-                              padding: "4px 10px",
-                            }}
-                          >
-                            <i className="bi bi-pencil-square me-1"></i>
-                            Edit
-                          </button>
+                      <td className="text-center text-nowrap">
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm me-1"
+                          title="Edit"
+                          onClick={() => handleEdit(item)}
+                        >
+                          <RiPencilLine />
+                        </button>
 
-                          {/* HAPUS */}
-                          <button
-                            type="button"
-                            className="btn btn-sm"
-                            onClick={() => handleHapus(item.id)}
-                            style={{
-                              border: "1px solid #dc3545",
-                              color: "#dc3545",
-                              background: "#fff",
-                              fontSize: "0.8rem",
-                              padding: "4px 10px",
-                            }}
-                          >
-                            <i className="bi bi-trash me-1"></i>
-                            Hapus
-                          </button>
-                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          title="Hapus"
+                          onClick={() =>
+                            handleHapus(item.id)
+                          }
+                        >
+                          <RiDeleteBinLine />
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -294,7 +296,7 @@ const DataWaliKelas = () => {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       {showModal && (
         <div
           className="modal d-block"
@@ -314,8 +316,8 @@ const DataWaliKelas = () => {
               {/* HEADER */}
               <div className="modal-header bg-primary text-white">
                 <h6 className="modal-title fw-bold">
-                  {form.id ? "Edit" : "Tambah"}{" "}
-                  Wali Kelas
+                  {form.id ? "Edit" : "Tambah"} Wali
+                  Kelas
                 </h6>
 
                 <button
@@ -327,15 +329,14 @@ const DataWaliKelas = () => {
 
               {/* BODY */}
               <div className="modal-body p-4">
+                {/* KELAS */}
                 <div className="mb-3">
                   <label className="small fw-bold mb-1">
                     Nama Kelas
                   </label>
 
-                  <input
-                    type="text"
-                    className="form-control shadow-sm"
-                    placeholder="Contoh: X RPL 1"
+                  <select
+                    className="form-select shadow-sm"
                     value={form.namaKelas}
                     onChange={(e) =>
                       setForm({
@@ -343,18 +344,30 @@ const DataWaliKelas = () => {
                         namaKelas: e.target.value,
                       })
                     }
-                  />
+                  >
+                    <option value="">
+                      -- Pilih Kelas --
+                    </option>
+
+                    {kelasList.map((k) => (
+                      <option
+                        key={k.id}
+                        value={k.nama_kelas}
+                      >
+                        {k.nama_kelas}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
+                {/* PEGAWAI */}
                 <div className="mb-3">
                   <label className="small fw-bold mb-1">
                     Nama Pegawai
                   </label>
 
-                  <input
-                    type="text"
-                    className="form-control shadow-sm"
-                    placeholder="Nama Lengkap Guru"
+                  <select
+                    className="form-select shadow-sm"
                     value={form.namaPegawai}
                     onChange={(e) =>
                       setForm({
@@ -362,18 +375,27 @@ const DataWaliKelas = () => {
                         namaPegawai: e.target.value,
                       })
                     }
-                  />
+                  >
+                    <option value="">
+                      -- Pilih Pegawai --
+                    </option>
+
+                    {pegawaiList.map((p) => (
+                      <option key={p.id} value={p.nama}>
+                        {p.nama}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
+                {/* TAHUN AJARAN */}
                 <div className="mb-3">
                   <label className="small fw-bold mb-1">
                     Tahun Ajaran
                   </label>
 
-                  <input
-                    type="text"
-                    className="form-control shadow-sm"
-                    placeholder="Contoh: 2025/2026"
+                  <select
+                    className="form-select shadow-sm"
                     value={form.tahunAjaran}
                     onChange={(e) =>
                       setForm({
@@ -381,7 +403,20 @@ const DataWaliKelas = () => {
                         tahunAjaran: e.target.value,
                       })
                     }
-                  />
+                  >
+                    <option value="">
+                      -- Pilih Tahun Ajaran --
+                    </option>
+
+                    {tahunList.map((t) => (
+                      <option
+                        key={t.id}
+                        value={t.tahun_ajaran}
+                      >
+                        {t.tahun_ajaran}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 

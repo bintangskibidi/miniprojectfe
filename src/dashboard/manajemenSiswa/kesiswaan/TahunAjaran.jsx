@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import api from "../../../utils/api";
 
+import {
+  RiPencilLine,
+  RiDeleteBinLine,
+} from "react-icons/ri";
+
 const TahunAjaran = () => {
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -20,6 +25,7 @@ const TahunAjaran = () => {
       setData(res.data.data || []);
     } catch (error) {
       console.error(error);
+
       Swal.fire("Error", "Gagal mengambil data", "error");
     }
   };
@@ -101,7 +107,8 @@ const TahunAjaran = () => {
     } catch (error) {
       Swal.fire(
         "Error",
-        error.response?.data?.message || "Gagal mengubah status",
+        error.response?.data?.message ||
+          "Gagal mengubah status",
         "error"
       );
     }
@@ -110,7 +117,12 @@ const TahunAjaran = () => {
   // ================= SIMPAN =================
   const handleSubmit = async () => {
     if (!form.tahun_ajaran || !form.tahun) {
-      Swal.fire("Warning", "Semua field wajib diisi!", "warning");
+      Swal.fire(
+        "Warning",
+        "Semua field wajib diisi!",
+        "warning"
+      );
+
       return;
     }
 
@@ -138,9 +150,14 @@ const TahunAjaran = () => {
       }
 
       setShowModal(false);
+
       getData();
     } catch (error) {
-      Swal.fire("Error", "Gagal menyimpan data", "error");
+      Swal.fire(
+        "Error",
+        "Gagal menyimpan data",
+        "error"
+      );
     }
   };
 
@@ -220,7 +237,7 @@ const TahunAjaran = () => {
                   <th>Tahun Ajaran</th>
                   <th>Tahun</th>
                   <th style={{ width: "170px" }}>Status</th>
-                  <th style={{ width: "170px" }}>Aksi</th>
+                  <th style={{ width: "120px" }}>Aksi</th>
                 </tr>
               </thead>
 
@@ -245,7 +262,7 @@ const TahunAjaran = () => {
 
                       <td>{item.tahun}</td>
 
-                      {/* STATUS RADIO */}
+                      {/* STATUS */}
                       <td className="text-center">
                         <div className="d-flex justify-content-center align-items-center gap-2">
                           <div className="form-check form-switch m-0">
@@ -268,48 +285,34 @@ const TahunAjaran = () => {
                                 : "#6c757d",
                             }}
                           >
-                            {item.status ? "Aktif" : "Nonaktif"}
+                            {item.status
+                              ? "Aktif"
+                              : "Nonaktif"}
                           </span>
                         </div>
                       </td>
 
                       {/* AKSI */}
-                      <td className="text-center">
-                        <div className="d-flex justify-content-center gap-2">
-                          {/* EDIT */}
-                          <button
-                            type="button"
-                            className="btn btn-sm"
-                            onClick={() => handleEdit(item)}
-                            style={{
-                              border: "1px solid #ffc107",
-                              color: "#ffc107",
-                              background: "#fff",
-                              fontSize: "0.8rem",
-                              padding: "4px 10px",
-                            }}
-                          >
-                            <i className="bi bi-pencil-square me-1"></i>
-                            Edit
-                          </button>
+                      <td className="text-center text-nowrap">
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm me-1"
+                          title="Edit"
+                          onClick={() => handleEdit(item)}
+                        >
+                          <RiPencilLine />
+                        </button>
 
-                          {/* HAPUS */}
-                          <button
-                            type="button"
-                            className="btn btn-sm"
-                            onClick={() => handleHapus(item.id)}
-                            style={{
-                              border: "1px solid #dc3545",
-                              color: "#dc3545",
-                              background: "#fff",
-                              fontSize: "0.8rem",
-                              padding: "4px 10px",
-                            }}
-                          >
-                            <i className="bi bi-trash me-1"></i>
-                            Hapus
-                          </button>
-                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          title="Hapus"
+                          onClick={() =>
+                            handleHapus(item.id)
+                          }
+                        >
+                          <RiDeleteBinLine />
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -320,7 +323,7 @@ const TahunAjaran = () => {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       {showModal && (
         <div
           className="modal d-block"
@@ -340,7 +343,8 @@ const TahunAjaran = () => {
               {/* HEADER */}
               <div className="modal-header bg-primary text-white">
                 <h6 className="modal-title fw-bold">
-                  {form.id ? "Edit" : "Tambah"} Tahun Ajaran
+                  {form.id ? "Edit" : "Tambah"} Tahun
+                  Ajaran
                 </h6>
 
                 <button
