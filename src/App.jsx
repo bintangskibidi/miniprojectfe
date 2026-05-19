@@ -12,6 +12,7 @@ import SuratMenyurat from "./dashboard/manajemenSekolah/SuratMenyurat";
 import KegiatanSekolah from "./dashboard/manajemenSekolah/KegiatanSekolah";
 import DokumenSekolah from "./dashboard/manajemenSekolah/DokumenSekolah";
 import LaporanAset from "./dashboard/manajemenSekolah/LaporanAset";
+import SettingKategori from "./dashboard/manajemenSekolah/SettingKategori";
 import DataWaliKelas from "./dashboard/manajemenSiswa/kesiswaan/DataWaliKelas";
 import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
@@ -149,6 +150,7 @@ function App() {
           <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
           <Route path="AbsenKegiatan" element={<AbsenKegiatan />} />
           <Route path="Cuti" element={<Cuti />} />
+          <Route path="SettingKategori" element={<SettingKategori />} />
           <Route path="RekapAbsensiHarian" element={<AbsensiHarianPegawai />} />
           <Route path="SettingGajiPegawai" element={<SettingGajiPegawai />} />
           <Route path="Izin" element={<Izin />} />
