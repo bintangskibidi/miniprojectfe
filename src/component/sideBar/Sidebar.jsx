@@ -746,6 +746,9 @@ Kepegawaian: [
               { title: "Maintenance Asset", path: "/dashboard/MaintenanceAset", icon: <FaTools /> },
               { title: "Depresiasi Asset", path: "/dashboard/DepresiasiAset", icon: <FaChartLine /> },
               { title: "Laporan Asset", path: "/dashboard/LaporanAset", icon: <FaFileInvoice /> },
+                        { title: "Setting Lokasi", path: "/dashboard/settinglokasi", icon: <FaMapMarkedAlt /> },
+ 
+              { title: "Setting Kategori", path: "/dashboard/SettingKategori", icon: <FaFileInvoice /> },
             ],
           },
           {
@@ -765,12 +768,7 @@ Kepegawaian: [
           },
         ],
       },
-      {
-        group: "Pengaturan",
-        items: [
-          { title: "Setting Lokasi", path: "/dashboard/settinglokasi", icon: <FaMapMarkedAlt /> },
-        ],
-      },
+       
     ],
     default: [
       {
@@ -950,11 +948,13 @@ Kepegawaian: [
     location.pathname.startsWith("/dashboard/RiwayatPeminjaman") ||
     location.pathname.startsWith("/dashboard/MaintenanceAset") ||
     location.pathname.startsWith("/dashboard/DepresiasiAset") ||
+     location.pathname.startsWith("/dashboard/SettingKategori") ||
     location.pathname.startsWith("/dashboard/LaporanAset") ||
     location.pathname.startsWith("/dashboard/SuratMenyurat") ||
     location.pathname.startsWith("/dashboard/DokumenSekolah") ||
     location.pathname.startsWith("/dashboard/kegiatansekolah") ||
-    location.pathname.startsWith("/dashboard/settinglokasi")
+    location.pathname.startsWith("/dashboard/settinglokasi") 
+   
   ) {
     menu = menuConfig.sekolah;
   }
@@ -963,6 +963,7 @@ Kepegawaian: [
     location.pathname.startsWith("/dashboard/databuku") ||
     location.pathname.startsWith("/dashboard/laporanbuku") ||
     location.pathname.startsWith("/dashboard/laporandenda") ||
+   
     location.pathname.startsWith("/dashboard/laporanpeminjamanbuku") ||
     location.pathname.startsWith("/dashboard/laporanpengembalianbuku") ||
     location.pathname.startsWith("/dashboard/pengembalianbuku") ||
