@@ -6,19 +6,59 @@ import {
   FaTrash,
   FaSave,
   FaTimes,
+  FaCopy,
+  FaLocationArrow,
 } from "react-icons/fa";
+
 import Swal from "sweetalert2";
 import api from "../../utils/api"; // Pastikan path instance axios Anda sudah benar
 
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Circle,
+  useMapEvents,
+} from "react-leaflet";
+
+import "leaflet/dist/leaflet.css";
+
+import L from "leaflet";
+
+// FIX ICON LEAFLET
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
+
+ 
+function LocationPicker({ setForm }) {
+  useMapEvents({
+    click(e) {
+      setForm((prev) => ({
+        ...prev,
+        latitude: e.latlng.lat.toFixed(15),
+        longitude: e.latlng.lng.toFixed(15),
+      }));
+    },
+  });
+
+  return null;
+}
+
 export default function SettingAbsensiGPS() {
-  const [lokasi, setLokasi] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [isEdit, setIsEdit] = useState(false); // State untuk penanda mode Edit
-  const [editId, setEditId] = useState(null); // State untuk menyimpan ID data yang diedit
+
 
   const [form, setForm] = useState({
     nama: "",
+    hari: "",
+    pegawai: "",
     latitude: "",
     longitude: "",
     radius: "",
@@ -168,10 +208,9 @@ export default function SettingAbsensiGPS() {
       text: "Data lokasi akan dihapus permanen dari database",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#dc2626",
+      confirmButtonColor: "#ef4444",
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Ya, Hapus",
-      cancelButtonText: "Batal",
     });
 
     if (result.isConfirmed) {
@@ -225,79 +264,112 @@ export default function SettingAbsensiGPS() {
           <table className="w-full border-collapse">
             <thead className="bg-gray-100">
               <tr>
-                <th className="border px-4 py-3 text-sm">#</th>
-                <th className="border px-4 py-3 text-sm">Nama Lokasi</th>
-                <th className="border px-4 py-3 text-sm">Latitude</th>
-                <th className="border px-4 py-3 text-sm">Longitude</th>
-                <th className="border px-4 py-3 text-sm">Radius</th>
-                <th className="border px-4 py-3 text-sm">Jam Masuk</th>
-                <th className="border px-4 py-3 text-sm">Jam Selesai</th>
-                <th className="border px-4 py-3 text-sm">Aksi</th>
+                <th className="border px-3 py-3">#</th>
+                <th className="border px-3 py-3">Nama Lokasi</th>
+                <th className="border px-3 py-3">Hari</th>
+                <th className="border px-3 py-3">Jenis Pegawai</th>
+                <th className="border px-3 py-3">Latitude</th>
+                <th className="border px-3 py-3">Longitude</th>
+                <th className="border px-3 py-3">Radius</th>
+                <th className="border px-3 py-3">Jam Mulai</th>
+                <th className="border px-3 py-3">Jam Selesai</th>
+                <th className="border px-3 py-3">Aksi</th>
               </tr>
             </thead>
 
             <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="8" className="text-center py-10 text-gray-500">
-                    Memuat data lokasi absensi...
+              {lokasi.map((item, index) => (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="border px-3 py-3 text-center">
+                    {index + 1}
                   </td>
-                </tr>
-              ) : lokasi.length > 0 ? (
-                lokasi.map((item, index) => (
-                  <tr key={item.id} className="hover:bg-gray-50 transition">
-                    <td className="border px-4 py-3 text-center text-sm">
-                      {index + 1}
-                    </td>
-                    <td className="border px-4 py-3 text-sm font-medium">
-                      {item.nama}
-                    </td>
-                    <td className="border px-4 py-3 text-sm">
-                      <span className="bg-cyan-500 text-white px-2 py-1 rounded text-xs">
-                        {item.latitude}
-                      </span>
-                    </td>
-                    <td className="border px-4 py-3 text-sm">
-                      <span className="bg-cyan-500 text-white px-2 py-1 rounded text-xs">
-                        {item.longitude}
-                      </span>
-                    </td>
-                    <td className="border px-4 py-3 text-sm text-center">
-                      <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs">
-                        {item.radius}
-                      </span>
-                    </td>
-                    <td className="border px-4 py-3 text-sm text-center">
-                      {item.masuk}
-                    </td>
-                    <td className="border px-4 py-3 text-sm text-center">
-                      {item.selesai}
-                    </td>
-                    <td className="border px-4 py-3">
-                      <div className="flex justify-center gap-2">
-                        {/* EDIT */}
-                        <button
-                          onClick={() => handleEditClick(item)}
-                          className="bg-yellow-400 hover:bg-yellow-500 text-black p-2 rounded-md transition"
-                        >
-                          <FaEdit />
-                        </button>
 
-                        {/* DELETE */}
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition"
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="8" className="text-center py-10 text-gray-500">
-                    Tidak ada data lokasi absensi tersedia
+                  <td className="border px-3 py-3 text-center">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                        item.nama === "Absen Masuk"
+                          ? "bg-green-600"
+                          : "bg-yellow-400 text-black"
+                      }`}
+                    >
+                      {item.nama}
+                    </span>
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    <span className="bg-cyan-500 text-white text-xs px-3 py-1 rounded-full">
+                      {item.hari}
+                    </span>
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    <span
+                      className={`text-xs px-3 py-1 rounded-full text-white ${
+                        item.pegawai === "Guru"
+                          ? "bg-purple-600"
+                          : "bg-orange-500"
+                      }`}
+                    >
+                      {item.pegawai}
+                    </span>
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
+                      {item.latitude}
+                    </span>
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
+                      {item.longitude}
+                    </span>
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    <span className="bg-red-500 text-white text-xs px-3 py-1 rounded-full">
+                      {item.radius} m
+                    </span>
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    {item.masuk}
+                  </td>
+
+                  <td className="border px-3 py-3 text-center">
+                    {item.selesai}
+                  </td>
+
+                  <td className="border px-3 py-3">
+                    <div className="flex justify-center gap-2">
+                      {/* EDIT */}
+                     <button
+  onClick={() => handleEdit(item)}
+  className="bg-yellow-400 hover:bg-yellow-500 p-2 rounded text-black"
+>
+  <FaEdit />
+</button>
+
+                      {/* COPY */}
+                      <button
+                        onClick={() =>
+                          handleCopy(
+                            `${item.latitude}, ${item.longitude}`
+                          )
+                        }
+                        className="bg-cyan-500 hover:bg-cyan-600 p-2 rounded text-white"
+                      >
+                        <FaCopy />
+                      </button>
+
+                      {/* DELETE */}
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="bg-red-500 hover:bg-red-600 p-2 rounded text-white"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )}
@@ -308,112 +380,229 @@ export default function SettingAbsensiGPS() {
 
       {/* MODAL FORM (TAMBAH & EDIT DATA BERBAGI UI YANG SAMA) */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-[500px] flex flex-col max-h-[90vh] overflow-hidden">
-            
-            {/* HEADER MODAL */}
-            <div className="bg-blue-600 px-5 py-4 flex justify-between items-center shrink-0">
-              <h2 className="text-white font-semibold text-lg">
-                {isEdit ? "Edit Lokasi Absensi" : "Tambah Lokasi Absensi"}
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 overflow-auto">
+          <div className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden">
+            {/* HEADER */}
+            <div className="flex justify-between items-center px-5 py-4 border-b">
+              <h2 className="text-xl font-semibold">
+                Tambah Lokasi Absensi
               </h2>
-              <button onClick={handleCloseModal} className="text-white text-lg">
+
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-gray-500 hover:text-red-500 text-xl"
+              >
                 <FaTimes />
               </button>
             </div>
 
-            {/* BODY MODAL */}
-            <div className="p-5 space-y-4 overflow-y-auto max-h-[60vh]">
+            {/* BODY */}
+            <div className="p-5">
               {/* NAMA */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Nama Lokasi</label>
-                <input
-                  type="text"
+              <div className="mb-4">
+                <label className="block mb-2 text-sm font-medium">
+                  Nama Lokasi
+                </label>
+
+                <select
                   name="nama"
                   value={form.nama}
                   onChange={handleChange}
-                  placeholder="Masukkan nama lokasi"
-                  className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                  className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Pilih Jenis Absensi</option>
+                  <option value="Absen Masuk">
+                    Absen Masuk
+                  </option>
+
+                  <option value="Absen Pulang">
+                    Absen Pulang
+                  </option>
+                </select>
               </div>
 
-              {/* LATITUDE */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Latitude</label>
-                <input
-                  type="text"
-                  name="latitude"
-                  value={form.latitude}
-                  onChange={handleChange}
-                  placeholder="-7.0316352"
-                  className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* LONGITUDE */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Longitude</label>
-                <input
-                  type="text"
-                  name="longitude"
-                  value={form.longitude}
-                  onChange={handleChange}
-                  placeholder="110.3371774"
-                  className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* RADIUS */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Radius</label>
-                <input
-                  type="text"
-                  name="radius"
-                  value={form.radius}
-                  onChange={handleChange}
-                  placeholder="100 m"
-                  className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* JAM MASUK & SELESAI */}
-              <div className="grid grid-cols-2 gap-4">
+              {/* GRID */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* HARI */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Jam Masuk</label>
+                  <label className="block mb-2 text-sm font-medium">
+                    Hari
+                  </label>
+
+                  <select
+                    name="hari"
+                    value={form.hari}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-4 py-3"
+                  >
+                    <option value="">Pilih Hari</option>
+
+                    <option>Senin</option>
+                    <option>Selasa</option>
+                    <option>Rabu</option>
+                    <option>Kamis</option>
+                    <option>Jumat</option>
+                    <option>Sabtu</option>
+                    <option>Minggu</option>
+                  </select>
+                </div>
+
+                {/* PEGAWAI */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium">
+                    Jenis Pegawai
+                  </label>
+
+                  <select
+                    name="pegawai"
+                    value={form.pegawai}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-4 py-3"
+                  >
+                    <option value="">
+                      Pilih Jenis Pegawai
+                    </option>
+
+                    <option>Guru</option>
+                    <option>Pegawai</option>
+                  </select>
+                </div>
+
+                {/* LAT */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium">
+                    Latitude
+                  </label>
+
+                  <div className="flex">
+                    <input
+                      type="text"
+                      name="latitude"
+                      value={form.latitude}
+                      onChange={handleChange}
+                      className="w-full border rounded-l-lg px-4 py-3"
+                    />
+
+                    <button
+                      onClick={handleGetLocation}
+                      className="bg-blue-600 text-white px-4 rounded-r-lg"
+                    >
+                      <FaLocationArrow />
+                    </button>
+                  </div>
+                </div>
+
+                {/* LNG */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium">
+                    Longitude
+                  </label>
+
+                  <input
+                    type="text"
+                    name="longitude"
+                    value={form.longitude}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-4 py-3"
+                  />
+                </div>
+
+                {/* RADIUS */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium">
+                    Radius (meter)
+                  </label>
+
+                  <input
+                    type="number"
+                    name="radius"
+                    value={form.radius}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-4 py-3"
+                  />
+                </div>
+
+                {/* JAM */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium">
+                    Jam Mulai Absensi
+                  </label>
+
                   <input
                     type="time"
                     name="masuk"
                     value={form.masuk}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border rounded-lg px-4 py-3"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Jam Selesai</label>
+                  <label className="block mb-2 text-sm font-medium">
+                    Jam Selesai Absensi
+                  </label>
+
                   <input
                     type="time"
                     name="selesai"
                     value={form.selesai}
                     onChange={handleChange}
-                    className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border rounded-lg px-4 py-3"
                   />
                 </div>
               </div>
+
+              {/* MAP */}
+              <div className="mt-5 rounded-xl overflow-hidden border">
+                <MapContainer
+                  center={[-6.2, 106.816666]}
+                  zoom={13}
+                  style={{
+                    height: "350px",
+                    width: "100%",
+                  }}
+                >
+                  <TileLayer
+                    attribution="&copy; OpenStreetMap contributors"
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+
+                  <LocationPicker setForm={setForm} />
+
+                  {form.latitude && form.longitude && (
+                    <>
+                      <Marker
+                        position={[
+                          parseFloat(form.latitude),
+                          parseFloat(form.longitude),
+                        ]}
+                      />
+
+                      <Circle
+                        center={[
+                          parseFloat(form.latitude),
+                          parseFloat(form.longitude),
+                        ]}
+                        radius={parseInt(form.radius || 0)}
+                      />
+                    </>
+                  )}
+                </MapContainer>
+              </div>
             </div>
 
-            {/* FOOTER MODAL */}
-            <div className="border-t px-5 py-4 flex justify-end gap-3 bg-gray-50 shrink-0">
+            {/* FOOTER */}
+            <div className="border-t bg-gray-50 px-5 py-4 flex justify-end gap-3">
               <button
-                onClick={handleCloseModal}
-                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition"
+                onClick={() => setShowModal(false)}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg"
               >
-                <FaTimes />
                 Batal
               </button>
 
               <button
-                onClick={handleSimpan}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition"
+                onClick={handleTambah}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2"
               >
                 <FaSave />
                 {isEdit ? "Simpan Perubahan" : "Tambah"}

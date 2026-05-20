@@ -826,6 +826,7 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/BannerAplikasi") ||
     location.pathname.startsWith("/dashboard/SettingUser") ||
     location.pathname.startsWith("/dashboard/BackupData") ||
+    location.pathname.startsWith("/dashboard/AturUser") ||
     location.pathname.startsWith("/dashboard/SettingAbsensiGPS")
   ) {
     menu = menuConfig.aplikasi;
