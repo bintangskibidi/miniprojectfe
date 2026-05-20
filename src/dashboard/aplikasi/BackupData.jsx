@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaDatabase,
   FaDownload,
@@ -7,42 +7,33 @@ import {
   FaClock,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import api from "../../utils/api"; // Memakai instance api yang sama dengan banner
 
 export default function BackupData() {
-  // DATA DUMMY FILE BACKUP
-  const [backupFiles, setBackupFiles] = useState([
-    {
-      id: 1,
-      nama: "backup_partial_20260512_010617.sql",
-      ukuran: "2.4 MB",
-      tanggal: "12 Mei 2026",
-      waktu: "01:06:17",
-    },
-    {
-      id: 2,
-      nama: "backup_partial_20260101_074036.sql",
-      ukuran: "1.8 MB",
-      tanggal: "01 Jan 2026",
-      waktu: "07:40:36",
-    },
-    {
-      id: 3,
-      nama: "backup_partial_20250710_193216.sql",
-      ukuran: "3.1 MB",
-      tanggal: "10 Jul 2025",
-      waktu: "19:32:16",
-    },
-    {
-      id: 4,
-      nama: "backup_partial_20250710_193043.sql",
-      ukuran: "2.7 MB",
-      tanggal: "10 Jul 2025",
-      waktu: "19:30:43",
-    },
-  ]);
+  const [backupFiles, setBackupFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // HANDLE BACKUP
-  const handleBackup = () => {
+  // --- FETCH DATA BACKUP ---
+  const fetchBackup = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("/backup");
+      // Menyesuaikan jika response langsung array atau berstruktur { data: [...] }
+      setBackupFiles(response.data.data || response.data || []);
+    } catch (error) {
+      console.error("Gagal mengambil data backup:", error);
+      Swal.fire("Error", "Gagal mengambil data backup dari server", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBackup();
+  }, []);
+
+  // --- HANDLE BACKUP (POST) ---
+  const handleBackup = async () => {
     Swal.fire({
       title: "Membuat Backup...",
       text: "Sistem sedang memproses backup data",
@@ -52,16 +43,17 @@ export default function BackupData() {
       },
     });
 
-    setTimeout(() => {
-      const newBackup = {
-        id: backupFiles.length + 1,
-        nama: `backup_partial_${Date.now()}.sql`,
-        ukuran: "2.1 MB",
-        tanggal: new Date().toLocaleDateString("id-ID"),
-        waktu: new Date().toLocaleTimeString("id-ID"),
-      };
-
-      setBackupFiles([newBackup, ...backupFiles]);
+    try {
+      const response = await api.post("/backup");
+      
+      // Ambil data item baru hasil respon server jika ada
+      const newBackup = response.data.data;
+      
+      if (newBackup) {
+        setBackupFiles((prevFiles) => [newBackup, ...prevFiles]);
+      } else {
+        fetchBackup(); // Fallback refresh otomatis jika struktur data berbeda
+      }
 
       Swal.fire({
         icon: "success",
@@ -69,11 +61,21 @@ export default function BackupData() {
         text: "File backup berhasil dibuat",
         confirmButtonColor: "#2563eb",
       });
-    }, 2000);
+    } catch (error) {
+      console.error("Gagal melakukan backup:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Backup",
+        text: error.response?.data?.message || "Terjadi kesalahan pada server.",
+      });
+    }
   };
 
-  // HANDLE DOWNLOAD
+  // --- HANDLE DOWNLOAD ---
   const handleDownload = (file) => {
+    // Implementasi download nyata jika backend menyediakan endpoint file statis/stream
+    // Misal: window.open(`${api.defaults.baseURL}/backup/download/${file.id}`);
+    
     Swal.fire({
       icon: "success",
       title: "Download Dimulai",
@@ -83,7 +85,7 @@ export default function BackupData() {
     });
   };
 
-  // HANDLE HAPUS
+  // --- HANDLE HAPUS (DELETE) ---
   const handleDelete = async (id, nama) => {
     const result = await Swal.fire({
       title: "Hapus File Backup?",
@@ -97,17 +99,28 @@ export default function BackupData() {
     });
 
     if (result.isConfirmed) {
-      setBackupFiles(
-        backupFiles.filter((item) => item.id !== id)
-      );
+      try {
+        // API DELETE ke /backup/:id
+        await api.delete(`/backup/${id}`);
 
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil Dihapus",
-        text: "File backup berhasil dihapus",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+        // Update state local agar langsung menghilang dari baris tabel
+        setBackupFiles(backupFiles.filter((item) => item.id !== id));
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Dihapus",
+          text: "File backup berhasil dihapus",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Gagal menghapus file backup:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Hapus",
+          text: "Tidak dapat menghapus file backup dari server.",
+        });
+      }
     }
   };
 
@@ -117,7 +130,6 @@ export default function BackupData() {
       {/* TITLE */}
       <div className="flex items-center gap-3 mb-6">
         <FaDatabase className="text-3xl text-blue-600" />
-
         <h1 className="text-3xl font-bold text-gray-800">
           Backup Data Partial
         </h1>
@@ -173,34 +185,23 @@ export default function BackupData() {
 
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 border text-left text-sm">
-                      #
-                    </th>
-
-                    <th className="px-4 py-3 border text-left text-sm">
-                      Nama File
-                    </th>
-
-                    <th className="px-4 py-3 border text-left text-sm">
-                      Ukuran
-                    </th>
-
-                    <th className="px-4 py-3 border text-left text-sm">
-                      Tanggal
-                    </th>
-
-                    <th className="px-4 py-3 border text-left text-sm">
-                      Waktu
-                    </th>
-
-                    <th className="px-4 py-3 border text-center text-sm">
-                      Aksi
-                    </th>
+                    <th className="px-4 py-3 border text-left text-sm">#</th>
+                    <th className="px-4 py-3 border text-left text-sm">Nama File</th>
+                    <th className="px-4 py-3 border text-left text-sm">Ukuran</th>
+                    <th className="px-4 py-3 border text-left text-sm">Tanggal</th>
+                    <th className="px-4 py-3 border text-left text-sm">Waktu</th>
+                    <th className="px-4 py-3 border text-center text-sm">Aksi</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {backupFiles.length > 0 ? (
+                  {loading ? (
+                    <tr>
+                      <td colSpan="6" className="text-center py-10 text-gray-500">
+                        Memuat data file backup...
+                      </td>
+                    </tr>
+                  ) : backupFiles.length > 0 ? (
                     backupFiles.map((file, index) => (
                       <tr
                         key={file.id}
@@ -213,7 +214,6 @@ export default function BackupData() {
                         <td className="px-4 py-3 border text-sm">
                           <div className="flex items-center gap-3">
                             <FaFileAlt className="text-blue-600" />
-
                             <span className="font-medium">
                               {file.nama}
                             </span>
@@ -231,7 +231,6 @@ export default function BackupData() {
                         <td className="px-4 py-3 border text-sm">
                           <div className="flex items-center gap-2">
                             <FaClock className="text-gray-500" />
-
                             {file.waktu}
                           </div>
                         </td>
@@ -241,9 +240,7 @@ export default function BackupData() {
 
                             {/* DOWNLOAD */}
                             <button
-                              onClick={() =>
-                                handleDownload(file)
-                              }
+                              onClick={() => handleDownload(file)}
                               className="
                                 bg-green-600
                                 hover:bg-green-700
@@ -262,12 +259,7 @@ export default function BackupData() {
 
                             {/* HAPUS */}
                             <button
-                              onClick={() =>
-                                handleDelete(
-                                  file.id,
-                                  file.nama
-                                )
-                              }
+                              onClick={() => handleDelete(file.id, file.nama)}
                               className="
                                 bg-red-600
                                 hover:bg-red-700
