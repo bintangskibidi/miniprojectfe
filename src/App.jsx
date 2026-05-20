@@ -12,7 +12,6 @@ import SuratMenyurat from "./dashboard/manajemenSekolah/SuratMenyurat";
 import KegiatanSekolah from "./dashboard/manajemenSekolah/KegiatanSekolah";
 import DokumenSekolah from "./dashboard/manajemenSekolah/DokumenSekolah";
 import LaporanAset from "./dashboard/manajemenSekolah/LaporanAset";
-import SettingKategori from "./dashboard/manajemenSekolah/SettingKategori";
 import DataWaliKelas from "./dashboard/manajemenSiswa/kesiswaan/DataWaliKelas";
 import ManajemenGuru from "./dashboard/manajemenGuru/ManajemenGuru";
 import ManajemenSiswa from "./dashboard/manajemenSiswa/ManajemenSiswa";
@@ -31,7 +30,6 @@ import Teller from "./dashboard/manajemenKeuangan/Teller";
 import RealisasiAnggaran from "./dashboard/manajemenKeuangan/RealisasiAnggaran";
 import EvaluasiAnggaran from "./dashboard/manajemenKeuangan/EvaluasiAnggaran";
 import PerubahanAsetNeto from "./dashboard/manajemenKeuangan/PerubahanAsetNeto";
-
 import PosisiKeuangan from "./dashboard/manajemenKeuangan/PosisiKeuangan";
 import ArusKas from "./dashboard/manajemenKeuangan/ArusKas";
 import LaporanPenerimaan from "./dashboard/manajemenKeuangan/LaporanPenerimaan";
@@ -49,7 +47,6 @@ import AbsensiHarianPegawai from "./dashboard/kepegawaian/AbsensiHarianPegawai";
 import SettingGajiPegawai from "./dashboard/kepegawaian/SettingGajiPegawai";
 import Izin from "./dashboard/kepegawaian/Izin";
 import Lembur from "./dashboard/kepegawaian/Lembur";
-
 import InputNilaiKinerja from "./dashboard/kepegawaian/InputNilaiKinerja";
 import TransaksiJurnal from "./dashboard/manajemenKeuangan/TransaksiJurnal";
 import TransaksiPenerimaan from "./dashboard/manajemenKeuangan/TransaksiPenerimaan";
@@ -74,7 +71,6 @@ import DataBuku from "./dashboard/perpustakaanDigital/DataBuku";
 import PeminjamanBuku from "./dashboard/perpustakaanDigital/PeminjamanBuku";
 import PengembalianBuku from "./dashboard/perpustakaanDigital/PengembalianBuku";
 import SettingDenda from "./dashboard/perpustakaanDigital/SettingDenda";
-
 import MataPelajaran from "./dashboard/manajemenGuru/MataPelajaran";
 import SettingLokasi from "./dashboard/manajemenSekolah/SettingLokasi";
 import DataSiswa from "./dashboard/manajemenSiswa/kesiswaan/dataSiswa/DataSiswa";
@@ -97,20 +93,18 @@ import AbsensiHarian from "./dashboard/absensi/absensiharian";
 import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
-
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian";
 import Presensi from "./dashboard/absensi/presensi";
 import RiwayatGaji from "./dashboard/kepegawaian/RiwayatGaji";
 import KriteriaKehadiran from "./dashboard/kepegawaian/KriteriaKehadiran";
-
-import Aplikasi from "./dashboard/aplikasi/Aplikasi"
-import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga"
-import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi"
-import SettingUser from "./dashboard/aplikasi/SettingUser"
-import BackupData from "./dashboard/aplikasi/BackupData"
-import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
- import SettingKomponenGaji from "./dashboard/kepegawaian/SettingKomponenGaji";
- import ManajemenTanggal from "./dashboard/kepegawaian/ManajemenTanggal";
+import Aplikasi from "./dashboard/aplikasi/Aplikasi";
+import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga";
+import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi";
+import SettingUser from "./dashboard/aplikasi/SettingUser";
+import BackupData from "./dashboard/aplikasi/BackupData";
+import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS";
+import SettingKomponenGaji from "./dashboard/kepegawaian/SettingKomponenGaji";
+import ManajemenTanggal from "./dashboard/kepegawaian/ManajemenTanggal";
 import DanaPensiunPegawai from "./dashboard/kepegawaian/DanaPensiunPegawai";
 
 function App() {
@@ -122,133 +116,121 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/dashboard" element={<Layout />}>
+          <Route path="siswa" element={<ManajemenSiswa />} />
           <Route path="datasiswa" element={<DataSiswa />} />
           <Route path="walikelas" element={<DataWaliKelas />} />
-          <Route path="Semester" element={<Semester />} />
-          <Route
-            path="/dashboard/ekstrakurikuler"
-            element={<Extrakulikuler />}
-          />
-
-          <Route path="siswa" element={<ManajemenSiswa />} />
-          <Route path="guru" element={<ManajemenGuru />} />
-          <Route path="/dashboard/mapel" element={<MataPelajaran />} />
-          <Route path="/dashboard/distribusijam" element={<DistribusiJam />} />
-          <Route
-            path="/dashboard/RiwayatMengajar"
-            element={<RiwayatMengajar />}
-          />
-          <Route
-            path="/dashboard/JadwalMengajar"
-            element={<JadwalMengajar />}
-          />
-          <Route path="datajurusan" element={<DataJurusan />} />
-          <Route path="/dashboard/tambah-siswa" element={<Tambahsiswa />} />
-          <Route path="/dashboard/edit-siswa/:id" element={<EditSiswa />} />
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
+          <Route path="datakelas" element={<DataKelas />} />
+          <Route path="datajurusan" element={<DataJurusan />} />
+          <Route path="tahunajaran" element={<TahunAjaran />} />
+          <Route path="ekstrakurikuler" element={<Extrakulikuler />} />
+          <Route path="Semester" element={<Semester />} />
+          <Route path="jenissemester" element={<JenisSemester />} />
+          <Route path="aspekpenilaian" element={<AspekPenilaian />} />
+          <Route path="dataraport" element={<DataRaport />} />
+          <Route path="tambah-siswa" element={<Tambahsiswa />} />
+          <Route path="edit-siswa/:id" element={<EditSiswa />} />
+
+          <Route path="absensiharian" element={<AbsensiHarian />} />
+          <Route path="rekapabsensi" element={<RekapAbsensi />} />
+          <Route path="absensimapel" element={<AbsensiMapel />} />
+          <Route path="presensi" element={<Presensi />} />
+
+          <Route path="guru" element={<ManajemenGuru />} />
+          <Route path="mapel" element={<MataPelajaran />} />
+          <Route path="JadwalMengajar" element={<JadwalMengajar />} />
+          <Route path="distribusijam" element={<DistribusiJam />} />
+          <Route path="RiwayatMengajar" element={<RiwayatMengajar />} />
+
           <Route path="keuangan" element={<ManajemenKeuangan />} />
-          <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
-          <Route path="AbsenKegiatan" element={<AbsenKegiatan />} />
-          <Route path="Cuti" element={<Cuti />} />
-          <Route path="SettingKategori" element={<SettingKategori />} />
-          <Route path="RekapAbsensiHarian" element={<AbsensiHarianPegawai />} />
-          <Route path="SettingGajiPegawai" element={<SettingGajiPegawai />} />
-          <Route path="Izin" element={<Izin />} />
-          <Route path="Lembur" element={<Lembur />} />
-          <Route path="RekapAbsenKegiatan" element={<RekapAbsenKegiatan />} />
-          <Route path="KelolaKegiatan" element={<KelolaKegiatan />} />
+          <Route path="BayarTagihan" element={<BayarTagihan />} />
+          <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
+          <Route path="JenisPembayaran" element={<JenisPembayaran />} />
+          <Route path="TarifPembayaranSiswa" element={<TarifPembayaranSiswa />} />
+          <Route path="RekapPembayaran" element={<RekapPembayaran />} />
+          <Route path="DataTransaksi" element={<DataTransaksi />} />
+          <Route path="RekapSiswa" element={<RekapPerSiswa />} />
+          <Route path="RekapTanggal" element={<RekapPerTanggal />} />
+          <Route path="RekapTagihan" element={<RekapTagihan />} />
+          <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />
+          <Route path="Teller" element={<Teller />} />
+          <Route path="RiwayatTabunganSiswa" element={<RiwayatTabunganSiswa />} />
+          <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
+          <Route path="TransaksiPenerimaan" element={<TransaksiPenerimaan />} />
+          <Route path="JenisPenerimaan" element={<JenisPenerimaan />} />
+          <Route path="LaporanPenerimaan" element={<LaporanPenerimaan />} />
+          <Route path="TransaksiPengeluaran" element={<LaporanPengeluaran />} />
+          <Route path="JenisPengeluaran" element={<JenisPengeluaran />} />
+          <Route path="LaporanPengeluaran" element={<LaporanPengeluaran />} />
+          <Route path="TransaksiJurnal" element={<TransaksiJurnal />} />
+          <Route path="LaporanJurnal" element={<LaporanJurnal />} />
           <Route path="LaporanBukuBesar" element={<LaporanBukuBesar />} />
           <Route path="NeracaSaldo" element={<NeracaSaldo />} />
           <Route path="JurnalUmum" element={<JurnalUmum />} />
-          <Route path="aplikasi" element={<Aplikasi />} />
-          <Route path="kegiatansekolah" element={<KegiatanSekolah />} />
-          <Route path="SuratMenyurat" element={<SuratMenyurat />} />
-          <Route path="DokumenSekolah" element={<DokumenSekolah />} />
-          <Route path="DepresiasiAset" element={<DepresiasiAset />} />
-          <Route path="LaporanAset" element={<LaporanAset />} />
-          <Route path="DataAset" element={<DataAset />} />
-          <Route path="RiwayatGaji" element={<RiwayatGaji />} />
-          <Route path="DanaPensiunPegawai" element={<DanaPensiunPegawai />} />
-          <Route path="ManajemenTanggal" element={<ManajemenTanggal />} />
-          <Route path="KriteriaKehadiran" element={<KriteriaKehadiran />} />
-          <Route path="SettingKomponenGaji" element={<SettingKomponenGaji />} />
-          <Route path="RekapKinerja" element={<RekapKinerja />} />
-          <Route path="KelolaIndikator" element={<KelolaIndikator />} />
-          <Route path="InputNilaiKinerja" element={<InputNilaiKinerja />} />
-          <Route path="PeminjamanAset" element={<PeminjamanAset />} />
-          <Route path="MaintenanceAset" element={<MaintenanceAset />} />
-          <Route path="RiwayatPeminjaman" element={<RiwayatPeminjaman />} />
-          <Route path="BannerAplikasi" element={<BannerAplikasi />} />
-          <Route path="InformasiLembaga" element={<InformasiLembaga />} />
-          <Route path="SettingUser" element={<SettingUser />} />
-          <Route path="SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
-          <Route path="BackupData" element={<BackupData />} />
-          <Route path="LaporanJurnal" element={<LaporanJurnal />} />
           <Route path="LaporanKomprehensif" element={<LaporanKomprehensif />} />
-          <Route path="Teller" element={<Teller />} />
+          <Route path="PosisiKeuangan" element={<PosisiKeuangan />} />
+          <Route path="ArusKas" element={<ArusKas />} />
+          <Route path="PerubahanAsetNeto" element={<PerubahanAsetNeto />} />
           <Route path="RealisasiPenerimaan" element={<RealisasiPenerimaan />} />
           <Route path="RealisasiBelanja" element={<RealisasiBelanja />} />
           <Route path="SettingPagu" element={<SettingPagu />} />
           <Route path="APBSinduk" element={<APBSinduk />} />
           <Route path="APBSDetail" element={<APBSDetail />} />
-          <Route path="ArusKas" element={<ArusKas />} />
           <Route path="RealisasiAnggaran" element={<RealisasiAnggaran />} />
           <Route path="EvaluasiAnggaran" element={<EvaluasiAnggaran />} />
-          <Route path="PosisiKeuangan" element={<PosisiKeuangan />} />
-          <Route path="LaporanKomprehensif" element={<LaporanKomprehensif />} />
-          <Route path="PerubahanAsetNeto" element={<PerubahanAsetNeto />} />
-          <Route path="JenisPenerimaan" element={<JenisPenerimaan />} />
-          <Route path="JenisPengeluaran" element={<JenisPengeluaran />} />
-          <Route path="DataTransaksi" element={<DataTransaksi />} />
+
+          <Route path="aplikasi" element={<Aplikasi />} />
+          <Route path="InformasiLembaga" element={<InformasiLembaga />} />
+          <Route path="BannerAplikasi" element={<BannerAplikasi />} />
+          <Route path="SettingUser" element={<SettingUser />} />
+          <Route path="BackupData" element={<BackupData />} />
+          <Route path="SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
+
+          <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
           <Route path="DataPegawai" element={<DataPegawai />} />
-          <Route path="TransaksiJurnal" element={<TransaksiJurnal />} />
-          <Route path="TransaksiPenerimaan" element={<TransaksiPenerimaan />} />
-          <Route path="JenisPembayaran" element={<JenisPembayaran />} />
-          <Route path="RekapTagihan" element={<RekapTagihan />} />
-          <Route path="RekapSiswa" element={<RekapPerSiswa />} />
-          <Route path="RekapPembayaran" element={<RekapPembayaran />} />
-          <Route path="RekapTanggal" element={<RekapPerTanggal />} />
-          <Route
-            path="TarifPembayaranSiswa"
-            element={<TarifPembayaranSiswa />}
-          />
-          <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
-          <Route path="BayarTagihan" element={<BayarTagihan />} />
-          <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />
-          <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
-          <Route
-            path="RiwayatTabunganSiswa"
-            element={<RiwayatTabunganSiswa />}
-          />
-          <Route path="TransaksiPengeluaran" element={<LaporanPengeluaran />} />
-          <Route path="LaporanPenerimaan" element={<LaporanPenerimaan />} />
+          <Route path="KelolaIndikator" element={<KelolaIndikator />} />
+          <Route path="InputNilaiKinerja" element={<InputNilaiKinerja />} />
+          <Route path="RekapKinerja" element={<RekapKinerja />} />
+          <Route path="KelolaKegiatan" element={<KelolaKegiatan />} />
+          <Route path="AbsenKegiatan" element={<AbsenKegiatan />} />
+          <Route path="RekapAbsenKegiatan" element={<RekapAbsenKegiatan />} />
+          <Route path="Cuti" element={<Cuti />} />
+          <Route path="Lembur" element={<Lembur />} />
+          <Route path="Izin" element={<Izin />} />
+          <Route path="RekapAbsensiHarian" element={<AbsensiHarianPegawai />} />
+          <Route path="SettingGajiPegawai" element={<SettingGajiPegawai />} />
+          <Route path="RiwayatGaji" element={<RiwayatGaji />} />
+          <Route path="KriteriaKehadiran" element={<KriteriaKehadiran />} />
+          <Route path="SettingKomponenGaji" element={<SettingKomponenGaji />} />
+          <Route path="DanaPensiunPegawai" element={<DanaPensiunPegawai />} />
+          <Route path="ManajemenTanggal" element={<ManajemenTanggal />} />
+          <Route path="kepegawaian/InformasiLembaga" element={<InformasiLembaga />} />
+          <Route path="kepegawaian/BannerAplikasi" element={<BannerAplikasi />} />
+          <Route path="kepegawaian/SettingUser" element={<SettingUser />} />
+          <Route path="kepegawaian/BackupData" element={<BackupData />} />
+          <Route path="kepegawaian/SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
+
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="databuku" element={<DataBuku />} />
-          <Route path="LaporanBuku" element={<LaporanBuku />} />
-          <Route path="LaporanDenda" element={<LaporanDenda />} />
-          <Route
-            path="LaporanPeminjamanBuku"
-            element={<LaporanPeminjamanBuku />}
-          />
-          <Route
-            path="LaporanPengembalianBuku"
-            element={<LaporanPengembalianbuku />}
-          />
-          <Route path="PeminjamanBuku" element={<PeminjamanBuku />} />
+          <Route path="peminjamanbuku" element={<PeminjamanBuku />} />
           <Route path="PengembalianBuku" element={<PengembalianBuku />} />
           <Route path="SettingDenda" element={<SettingDenda />} />
-          <Route path="PeminjamanBuku" element={<PeminjamanBuku />} />
+          <Route path="LaporanBuku" element={<LaporanBuku />} />
+          <Route path="LaporanDenda" element={<LaporanDenda />} />
+          <Route path="LaporanPeminjamanBuku" element={<LaporanPeminjamanBuku />} />
+          <Route path="LaporanPengembalianBuku" element={<LaporanPengembalianbuku />} />
+
           <Route path="profileSekolah" element={<ProfileSekolah />} />
+          <Route path="DataAset" element={<DataAset />} />
+          <Route path="PeminjamanAset" element={<PeminjamanAset />} />
+          <Route path="RiwayatPeminjaman" element={<RiwayatPeminjaman />} />
+          <Route path="MaintenanceAset" element={<MaintenanceAset />} />
+          <Route path="DepresiasiAset" element={<DepresiasiAset />} />
+          <Route path="LaporanAset" element={<LaporanAset />} />
           <Route path="settinglokasi" element={<SettingLokasi />} />
-          <Route path="datakelas" element={<DataKelas />} />
-          <Route path="tahunajaran" element={<TahunAjaran />} />
-          <Route path="jenissemester" element={<JenisSemester />} />
-          <Route path="absensiharian" element={<AbsensiHarian />} />
-          <Route path="presensi" element={<Presensi />} />
-          <Route path="rekapabsensi" element={<RekapAbsensi />} />
-          <Route path="absensimapel" element={<AbsensiMapel />} />
-          <Route path="aspekpenilaian" element={<AspekPenilaian />} />
-          <Route path="dataraport" element={<DataRaport />} />
+          <Route path="SuratMenyurat" element={<SuratMenyurat />} />
+          <Route path="DokumenSekolah" element={<DokumenSekolah />} />
+          <Route path="kegiatansekolah" element={<KegiatanSekolah />} />
         </Route>
       </Routes>
     </BrowserRouter>
