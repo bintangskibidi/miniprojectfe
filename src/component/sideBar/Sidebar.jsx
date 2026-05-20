@@ -622,7 +622,7 @@ Kepegawaian: [
     items: [
       {
         title: "Informasi Lembaga",
-        path: "/dashboard/InformasiLembaga",
+        path: "/dashboard/ManajemenInfo",
         icon: <FaInfoCircle />,
       },
 
@@ -634,7 +634,7 @@ Kepegawaian: [
 
       {
         title: "Setting User",
-        path: "/dashboard/SettingUser",
+        path: "/dashboard/AturUser",
         icon: <FaUsersCog />,
       },
 
@@ -930,9 +930,9 @@ Kepegawaian: [
   location.pathname.startsWith("/dashboard/ManajemenTanggal") ||
 
   // PENGATURAN
-  location.pathname.startsWith("/dashboard/InformasiLembaga") ||
+  location.pathname.startsWith("/dashboard/ManajemenInfo") ||
   location.pathname.startsWith("/dashboard/BannerAplikasi") ||
-  location.pathname.startsWith("/dashboard/SettingUser") ||
+  location.pathname.startsWith("/dashboard/AturUser") ||
   location.pathname.startsWith("/dashboard/BackupData") ||
   location.pathname.startsWith("/dashboard/SettingAbsensiGPS")
 ) {

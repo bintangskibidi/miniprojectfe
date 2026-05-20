@@ -42,6 +42,7 @@ import DataPegawai from "./dashboard/kepegawaian/DataPegawai";
 import KelolaIndikator from "./dashboard/kepegawaian/KelolaIndikator";
 import RekapKinerja from "./dashboard/kepegawaian/RekapKinerja";
 import KelolaKegiatan from "./dashboard/kepegawaian/KelolaKegiatan";
+
 import AbsenKegiatan from "./dashboard/kepegawaian/AbsenKegiatan";
 import RekapAbsenKegiatan from "./dashboard/kepegawaian/RekapAbsenKegiatan";
 import Cuti from "./dashboard/kepegawaian/Cuti";
@@ -97,16 +98,19 @@ import AbsensiHarian from "./dashboard/absensi/absensiharian";
 import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
+import ManajemenInfo from "./dashboard/kepegawaian/LembagaInformasi"
 
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian";
 import Presensi from "./dashboard/absensi/presensi";
 import RiwayatGaji from "./dashboard/kepegawaian/RiwayatGaji";
 import KriteriaKehadiran from "./dashboard/kepegawaian/KriteriaKehadiran";
 
+
 import Aplikasi from "./dashboard/aplikasi/Aplikasi"
 import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga"
 import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi"
 import SettingUser from "./dashboard/aplikasi/SettingUser"
+import AturUser from "./dashboard/kepegawaian/AturUser";
 import BackupData from "./dashboard/aplikasi/BackupData"
 import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
  import SettingKomponenGaji from "./dashboard/kepegawaian/SettingKomponenGaji";
@@ -147,6 +151,7 @@ function App() {
           <Route path="/dashboard/edit-siswa/:id" element={<EditSiswa />} />
           <Route path="kenaikankelas" element={<KenaikanKelas />} />
           <Route path="keuangan" element={<ManajemenKeuangan />} />
+          <Route path="ManajemenInfo" element={<ManajemenInfo />} />
           <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
           <Route path="AbsenKegiatan" element={<AbsenKegiatan />} />
           <Route path="Cuti" element={<Cuti />} />
@@ -181,6 +186,7 @@ function App() {
           <Route path="BannerAplikasi" element={<BannerAplikasi />} />
           <Route path="InformasiLembaga" element={<InformasiLembaga />} />
           <Route path="SettingUser" element={<SettingUser />} />
+          <Route path="AturUser" element={<AturUser />} />
           <Route path="SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
           <Route path="BackupData" element={<BackupData />} />
           <Route path="LaporanJurnal" element={<LaporanJurnal />} />

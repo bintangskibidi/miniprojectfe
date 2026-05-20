@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@react-google-maps/api": "^2.20.8",
     "@remixicon/react": "^4.9.0",
     "axios": "^1.15.1",
     "bootstrap": "^5.3.8",
@@ -20,6 +21,7 @@
     "framer-motion": "^12.38.0",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
+    "leaflet": "^1.9.4",
     "lucide-react": "^1.8.0",
     "react": "^19.2.4",
     "react-chartjs-2": "^5.3.1",
@@ -27,6 +29,7 @@
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.4",
     "react-icons": "^5.6.0",
+    "react-leaflet": "^5.0.0",
     "react-qr-barcode-scanner": "^2.1.25",
     "react-router-dom": "^7.14.0",
     "recharts": "^3.8.1",
