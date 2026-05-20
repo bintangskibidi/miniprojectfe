@@ -40,6 +40,7 @@ import DataPegawai from "./dashboard/kepegawaian/DataPegawai";
 import KelolaIndikator from "./dashboard/kepegawaian/KelolaIndikator";
 import RekapKinerja from "./dashboard/kepegawaian/RekapKinerja";
 import KelolaKegiatan from "./dashboard/kepegawaian/KelolaKegiatan";
+
 import AbsenKegiatan from "./dashboard/kepegawaian/AbsenKegiatan";
 import RekapAbsenKegiatan from "./dashboard/kepegawaian/RekapAbsenKegiatan";
 import Cuti from "./dashboard/kepegawaian/Cuti";
@@ -93,10 +94,18 @@ import AbsensiHarian from "./dashboard/absensi/absensiharian";
 import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
+import ManajemenInfo from "./dashboard/kepegawaian/LembagaInformasi"
+
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian";
 import Presensi from "./dashboard/absensi/presensi";
 import RiwayatGaji from "./dashboard/kepegawaian/RiwayatGaji";
 import KriteriaKehadiran from "./dashboard/kepegawaian/KriteriaKehadiran";
+
+
+"
+import AturUser from "./dashboard/kepegawaian/AturUser";
+import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
+
 import Aplikasi from "./dashboard/aplikasi/Aplikasi";
 import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga";
 import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi";
@@ -143,6 +152,10 @@ function App() {
           <Route path="RiwayatMengajar" element={<RiwayatMengajar />} />
 
           <Route path="keuangan" element={<ManajemenKeuangan />} />
+       
+          <Route path="AturUser" element={<AturUser />} />
+          <Route path="SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
+         
           <Route path="BayarTagihan" element={<BayarTagihan />} />
           <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
           <Route path="JenisPembayaran" element={<JenisPembayaran />} />
