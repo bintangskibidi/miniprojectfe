@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaMapMarkerAlt,
   FaPlus,
@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 
 import Swal from "sweetalert2";
+import api from "../../utils/api"; // Pastikan path instance axios Anda sudah benar
 
 import {
   MapContainer,
@@ -52,58 +53,7 @@ function LocationPicker({ setForm }) {
 }
 
 export default function SettingAbsensiGPS() {
-  const [lokasi, setLokasi] = useState([
-    {
-      id: 1,
-      nama: "Absen Masuk",
-      hari: "Sabtu",
-      pegawai: "Guru",
-      latitude: "-7.031635238433956",
-      longitude: "110.33717744639996",
-      radius: "500000",
-      masuk: "17:00",
-      selesai: "22:10",
-    },
 
-    {
-      id: 2,
-      nama: "Absen Masuk",
-      hari: "Rabu",
-      pegawai: "Pegawai",
-      latitude: "-7.050068140206195",
-      longitude: "110.38925174565205",
-      radius: "100",
-      masuk: "05:00",
-      selesai: "07:00",
-    },
-
-    {
-      id: 3,
-      nama: "Absen Masuk",
-      hari: "Senin",
-      pegawai: "Guru",
-      latitude: "-7.031461318975344",
-      longitude: "110.33735096454622",
-      radius: "200",
-      masuk: "03:50",
-      selesai: "07:00",
-    },
-
-    {
-      id: 4,
-      nama: "Absen Pulang",
-      hari: "Selasa",
-      pegawai: "Pegawai",
-      latitude: "-7.050068587553647",
-      longitude: "110.38934177489269",
-      radius: "100",
-      masuk: "10:00",
-      selesai: "14:00",
-    },
-  ]);
-
-  const [showModal, setShowModal] = useState(false);
-  const [editId, setEditId] = useState(null);
 
   const [form, setForm] = useState({
     nama: "",
@@ -116,7 +66,25 @@ export default function SettingAbsensiGPS() {
     selesai: "",
   });
 
-  // HANDLE CHANGE
+  // --- FETCH DATA DARI BACKEND ---
+  const fetchLokasi = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("/settingabsensi");
+      setLokasi(response.data.data || []);
+    } catch (error) {
+      console.error("Gagal mengambil data lokasi:", error);
+      Swal.fire("Error", "Gagal mengambil data dari server", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLokasi();
+  }, []);
+
+  // HANDLE CHANGE INPUT
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -124,138 +92,120 @@ export default function SettingAbsensiGPS() {
     });
   };
 
-  // GET LOCATION
-  const handleGetLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setForm({
-          ...form,
-          latitude: position.coords.latitude.toFixed(15),
-          longitude: position.coords.longitude.toFixed(15),
-        });
-
-        Swal.fire({
-          icon: "success",
-          title: "Lokasi Berhasil Diambil",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-      },
-
-      () => {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Mengambil Lokasi",
-        });
-      }
-    );
-  };
-
-  // COPY KOORDINAT
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-
-    Swal.fire({
-      toast: true,
-      position: "top-end",
-      icon: "success",
-      title: "Berhasil Disalin",
-      showConfirmButton: false,
-      timer: 1000,
-    });
-  };
-
-const handleTambah = () => {
-  if (
-    !form.nama ||
-    !form.hari ||
-    !form.pegawai ||
-    !form.latitude ||
-    !form.longitude ||
-    !form.radius ||
-    !form.masuk ||
-    !form.selesai
-  ) {
-    Swal.fire({
-      icon: "warning",
-      title: "Form belum lengkap",
-      text: "Semua field wajib diisi",
-    });
-
-    return;
-  }
-
-  Swal.fire({
-    title: editId ? "Mengupdate Data..." : "Menyimpan Data...",
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-
-  setTimeout(() => {
-
-    // EDIT DATA
-    if (editId) {
-
-      const updatedData = lokasi.map((item) =>
-        item.id === editId
-          ? {
-              ...item,
-              ...form,
-            }
-          : item
-      );
-
-      setLokasi(updatedData);
-
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil",
-        text: "Lokasi berhasil diupdate",
-      });
-
-    } else {
-
-      // TAMBAH DATA
-      setLokasi([
-        ...lokasi,
-        {
-          id: lokasi.length + 1,
-          ...form,
-        },
-      ]);
-
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil",
-        text: "Lokasi berhasil ditambahkan",
-      });
-    }
-
-    // RESET
+  // RESET FORM & TUTUP MODAL
+  const handleCloseModal = () => {
     setForm({
       nama: "",
-      hari: "",
-      pegawai: "",
       latitude: "",
       longitude: "",
       radius: "",
       masuk: "",
       selesai: "",
     });
-
+    setIsEdit(false);
     setEditId(null);
-
     setShowModal(false);
+  };
 
-  }, 1200);
-};
-  // HAPUS
+  // --- TRIGGER MODE EDIT ---
+  const handleEditClick = (item) => {
+    setIsEdit(true);
+    setEditId(item.id);
+    setForm({
+      nama: item.nama,
+      latitude: item.latitude,
+      longitude: item.longitude,
+      radius: item.radius,
+      masuk: item.masuk,
+      selesai: item.selesai,
+    });
+    setShowModal(true);
+  };
+
+  // --- HANDLE SIMPAN DATA (TAMBAH / EDIT) ---
+  const handleSimpan = async () => {
+    // Validasi Kelengkapan Form
+    if (
+      !form.nama ||
+      !form.latitude ||
+      !form.longitude ||
+      !form.radius ||
+      !form.masuk ||
+      !form.selesai
+    ) {
+      Swal.fire({
+        icon: "warning",
+        title: "Form Belum Lengkap",
+        text: "Semua field wajib diisi",
+        confirmButtonColor: "#2563eb",
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: isEdit ? "Mengubah Data..." : "Menyimpan Data...",
+      text: "Mohon tunggu sebentar",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      if (isEdit) {
+        // --- JIKA MODE EDIT (PUT) ---
+        const response = await api.put(`/settingabsensi/${editId}`, form);
+        
+        if (response.data.status) {
+          // Update data di state lokal secara langsung
+          setLokasi((prevLokasi) =>
+            prevLokasi.map((item) =>
+              item.id === editId ? { ...item, ...form } : item
+            )
+          );
+
+          handleCloseModal();
+
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Lokasi absensi berhasil diperbarui",
+            confirmButtonColor: "#2563eb",
+          });
+        }
+      } else {
+        // --- JIKA MODE TAMBAH (POST) ---
+        const response = await api.post("/settingabsensi", form);
+        
+        if (response.data.status) {
+          const newData = response.data.data;
+          setLokasi((prevLokasi) => [...prevLokasi, newData]);
+
+          handleCloseModal();
+
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Lokasi absensi berhasil ditambahkan",
+            confirmButtonColor: "#2563eb",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Gagal menyimpan lokasi:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Menyimpan",
+        text: error.response?.data?.message || "Terjadi kesalahan pada server.",
+      });
+    }
+  };
+
+  // --- HANDLE HAPUS (DELETE) ---
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Hapus lokasi?",
-      text: "Data akan dihapus permanen",
+      title: "Hapus Lokasi?",
+      text: "Data lokasi akan dihapus permanen dari database",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ef4444",
@@ -264,52 +214,45 @@ const handleTambah = () => {
     });
 
     if (result.isConfirmed) {
-      setLokasi(lokasi.filter((item) => item.id !== id));
+      try {
+        await api.delete(`/settingabsensi/${id}`);
+        setLokasi(lokasi.filter((item) => item.id !== id));
 
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil dihapus",
-        timer: 1200,
-        showConfirmButton: false,
-      });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Lokasi berhasil dihapus",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Gagal menghapus lokasi:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Hapus",
+          text: "Tidak dapat menghapus data dari server.",
+        });
+      }
     }
   };
 
-  // EDIT
-const handleEdit = (item) => {
-  setForm({
-    nama: item.nama,
-    hari: item.hari,
-    pegawai: item.pegawai,
-    latitude: item.latitude,
-    longitude: item.longitude,
-    radius: item.radius,
-    masuk: item.masuk,
-    selesai: item.selesai,
-  });
-
-  setEditId(item.id);
-
-  setShowModal(true);
-};
-
   return (
-    <div className="min-h-screen bg-gray-100 p-5">
+    <div className="min-h-screen bg-gray-100 p-6">
       {/* CARD */}
-      <div className="bg-white rounded-xl shadow border overflow-hidden">
+      <div className="bg-white rounded-2xl shadow border overflow-hidden">
         {/* HEADER */}
-        <div className="bg-blue-600 px-5 py-3 flex justify-between items-center">
+        <div className="bg-blue-600 px-5 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <FaMapMarkerAlt className="text-white" />
-
-            <h1 className="text-white font-semibold text-lg">
-              Lokasi Absensi
-            </h1>
+            <h1 className="text-white font-semibold text-lg">Lokasi Absensi</h1>
           </div>
 
           <button
-            onClick={() => setShowModal(true)}
-            className="bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-100"
+            onClick={() => {
+              setIsEdit(false);
+              setShowModal(true);
+            }}
+            className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition"
           >
             <FaPlus />
             Tambah Lokasi
@@ -429,13 +372,13 @@ const handleEdit = (item) => {
                     </div>
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* MODAL FORM (TAMBAH & EDIT DATA BERBAGI UI YANG SAMA) */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 overflow-auto">
           <div className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden">
@@ -662,9 +605,10 @@ const handleEdit = (item) => {
                 className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2"
               >
                 <FaSave />
-                Simpan
+                {isEdit ? "Simpan Perubahan" : "Tambah"}
               </button>
             </div>
+
           </div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaImage,
   FaTrash,
@@ -6,30 +6,36 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import api from "../../utils/api"; // Memakai instance api yang sama
 
 export default function BannerAplikasi() {
-  const [banners, setBanners] = useState([
-    {
-      id: 1,
-      nama: "banner_1758514505.jpg",
-      tanggal: "2025-09-22 11:15:05",
-      gambar:
-        "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200",
-    },
-    {
-      id: 2,
-      nama: "banner_1757970500.jpg",
-      tanggal: "2025-09-16 04:08:20",
-      gambar:
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200",
-    },
-  ]);
-
+  // --- STATE ---
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState("");
 
-  // HANDLE PILIH FILE
+  // --- FETCH DATA BANNER ---
+  const fetchBanners = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("/banner");
+      // Menyesuaikan struktur response dari backend: { status: true, data: [...] }
+      setBanners(response.data.data || []);
+    } catch (error) {
+      console.error("Gagal mengambil data banner:", error);
+      Swal.fire("Error", "Gagal mengambil data banner dari server", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBanners();
+  }, []);
+
+  // --- HANDLE PILIH FILE ---
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -47,7 +53,6 @@ export default function BannerAplikasi() {
           title: "Format Tidak Didukung",
           text: "Gunakan file JPG, PNG, atau GIF",
         });
-
         return;
       }
 
@@ -58,7 +63,6 @@ export default function BannerAplikasi() {
           title: "Ukuran Terlalu Besar",
           text: "Ukuran file maksimal 5MB",
         });
-
         return;
       }
 
@@ -75,7 +79,7 @@ export default function BannerAplikasi() {
     }
   };
 
-  // HANDLE UPLOAD
+  // --- HANDLE UPLOAD (POST) ---
   const handleUpload = async () => {
     if (!selectedFile) {
       Swal.fire({
@@ -83,11 +87,10 @@ export default function BannerAplikasi() {
         title: "Oops...",
         text: "Pilih file terlebih dahulu!",
       });
-
       return;
     }
 
-    // LOADING
+    // TAMPILKAN LOADING
     Swal.fire({
       title: "Mengupload Banner...",
       text: "Mohon tunggu sebentar",
@@ -97,17 +100,19 @@ export default function BannerAplikasi() {
       },
     });
 
-    // SIMULASI DELAY
-    setTimeout(() => {
-      const newBanner = {
-        id: banners.length + 1,
-        nama: selectedFile.name,
-        tanggal: new Date().toLocaleString(),
-        gambar: preview,
-      };
+    try {
+      // Menggunakan FormData untuk pengiriman berkas/file ke backend
+      const formData = new FormData();
+      formData.append("gambar", selectedFile); // key disesuaikan dengan kebutuhan backend API Anda
 
-      setBanners([...banners, newBanner]);
+      // API POST ke /banner
+      await api.post("/banner", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
+      // Reset state form modal
       setSelectedFile(null);
       setPreview("");
       setShowModal(false);
@@ -118,10 +123,20 @@ export default function BannerAplikasi() {
         text: "Banner berhasil diupload",
         confirmButtonColor: "#2563eb",
       });
-    }, 1500);
+
+      // Refresh data table setelah upload berhasil
+      fetchBanners();
+    } catch (error) {
+      console.error("Gagal mengupload banner:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Upload",
+        text: error.response?.data?.message || "Terjadi kesalahan pada server.",
+      });
+    }
   };
 
-  // HANDLE HAPUS
+  // --- HANDLE HAPUS (DELETE) ---
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Yakin ingin menghapus?",
@@ -135,15 +150,28 @@ export default function BannerAplikasi() {
     });
 
     if (result.isConfirmed) {
-      setBanners(banners.filter((item) => item.id !== id));
+      try {
+        // API DELETE ke /banner/:id
+        await api.delete(`/banner/${id}`);
 
-      Swal.fire({
-        icon: "success",
-        title: "Terhapus!",
-        text: "Banner berhasil dihapus",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+        // Update state local agar langsung menghilang dari baris tabel
+        setBanners(banners.filter((item) => item.id !== id));
+
+        Swal.fire({
+          icon: "success",
+          title: "Terhapus!",
+          text: "Banner berhasil dihapus",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Gagal menghapus banner:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: "Tidak dapat menghapus data banner.",
+        });
+      }
     }
   };
 
@@ -153,7 +181,6 @@ export default function BannerAplikasi() {
       {/* HEADER */}
       <div className="flex items-center gap-2 mb-5">
         <FaImage className="text-gray-700 text-xl" />
-
         <h1 className="text-2xl font-bold text-gray-800">
           Kelola Banner Aplikasi
         </h1>
@@ -173,51 +200,65 @@ export default function BannerAplikasi() {
         <table className="w-full border-collapse">
           <thead className="bg-gray-100">
             <tr>
-              <th className="border px-4 py-3 text-left">#</th>
+              <th className="border px-4 py-3 text-left w-16">#</th>
               <th className="border px-4 py-3 text-left">Preview</th>
               <th className="border px-4 py-3 text-left">Nama File</th>
               <th className="border px-4 py-3 text-left">Diunggah</th>
-              <th className="border px-4 py-3 text-left">Aksi</th>
+              <th className="border px-4 py-3 text-center w-32">Aksi</th>
             </tr>
           </thead>
 
           <tbody>
-            {banners.map((item, index) => (
-              <tr
-                key={item.id}
-                className="hover:bg-gray-50 transition"
-              >
-                <td className="border px-4 py-3">
-                  {index + 1}
-                </td>
-
-                <td className="border px-4 py-3">
-                  <img
-                    src={item.gambar}
-                    alt="banner"
-                    className="w-32 h-16 object-cover rounded-md border"
-                  />
-                </td>
-
-                <td className="border px-4 py-3 text-sm">
-                  {item.nama}
-                </td>
-
-                <td className="border px-4 py-3 text-sm">
-                  {item.tanggal}
-                </td>
-
-                <td className="border px-4 py-3">
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md flex items-center gap-2 text-sm"
-                  >
-                    <FaTrash />
-                    Hapus
-                  </button>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center py-6 text-gray-500">
+                  Memuat data banner...
                 </td>
               </tr>
-            ))}
+            ) : banners.length > 0 ? (
+              banners.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className="hover:bg-gray-50 transition"
+                >
+                  <td className="border px-4 py-3">
+                    {index + 1}
+                  </td>
+
+                  <td className="border px-4 py-3">
+                    <img
+                      src={item.gambar}
+                      alt="banner"
+                      className="w-32 h-16 object-cover rounded-md border"
+                    />
+                  </td>
+
+                  <td className="border px-4 py-3 text-sm">
+                    {item.nama}
+                  </td>
+
+                  <td className="border px-4 py-3 text-sm">
+                    {item.tanggal || "-"}
+                  </td>
+
+                  <td className="border px-4 py-3 text-center">
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md flex items-center gap-2 text-sm mx-auto"
+                    >
+                      <FaTrash />
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center py-6 text-gray-500">
+                  Belum ada banner yang diupload.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -225,7 +266,6 @@ export default function BannerAplikasi() {
       {/* MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
           <div className="bg-white rounded-xl shadow-2xl w-[450px] overflow-hidden">
 
             {/* HEADER */}
@@ -233,7 +273,6 @@ export default function BannerAplikasi() {
               <h2 className="text-lg font-semibold text-gray-800">
                 Upload Banner Baru
               </h2>
-
               <button
                 onClick={() => setShowModal(false)}
                 className="text-gray-400 hover:text-gray-600 text-lg"
@@ -270,7 +309,6 @@ export default function BannerAplikasi() {
                   <p className="text-sm font-medium mb-2">
                     Preview Banner
                   </p>
-
                   <img
                     src={preview}
                     alt="preview"
