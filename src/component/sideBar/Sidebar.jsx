@@ -647,86 +647,96 @@ const Sidebar = () => {
 
     sekolah: [
       {
-        group: "Manajemen Sekolah",
+        group: "",
+        items: [
+          {
+            title: "Dashboard",
+            path: "/dashboard/sekolah",
+            icon: <FaHome />,
+          },
+        ],
+      },
+
+      {
+        group: "MENU",
         items: [
           {
             title: "Data Sekolah",
             icon: <FaSchool />,
             children: [
               {
-                title: "Profile Sekolah",
-                path: "/dashboard/profileSekolah",
-                icon: <FaUserTie />,
+                title: "Profil Sekolah",
+                path: "/dashboard/sekolah/profilsekolah",
               },
             ],
           },
+
           {
             title: "Inventaris",
             icon: <FaBoxes />,
             children: [
               {
                 title: "Data Aset",
-                path: "/dashboard/DataAset",
-                icon: <FaClipboardList />,
+                path: "/dashboard/sekolah/dataaset",
               },
               {
                 title: "Peminjaman Aset",
-                path: "/dashboard/PeminjamanAset",
-                icon: <FaFileAlt />,
+                path: "/dashboard/sekolah/peminjamanaset",
               },
               {
                 title: "Riwayat Peminjaman",
-                path: "/dashboard/RiwayatPeminjaman",
-                icon: <FaHistory />,
+                path: "/dashboard/sekolah/riwayatpeminjaman",
               },
               {
-                title: "Maintenance Asset",
-                path: "/dashboard/MaintenanceAset",
-                icon: <FaTools />,
+                title: "Maintenance Aset",
+                path: "/dashboard/sekolah/maintenanceaset",
               },
               {
-                title: "Depresiasi Asset",
-                path: "/dashboard/DepresiasiAset",
-                icon: <FaChartLine />,
+                title: "Depresiasi Aset",
+                path: "/dashboard/sekolah/depresiasiaset",
               },
               {
-                title: "Laporan Asset",
-                path: "/dashboard/LaporanAset",
-                icon: <FaFileInvoice />,
-              },
-              {
-                title: "Setting Lokasi",
-                path: "/dashboard/settinglokasi",
-                icon: <FaMapMarkedAlt />,
+                title: "Laporan Aset",
+                path: "/dashboard/sekolah/laporanaset",
               },
             ],
           },
+
           {
             title: "Administrasi",
             icon: <FaFileAlt />,
             children: [
               {
-                title: "Surat-Menyurat",
-                path: "/dashboard/SuratMenyurat",
-                icon: <FaEnvelopeOpenText />,
+                title: "Surat Menyurat",
+                path: "/dashboard/sekolah/suratmenyurat",
               },
               {
                 title: "Dokumen Sekolah",
-                path: "/dashboard/DokumenSekolah",
-                icon: <FaFolderOpen />,
+                path: "/dashboard/sekolah/dokumensekolah",
               },
             ],
           },
+
           {
             title: "Kegiatan",
             icon: <FaCalendarAlt />,
             children: [
               {
                 title: "Kegiatan Sekolah",
-                path: "/dashboard/kegiatansekolah",
-                icon: <FaCalendarAlt />,
+                path: "/dashboard/sekolah/kegiatansekolah",
               },
             ],
+          },
+        ],
+      },
+
+      {
+        group: "PENGATURAN",
+        items: [
+          {
+            title: "Setting Lokasi",
+            path: "/dashboard/sekolah/settinglokasi",
+            icon: <FaMapMarkedAlt />,
           },
         ],
       },
@@ -742,8 +752,16 @@ const Sidebar = () => {
           { title: "Mapel", path: "/dashboard/mapel" },
           { title: "Keuangan", path: "/dashboard/keuangan" },
           { title: "Perpustakaan", path: "/dashboard/perpustakaan" },
-          { title: "Profile Sekolah", path: "/dashboard/profileSekolah" },
-          { title: "Setting Lokasi", path: "/dashboard/settinglokasi" },
+
+          {
+            title: "Profile Sekolah",
+            path: "/dashboard/sekolah/profileSekolah",
+          },
+          {
+            title: "Setting Lokasi",
+            path: "/dashboard/sekolah/settinglokasi",
+          },
+
           { title: "Kelas", path: "/dashboard/datakelas" },
           { title: "Tahun Ajaran", path: "/dashboard/tahunajaran" },
         ],
@@ -869,17 +887,18 @@ const Sidebar = () => {
   ) {
     menu = menuConfig.perpustakaan;
   } else if (
-    location.pathname.startsWith("/dashboard/profileSekolah") ||
-    location.pathname.startsWith("/dashboard/DataAset") ||
-    location.pathname.startsWith("/dashboard/PeminjamanAset") ||
-    location.pathname.startsWith("/dashboard/RiwayatPeminjaman") ||
-    location.pathname.startsWith("/dashboard/MaintenanceAset") ||
-    location.pathname.startsWith("/dashboard/DepresiasiAset") ||
-    location.pathname.startsWith("/dashboard/LaporanAset") ||
-    location.pathname.startsWith("/dashboard/SuratMenyurat") ||
-    location.pathname.startsWith("/dashboard/DokumenSekolah") ||
-    location.pathname.startsWith("/dashboard/kegiatansekolah") ||
-    location.pathname.startsWith("/dashboard/settinglokasi")
+    location.pathname.startsWith("/dashboard/sekolah") ||
+    location.pathname.startsWith("/dashboard/sekolah/profileSekolah") ||
+    location.pathname.startsWith("/dashboard/sekolah/DataAset") ||
+    location.pathname.startsWith("/dashboard/sekolah/PeminjamanAset") ||
+    location.pathname.startsWith("/dashboard/sekolah/RiwayatPeminjaman") ||
+    location.pathname.startsWith("/dashboard/sekolah/MaintenanceAset") ||
+    location.pathname.startsWith("/dashboard/sekolah/DepresiasiAset") ||
+    location.pathname.startsWith("/dashboard/sekolah/LaporanAset") ||
+    location.pathname.startsWith("/dashboard/sekolah/SuratMenyurat") ||
+    location.pathname.startsWith("/dashboard/sekolah/DokumenSekolah") ||
+    location.pathname.startsWith("/dashboard/sekolah/kegiatansekolah") ||
+    location.pathname.startsWith("/dashboard/sekolah/settinglokasi")
   ) {
     menu = menuConfig.sekolah;
   }
@@ -888,7 +907,7 @@ const Sidebar = () => {
     setOpenMenu((prev) =>
       prev.includes(title)
         ? prev.filter((item) => item !== title)
-        : [...prev, title]
+        : [...prev, title],
     );
   };
 

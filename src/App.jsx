@@ -139,18 +139,15 @@ function App() {
           <Route path="dataraport" element={<DataRaport />} />
           <Route path="tambah-siswa" element={<Tambahsiswa />} />
           <Route path="edit-siswa/:id" element={<EditSiswa />} />
-
           <Route path="absensiharian" element={<AbsensiHarian />} />
           <Route path="rekapabsensi" element={<RekapAbsensi />} />
           <Route path="absensimapel" element={<AbsensiMapel />} />
           <Route path="presensi" element={<Presensi />} />
-
           <Route path="guru" element={<ManajemenGuru />} />
           <Route path="mapel" element={<MataPelajaran />} />
           <Route path="JadwalMengajar" element={<JadwalMengajar />} />
           <Route path="distribusijam" element={<DistribusiJam />} />
           <Route path="RiwayatMengajar" element={<RiwayatMengajar />} />
-
           <Route path="keuangan" element={<ManajemenKeuangan />} />
        
           <Route path="AturUser" element={<AturUser />} />
@@ -159,7 +156,10 @@ function App() {
           <Route path="BayarTagihan" element={<BayarTagihan />} />
           <Route path="TunggakanSiswa" element={<TunggakanSiswa />} />
           <Route path="JenisPembayaran" element={<JenisPembayaran />} />
-          <Route path="TarifPembayaranSiswa" element={<TarifPembayaranSiswa />} />
+          <Route
+            path="TarifPembayaranSiswa"
+            element={<TarifPembayaranSiswa />}
+          />
           <Route path="RekapPembayaran" element={<RekapPembayaran />} />
           <Route path="DataTransaksi" element={<DataTransaksi />} />
           <Route path="RekapSiswa" element={<RekapPerSiswa />} />
@@ -167,7 +167,10 @@ function App() {
           <Route path="RekapTagihan" element={<RekapTagihan />} />
           <Route path="TagihanBulanIni" element={<TagihanBulanIni />} />
           <Route path="Teller" element={<Teller />} />
-          <Route path="RiwayatTabunganSiswa" element={<RiwayatTabunganSiswa />} />
+          <Route
+            path="RiwayatTabunganSiswa"
+            element={<RiwayatTabunganSiswa />}
+          />
           <Route path="RiwayatTransaksi" element={<RiwayatTransaksi />} />
           <Route path="TransaksiPenerimaan" element={<TransaksiPenerimaan />} />
           <Route path="JenisPenerimaan" element={<JenisPenerimaan />} />
@@ -191,14 +194,12 @@ function App() {
           <Route path="APBSDetail" element={<APBSDetail />} />
           <Route path="RealisasiAnggaran" element={<RealisasiAnggaran />} />
           <Route path="EvaluasiAnggaran" element={<EvaluasiAnggaran />} />
-
           <Route path="aplikasi" element={<Aplikasi />} />
           <Route path="InformasiLembaga" element={<InformasiLembaga />} />
           <Route path="BannerAplikasi" element={<BannerAplikasi />} />
           <Route path="SettingUser" element={<SettingUser />} />
           <Route path="BackupData" element={<BackupData />} />
           <Route path="SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
-
           <Route path="kepegawaian" element={<ManajemenKepegawaian />} />
           <Route path="DataPegawai" element={<DataPegawai />} />
           <Route path="KelolaIndikator" element={<KelolaIndikator />} />
@@ -217,12 +218,20 @@ function App() {
           <Route path="SettingKomponenGaji" element={<SettingKomponenGaji />} />
           <Route path="DanaPensiunPegawai" element={<DanaPensiunPegawai />} />
           <Route path="ManajemenTanggal" element={<ManajemenTanggal />} />
-          <Route path="kepegawaian/InformasiLembaga" element={<InformasiLembaga />} />
-          <Route path="kepegawaian/BannerAplikasi" element={<BannerAplikasi />} />
+          <Route
+            path="kepegawaian/InformasiLembaga"
+            element={<InformasiLembaga />}
+          />
+          <Route
+            path="kepegawaian/BannerAplikasi"
+            element={<BannerAplikasi />}
+          />
           <Route path="kepegawaian/SettingUser" element={<SettingUser />} />
           <Route path="kepegawaian/BackupData" element={<BackupData />} />
-          <Route path="kepegawaian/SettingAbsensiGPS" element={<SettingAbsensiGPS />} />
-
+          <Route
+            path="kepegawaian/SettingAbsensiGPS"
+            element={<SettingAbsensiGPS />}
+          />
           <Route path="perpustakaan" element={<ManajemenPerputakaan />} />
           <Route path="databuku" element={<DataBuku />} />
           <Route path="peminjamanbuku" element={<PeminjamanBuku />} />
@@ -230,20 +239,32 @@ function App() {
           <Route path="SettingDenda" element={<SettingDenda />} />
           <Route path="LaporanBuku" element={<LaporanBuku />} />
           <Route path="LaporanDenda" element={<LaporanDenda />} />
-          <Route path="LaporanPeminjamanBuku" element={<LaporanPeminjamanBuku />} />
-          <Route path="LaporanPengembalianBuku" element={<LaporanPengembalianbuku />} />
-
-          <Route path="profileSekolah" element={<ProfileSekolah />} />
-          <Route path="DataAset" element={<DataAset />} />
-          <Route path="PeminjamanAset" element={<PeminjamanAset />} />
-          <Route path="RiwayatPeminjaman" element={<RiwayatPeminjaman />} />
-          <Route path="MaintenanceAset" element={<MaintenanceAset />} />
-          <Route path="DepresiasiAset" element={<DepresiasiAset />} />
-          <Route path="LaporanAset" element={<LaporanAset />} />
-          <Route path="settinglokasi" element={<SettingLokasi />} />
-          <Route path="SuratMenyurat" element={<SuratMenyurat />} />
-          <Route path="DokumenSekolah" element={<DokumenSekolah />} />
-          <Route path="kegiatansekolah" element={<KegiatanSekolah />} />
+          <Route
+            path="LaporanPeminjamanBuku"
+            element={<LaporanPeminjamanBuku />}
+          />
+          <Route
+            path="LaporanPengembalianBuku"
+            element={<LaporanPengembalianbuku />}
+          />
+          <Route path="sekolah" element={<ProfileSekolah />} />
+          <Route
+            path="/dashboard/sekolah/profilsekolah"
+            element={<ProfileSekolah />}
+          />
+          <Route path="sekolah/DataAset" element={<DataAset />} />
+          <Route path="sekolah/PeminjamanAset" element={<PeminjamanAset />} />
+          <Route
+            path="sekolah/RiwayatPeminjaman"
+            element={<RiwayatPeminjaman />}
+          />
+          <Route path="sekolah/MaintenanceAset" element={<MaintenanceAset />} />
+          <Route path="sekolah/DepresiasiAset" element={<DepresiasiAset />} />
+          <Route path="sekolah/LaporanAset" element={<LaporanAset />} />
+          <Route path="sekolah/settinglokasi" element={<SettingLokasi />} />
+          <Route path="sekolah/SuratMenyurat" element={<SuratMenyurat />} />
+          <Route path="sekolah/DokumenSekolah" element={<DokumenSekolah />} />
+          <Route path="sekolah/kegiatansekolah" element={<KegiatanSekolah />} />
         </Route>
       </Routes>
     </BrowserRouter>
