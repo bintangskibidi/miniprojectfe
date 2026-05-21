@@ -19,6 +19,7 @@ import {
   Marker,
   Circle,
   useMapEvents,
+  useMap,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -37,7 +38,6 @@ L.Icon.Default.mergeOptions({
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
- 
 function LocationPicker({ setForm }) {
   useMapEvents({
     click(e) {
@@ -52,8 +52,23 @@ function LocationPicker({ setForm }) {
   return null;
 }
 
-export default function SettingAbsensiGPS() {
+// Sub-komponen untuk menggeser peta otomatis ke koordinat baru
+function RecenterMap({ lat, lng }) {
+  const map = useMap();
+  useEffect(() => {
+    if (lat && lng) {
+      map.flyTo([lat, lng], map.getZoom());
+    }
+  }, [lat, lng, map]);
+  return null;
+}
 
+export default function SettingAbsensiGPS() {
+  const [lokasi, setLokasi] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({
     nama: "",
@@ -96,6 +111,8 @@ export default function SettingAbsensiGPS() {
   const handleCloseModal = () => {
     setForm({
       nama: "",
+      hari: "",
+      pegawai: "",
       latitude: "",
       longitude: "",
       radius: "",
@@ -113,6 +130,8 @@ export default function SettingAbsensiGPS() {
     setEditId(item.id);
     setForm({
       nama: item.nama,
+      hari: item.hari || "",
+      pegawai: item.pegawai || "",
       latitude: item.latitude,
       longitude: item.longitude,
       radius: item.radius,
@@ -122,11 +141,58 @@ export default function SettingAbsensiGPS() {
     setShowModal(true);
   };
 
+  // --- HANDLE DETEKSI LOKASI OTOMATIS (GEOLOCATION) ---
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      Swal.fire("Gagal", "Geolocation tidak didukung oleh browser Anda", "error");
+      return;
+    }
+
+    Swal.fire({
+      title: "Mencari Lokasi...",
+      text: "Mengambil koordinat GPS perangkat Anda",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setForm((prev) => ({
+          ...prev,
+          latitude: position.coords.latitude.toFixed(15),
+          longitude: position.coords.longitude.toFixed(15),
+        }));
+        Swal.close();
+      },
+      (error) => {
+        console.error(error);
+        Swal.fire("Gagal", "Tidak dapat mendeteksi lokasi. Pastikan izin lokasi aktif.", "error");
+      },
+      { enableHighAccuracy: true }
+    );
+  };
+
+  // --- HANDLE COPY KOORDINAT ---
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    Swal.fire({
+      icon: "success",
+      title: "Tersalin",
+      text: `Koordinat ${text} berhasil disalin`,
+      timer: 1000,
+      showConfirmButton: false,
+    });
+  };
+
   // --- HANDLE SIMPAN DATA (TAMBAH / EDIT) ---
   const handleSimpan = async () => {
     // Validasi Kelengkapan Form
     if (
       !form.nama ||
+      !form.hari ||
+      !form.pegawai ||
       !form.latitude ||
       !form.longitude ||
       !form.radius ||
@@ -261,120 +327,124 @@ export default function SettingAbsensiGPS() {
 
         {/* TABLE */}
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="border px-3 py-3">#</th>
-                <th className="border px-3 py-3">Nama Lokasi</th>
-                <th className="border px-3 py-3">Hari</th>
-                <th className="border px-3 py-3">Jenis Pegawai</th>
-                <th className="border px-3 py-3">Latitude</th>
-                <th className="border px-3 py-3">Longitude</th>
-                <th className="border px-3 py-3">Radius</th>
-                <th className="border px-3 py-3">Jam Mulai</th>
-                <th className="border px-3 py-3">Jam Selesai</th>
-                <th className="border px-3 py-3">Aksi</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {lokasi.map((item, index) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="border px-3 py-3 text-center">
-                    {index + 1}
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
-                        item.nama === "Absen Masuk"
-                          ? "bg-green-600"
-                          : "bg-yellow-400 text-black"
-                      }`}
-                    >
-                      {item.nama}
-                    </span>
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    <span className="bg-cyan-500 text-white text-xs px-3 py-1 rounded-full">
-                      {item.hari}
-                    </span>
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    <span
-                      className={`text-xs px-3 py-1 rounded-full text-white ${
-                        item.pegawai === "Guru"
-                          ? "bg-purple-600"
-                          : "bg-orange-500"
-                      }`}
-                    >
-                      {item.pegawai}
-                    </span>
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
-                      {item.latitude}
-                    </span>
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
-                      {item.longitude}
-                    </span>
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    <span className="bg-red-500 text-white text-xs px-3 py-1 rounded-full">
-                      {item.radius} m
-                    </span>
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    {item.masuk}
-                  </td>
-
-                  <td className="border px-3 py-3 text-center">
-                    {item.selesai}
-                  </td>
-
-                  <td className="border px-3 py-3">
-                    <div className="flex justify-center gap-2">
-                      {/* EDIT */}
-                     <button
-  onClick={() => handleEdit(item)}
-  className="bg-yellow-400 hover:bg-yellow-500 p-2 rounded text-black"
->
-  <FaEdit />
-</button>
-
-                      {/* COPY */}
-                      <button
-                        onClick={() =>
-                          handleCopy(
-                            `${item.latitude}, ${item.longitude}`
-                          )
-                        }
-                        className="bg-cyan-500 hover:bg-cyan-600 p-2 rounded text-white"
-                      >
-                        <FaCopy />
-                      </button>
-
-                      {/* DELETE */}
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="bg-red-500 hover:bg-red-600 p-2 rounded text-white"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
+          {loading ? (
+            <div className="text-center py-10 text-gray-500">Memuat data lokasi...</div>
+          ) : (
+            <table className="w-full border-collapse">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border px-3 py-3">#</th>
+                  <th className="border px-3 py-3">Nama Lokasi</th>
+                  <th className="border px-3 py-3">Hari</th>
+                  <th className="border px-3 py-3">Jenis Pegawai</th>
+                  <th className="border px-3 py-3">Latitude</th>
+                  <th className="border px-3 py-3">Longitude</th>
+                  <th className="border px-3 py-3">Radius</th>
+                  <th className="border px-3 py-3">Jam Mulai</th>
+                  <th className="border px-3 py-3">Jam Selesai</th>
+                  <th className="border px-3 py-3">Aksi</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {lokasi.map((item, index) => (
+                  <tr key={item.id} className="hover:bg-gray-50">
+                    <td className="border px-3 py-3 text-center">
+                      {index + 1}
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                          item.nama === "Absen Masuk"
+                            ? "bg-green-600"
+                            : "bg-yellow-400 text-black"
+                        }`}
+                      >
+                        {item.nama}
+                      </span>
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      <span className="bg-cyan-500 text-white text-xs px-3 py-1 rounded-full">
+                        {item.hari}
+                      </span>
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      <span
+                        className={`text-xs px-3 py-1 rounded-full text-white ${
+                          item.pegawai === "Guru"
+                            ? "bg-purple-600"
+                            : "bg-orange-500"
+                        }`}
+                      >
+                        {item.pegawai}
+                      </span>
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
+                        {item.latitude}
+                      </span>
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
+                        {item.longitude}
+                      </span>
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      <span className="bg-red-500 text-white text-xs px-3 py-1 rounded-full">
+                        {item.radius} m
+                      </span>
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      {item.masuk}
+                    </td>
+
+                    <td className="border px-3 py-3 text-center">
+                      {item.selesai}
+                    </td>
+
+                    <td className="border px-3 py-3">
+                      <div className="flex justify-center gap-2">
+                        {/* EDIT */}
+                        <button
+                          onClick={() => handleEditClick(item)}
+                          className="bg-yellow-400 hover:bg-yellow-500 p-2 rounded text-black"
+                        >
+                          <FaEdit />
+                        </button>
+
+                        {/* COPY */}
+                        <button
+                          onClick={() =>
+                            handleCopy(
+                              `${item.latitude}, ${item.longitude}`
+                            )
+                          }
+                          className="bg-cyan-500 hover:bg-cyan-600 p-2 rounded text-white"
+                        >
+                          <FaCopy />
+                        </button>
+
+                        {/* DELETE */}
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="bg-red-500 hover:bg-red-600 p-2 rounded text-white"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
@@ -385,11 +455,11 @@ export default function SettingAbsensiGPS() {
             {/* HEADER */}
             <div className="flex justify-between items-center px-5 py-4 border-b">
               <h2 className="text-xl font-semibold">
-                Tambah Lokasi Absensi
+                {isEdit ? "Ubah Lokasi Absensi" : "Tambah Lokasi Absensi"}
               </h2>
 
               <button
-                onClick={() => setShowModal(false)}
+                onClick={handleCloseModal}
                 className="text-gray-500 hover:text-red-500 text-xl"
               >
                 <FaTimes />
@@ -436,7 +506,6 @@ export default function SettingAbsensiGPS() {
                     className="w-full border rounded-lg px-4 py-3"
                   >
                     <option value="">Pilih Hari</option>
-
                     <option>Senin</option>
                     <option>Selasa</option>
                     <option>Rabu</option>
@@ -462,7 +531,6 @@ export default function SettingAbsensiGPS() {
                     <option value="">
                       Pilih Jenis Pegawai
                     </option>
-
                     <option>Guru</option>
                     <option>Pegawai</option>
                   </select>
@@ -484,8 +552,9 @@ export default function SettingAbsensiGPS() {
                     />
 
                     <button
+                      type="button"
                       onClick={handleGetLocation}
-                      className="bg-blue-600 text-white px-4 rounded-r-lg"
+                      className="bg-blue-600 text-white px-4 rounded-r-lg hover:bg-blue-700 transition"
                     >
                       <FaLocationArrow />
                     </button>
@@ -555,7 +624,11 @@ export default function SettingAbsensiGPS() {
               {/* MAP */}
               <div className="mt-5 rounded-xl overflow-hidden border">
                 <MapContainer
-                  center={[-6.2, 106.816666]}
+                  center={
+                    form.latitude && form.longitude
+                      ? [parseFloat(form.latitude), parseFloat(form.longitude)]
+                      : [-6.2, 106.816666]
+                  }
                   zoom={13}
                   style={{
                     height: "350px",
@@ -568,9 +641,13 @@ export default function SettingAbsensiGPS() {
                   />
 
                   <LocationPicker setForm={setForm} />
-
+                  
                   {form.latitude && form.longitude && (
                     <>
+                      <RecenterMap
+                        lat={parseFloat(form.latitude)}
+                        lng={parseFloat(form.longitude)}
+                      />
                       <Marker
                         position={[
                           parseFloat(form.latitude),
@@ -594,14 +671,14 @@ export default function SettingAbsensiGPS() {
             {/* FOOTER */}
             <div className="border-t bg-gray-50 px-5 py-4 flex justify-end gap-3">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={handleCloseModal}
                 className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg"
               >
                 Batal
               </button>
 
               <button
-                onClick={handleTambah}
+                onClick={handleSimpan}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2"
               >
                 <FaSave />

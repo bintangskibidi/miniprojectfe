@@ -98,9 +98,14 @@ const Dashboard = () => {
     onClick={() => {
       if (item.title === "PPDB") {
         Swal.fire({
-          title: "Akses Ditolak",
-          text: "Anda tidak diizinkan mengakses PPDB     verifikasi Gagal😥",
-          icon: "warning",
+  title: "Akses Ditolak",
+  text: "Anda tidak diizinkan mengakses PPDB",
+  imageUrl: verifikasiGagal,
+  imageWidth: 200,
+  imageHeight: 200,
+  imageAlt: "Verifikasi Gagal",
+  confirmButtonText: "Tutup",
+  confirmButtonColor: "#6b7280",
           confirmButtonText: "Tutup",
           confirmButtonColor: "#6b7280",
           background: "#ffffff",
