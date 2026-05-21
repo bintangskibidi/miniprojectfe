@@ -94,15 +94,15 @@ import AbsensiHarian from "./dashboard/absensi/absensiharian";
 import RekapAbsensi from "./dashboard/absensi/rekapabsensi";
 import AbsensiMapel from "./dashboard/absensi/absensimapel";
 import DataRaport from "./dashboard/manajemenSiswa/e-raport/DataRaport";
-import ManajemenInfo from "./dashboard/kepegawaian/LembagaInformasi"
+import ManajemenInfo from "./dashboard/kepegawaian/LembagaAdmin"
 
 import ManajemenKepegawaian from "./dashboard/kepegawaian/ManajemenKepegawaian";
 import Presensi from "./dashboard/absensi/presensi";
 import RiwayatGaji from "./dashboard/kepegawaian/RiwayatGaji";
 import KriteriaKehadiran from "./dashboard/kepegawaian/KriteriaKehadiran";
-
-
-"
+import LembagaAdmin from "./dashboard/kepegawaian/LembagaAdmin";
+import SettingAdmin from "./dashboard/kepegawaian/SettingAdmin";
+ 
 import AturUser from "./dashboard/kepegawaian/AturUser";
 import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS"
 
@@ -111,7 +111,7 @@ import InformasiLembaga from "./dashboard/aplikasi/InformasiLembaga";
 import BannerAplikasi from "./dashboard/aplikasi/BannerAplikasi";
 import SettingUser from "./dashboard/aplikasi/SettingUser";
 import BackupData from "./dashboard/aplikasi/BackupData";
-import SettingAbsensiGPS from "./dashboard/aplikasi/SettingAbsensiGPS";
+ 
 import SettingKomponenGaji from "./dashboard/kepegawaian/SettingKomponenGaji";
 import ManajemenTanggal from "./dashboard/kepegawaian/ManajemenTanggal";
 import DanaPensiunPegawai from "./dashboard/kepegawaian/DanaPensiunPegawai";
@@ -132,8 +132,10 @@ function App() {
           <Route path="datakelas" element={<DataKelas />} />
           <Route path="datajurusan" element={<DataJurusan />} />
           <Route path="tahunajaran" element={<TahunAjaran />} />
+          <Route path="LembagaAdmin" element={<LembagaAdmin />} />
           <Route path="ekstrakurikuler" element={<Extrakulikuler />} />
           <Route path="Semester" element={<Semester />} />
+          <Route path="SettingAdmin" element={<SettingAdmin />} />
           <Route path="jenissemester" element={<JenisSemester />} />
           <Route path="aspekpenilaian" element={<AspekPenilaian />} />
           <Route path="dataraport" element={<DataRaport />} />

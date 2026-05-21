@@ -553,7 +553,7 @@ const Sidebar = () => {
         items: [
           {
             title: "Informasi Lembaga",
-            path: "/dashboard/kepegawaian/InformasiLembaga",
+            path: "/dashboard/LembagaAdmin",
             icon: <FaInfoCircle />,
           },
           {
@@ -563,7 +563,12 @@ const Sidebar = () => {
           },
           {
             title: "Setting User",
-            path: "/dashboard/kepegawaian/SettingUser",
+            path: "/dashboard/AturUser",
+            icon: <FaUsersCog />,
+          },
+          {
+            title: "Setting Admin",
+            path: "/dashboard/SettingAdmin",
             icon: <FaUsersCog />,
           },
           {
@@ -844,7 +849,7 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/BannerAplikasi") ||
     location.pathname.startsWith("/dashboard/SettingUser") ||
     location.pathname.startsWith("/dashboard/BackupData") ||
-    location.pathname.startsWith("/dashboard/AturUser") ||
+
     location.pathname.startsWith("/dashboard/SettingAbsensiGPS")
   ) {
     menu = menuConfig.aplikasi;
@@ -867,10 +872,12 @@ const Sidebar = () => {
     location.pathname.startsWith("/dashboard/SettingKomponenGaji") ||
     location.pathname.startsWith("/dashboard/DanaPensiunPegawai") ||
     location.pathname.startsWith("/dashboard/ManajemenTanggal") ||
-    location.pathname.startsWith("/dashboard/kepegawaian/InformasiLembaga") ||
+    location.pathname.startsWith("/dashboard/LembagaAdmin") ||
     location.pathname.startsWith("/dashboard/kepegawaian/BannerAplikasi") ||
     location.pathname.startsWith("/dashboard/kepegawaian/SettingUser") ||
     location.pathname.startsWith("/dashboard/kepegawaian/BackupData") ||
+    location.pathname.startsWith("/dashboard/SettingAdmin") ||
+        location.pathname.startsWith("/dashboard/AturUser") ||
     location.pathname.startsWith("/dashboard/kepegawaian/SettingAbsensiGPS")
   ) {
     menu = menuConfig.Kepegawaian;
